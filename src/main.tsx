@@ -3,11 +3,14 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import ErrorBoundary from "./components/ErrorBoundary"; // Import ErrorBoundary
+import { HelmetProvider } from "@dr.pogodin/react-helmet"; // Import HelmetProvider
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ErrorBoundary> {/* Wrap App with ErrorBoundary */}
-      <App />
-    </ErrorBoundary>
+    <HelmetProvider> {/* Wrap the entire app with HelmetProvider */}
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
+    </HelmetProvider>
   </StrictMode>
 );
