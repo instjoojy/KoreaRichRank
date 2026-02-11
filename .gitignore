@@ -3,3 +3,6 @@ dist
 .env
 .env.local
 *.local
+firebase-debug.log
+tsconfig.app.tsbuildinfo
+tsconfig.node.tsbuildinfo
