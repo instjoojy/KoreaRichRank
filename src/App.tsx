@@ -432,7 +432,12 @@ export default function App() {
                     min={20}
                     max={99}
                     value={age}
-                    onChange={(e) => setAge(Math.max(20, Math.min(99, +e.target.value || 20)))}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      if (v === "") { setAge(0); return; }
+                      setAge(+v);
+                    }}
+                    onBlur={() => setAge((prev) => Math.max(20, Math.min(99, prev || 20)))}
                     className="w-full border border-gray-200 rounded-xl px-4 py-3 text-lg font-semibold text-gray-900 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                   />
                 </div>
