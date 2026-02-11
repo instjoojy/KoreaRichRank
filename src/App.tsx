@@ -638,17 +638,7 @@ export default function App() {
                   {/* 카카오톡 공유 */}
                   <section className="animate-fade-in-up animation-delay-400 opacity-0">
                                       <button
-                                        onClick={async () => {
-                      if (!result) return;
-                      const shareMessage = `나 상위 ${displayPct}% 나왔어! 대한민국 자산 순위 알아보기: ${window.location.origin}`;
-                      try {
-                        await navigator.clipboard.writeText(shareMessage);
-                        alert("결과 메시지가 클립보드에 복사되었습니다. 카카오톡에 붙여넣어 공유해주세요!");
-                      } catch (err) {
-                        console.error("클립보드 복사 실패:", err);
-                        alert("클립보드 복사에 실패했습니다. 직접 복사하여 공유해주세요: " + shareMessage);
-                      }
-                    }}
+                                        onClick={() => alert("카카오톡 공유 기능은 현재 준비 중입니다.")}
                                         className="w-full flex items-center justify-center gap-3 bg-[#FEE500] hover:bg-[#F5DC00] text-[#3C1E1E] font-bold text-lg py-4 rounded-xl shadow-md transition-all duration-200 active:scale-[0.98] cursor-pointer"
                                       >
                                         <MessageCircle className="w-5 h-5" />
@@ -677,7 +667,7 @@ export default function App() {
           <p className="mb-4">
             특히 부동산 자산은 가계 자산에서 큰 비중을 차지하며, 주택 가격의 등락은 자산 불평등에 직접적인 영향을 미칩니다. 특정 지역의 부동산 가격 상승은 해당 지역의 자산가들에게는 긍정적이나, 비자산가들에게는 진입 장벽으로 작용하여 자산 격차를 더욱 확대시키는 요인이 됩니다. 금융 자산의 경우, 주식, 채권, 펀드 등 다양한 투자 상품에 대한 접근성과 정보의 비대칭성이 자산 증식의 속도를 좌우하기도 합니다.
           </p>
-          <p className="mb-4">
+          <p className className="mb-4">
             자산 불평등 완화를 위한 정책적 노력도 지속되고 있습니다. 정부는 청년층의 자산 형성을 지원하고, 저소득층의 주거 안정을 도모하며, 상속세 및 증여세 제도를 통해 부의 대물림을 완화하려는 시도를 하고 있습니다. 그러나 이러한 정책들이 시장에 미치는 영향은 복합적이며, 때로는 예상치 못한 부작용을 낳기도 합니다. 따라서 지속적인 데이터 분석과 유연한 정책 대응이 중요합니다.
           </p>
           <p className="mb-4">
