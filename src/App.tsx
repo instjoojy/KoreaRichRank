@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import {
   Calculator,
   TrendingUp,
@@ -11,8 +11,8 @@ import {
   Target,
   Award,
   BarChart3,
-  Sparkles,
   ChevronRight,
+  RefreshCw,
 } from "lucide-react";
 import {
   BarChart,
@@ -28,7 +28,7 @@ import {
   calculatePercentile,
   type CalculatorResult,
 } from "./utils/calculator";
-import { regionalFactors } from "./data/stats";
+import type { StatsData } from "./data/types";
 import AdBanner from "./components/AdBanner";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import AccordionItem from "./components/AccordionItem";
@@ -142,9 +142,8 @@ interface Analysis {
   icon: typeof Crown;
   title: string;
   message: string;
-  gradient: string;
+  accentColor: string;
   badge: string;
-  bgGlow: string;
 }
 
 function getAnalysis(pct: number): Analysis {
@@ -154,9 +153,8 @@ function getAnalysis(pct: number): Analysis {
       title: "최상위 자산가",
       message:
         "당신은 대한민국 1%의 자산가입니다. 이 수준은 단순한 '부자'를 넘어, 자산 운용 전략과 세대 간 이전 설계가 중요한 단계입니다. 전체 순자산의 약 20%를 상위 1%가 보유하고 있습니다.",
-      gradient: "from-amber-500 to-yellow-400",
+      accentColor: "#FFD700",
       badge: "TOP 1%",
-      bgGlow: "rgba(245, 158, 11, 0.15)",
     };
   if (pct <= 5)
     return {
@@ -164,9 +162,8 @@ function getAnalysis(pct: number): Analysis {
       title: "상위 부유층",
       message:
         "한국에서 '부유층'으로 분류되는 상위 5%에 드셨습니다. 부동산과 금융자산의 균형 잡힌 포트폴리오를 갖추고 계실 가능성이 높습니다. 이 단계에서는 절세 전략이 자산 증식만큼 중요합니다.",
-      gradient: "from-purple-600 to-indigo-500",
+      accentColor: "#FFD700",
       badge: "WEALTHY",
-      bgGlow: "rgba(139, 92, 246, 0.15)",
     };
   if (pct <= 10)
     return {
@@ -174,9 +171,8 @@ function getAnalysis(pct: number): Analysis {
       title: "경제적 상위층",
       message:
         "상위 10% — 경제적으로 매우 안정된 위치입니다. 이 그룹이 대한민국 전체 순자산의 46%를 보유하고 있습니다. 꾸준한 자산 관리로 상위 5%를 향해 나아갈 기반이 충분합니다.",
-      gradient: "from-indigo-600 to-blue-500",
+      accentColor: "#FFD700",
       badge: "TOP 10%",
-      bgGlow: "rgba(99, 102, 241, 0.15)",
     };
   if (pct <= 20)
     return {
@@ -184,9 +180,8 @@ function getAnalysis(pct: number): Analysis {
       title: "안정적 자산가",
       message:
         "상위 20% 안에 드셨습니다. 평균을 크게 상회하는 자산을 축적해 오신 결과입니다. 은퇴 후에도 안정적인 생활이 가능한 수준이며, 추가 투자 여력이 있는 단계입니다.",
-      gradient: "from-blue-600 to-cyan-500",
+      accentColor: "#60A5FA",
       badge: "STABLE",
-      bgGlow: "rgba(59, 130, 246, 0.15)",
     };
   if (pct <= 30)
     return {
@@ -194,9 +189,8 @@ function getAnalysis(pct: number): Analysis {
       title: "중상위층",
       message:
         "착실하게 자산을 형성해오고 계십니다. 대한민국 중상위 30%로, 부동산이나 금융 투자를 통해 한 단계 도약할 수 있는 탄탄한 기반을 갖추고 계십니다.",
-      gradient: "from-cyan-600 to-teal-500",
+      accentColor: "#60A5FA",
       badge: "UPPER MID",
-      bgGlow: "rgba(6, 182, 212, 0.15)",
     };
   if (pct <= 50)
     return {
@@ -204,9 +198,8 @@ function getAnalysis(pct: number): Analysis {
       title: "중위 수준",
       message:
         "대한민국 가구의 중간 지점에 위치해 있습니다. 전국 순자산 중위값은 약 2억 3,800만 원입니다. 꾸준한 저축과 현명한 투자로 상위 30%를 충분히 노려볼 수 있는 위치입니다.",
-      gradient: "from-teal-600 to-emerald-500",
+      accentColor: "#34D399",
       badge: "MEDIAN",
-      bgGlow: "rgba(20, 184, 166, 0.15)",
     };
   if (pct <= 70)
     return {
@@ -214,26 +207,18 @@ function getAnalysis(pct: number): Analysis {
       title: "자산 성장기",
       message:
         "아직 자산 형성 초중반 단계이지만 걱정하지 마세요. 시간은 가장 강력한 투자 도구입니다. 매달 소액이라도 꾸준히 투자하는 습관이 10년 후 큰 차이를 만듭니다.",
-      gradient: "from-emerald-600 to-green-500",
+      accentColor: "#34D399",
       badge: "GROWING",
-      bgGlow: "rgba(16, 185, 129, 0.15)",
     };
   return {
     icon: Target,
     title: "자산 축적 시작",
     message:
       "자산 축적의 출발선에 계십니다. 모든 부의 시작은 '지금'입니다. 비상금 마련부터 시작해서 차근차근 자산을 쌓아가세요. 대한민국 평균 순자산은 4억 7,144만 원이지만, 중위값은 2억 3,800만 원입니다.",
-    gradient: "from-green-600 to-lime-500",
+    accentColor: "#94A3B8",
     badge: "STARTER",
-    bgGlow: "rgba(34, 197, 94, 0.15)",
   };
 }
-
-// ─── 지역 옵션 ──────────────────────────────────────────────
-const REGION_OPTIONS = Object.entries(regionalFactors).map(([key, val]) => ({
-  value: key,
-  label: val.label,
-}));
 
 // ─── 차트 커스텀 툴팁 ──────────────────────────────────────
 function ChartTooltip({
@@ -247,10 +232,10 @@ function ChartTooltip({
 }) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-gray-100 px-4 py-3">
-      <p className="text-sm font-semibold text-gray-800">{label}</p>
-      <p className="text-sm text-indigo-600">
-        전체 가구의 <span className="font-bold">{payload[0].value}%</span>
+    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 px-5 py-3">
+      <p className="text-sm font-bold text-navy">{label}</p>
+      <p className="text-sm font-medium text-gray-500">
+        전체 가구의 <span className="font-bold text-navy">{payload[0].value}%</span>
       </p>
     </div>
   );
@@ -260,8 +245,39 @@ function ChartTooltip({
 // App
 // ═════════════════════════════════════════════════════════════
 export default function App() {
+  // ── 통계 데이터 로딩 ────────────────────────────────────────
+  const [statsData, setStatsData] = useState<StatsData | null>(null);
+  const [statsError, setStatsError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/data/stats.json")
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((data: StatsData) => {
+        if (!cancelled) setStatsData(data);
+      })
+      .catch((err) => {
+        if (!cancelled) setStatsError(err.message ?? "데이터 로딩 실패");
+      });
+    return () => { cancelled = true; };
+  }, []);
+
+  const REGION_OPTIONS = useMemo(
+    () =>
+      statsData
+        ? Object.entries(statsData.regionalFactors).map(([key, val]) => ({
+            value: key,
+            label: val.label,
+          }))
+        : [],
+    [statsData]
+  );
+
   // ── 입력 상태 ──────────────────────────────────────────────
-  const [age, setAge] = useState(35);
+  const [age, setAge] = useState<number | "">(35);
   const [region, setRegion] = useState("national");
   const [assetEok, setAssetEok] = useState(3);
   const [assetMan, setAssetMan] = useState(0);
@@ -298,16 +314,17 @@ export default function App() {
 
   // ── 계산 핸들러 ────────────────────────────────────────────
   function handleCalculate() {
+    if (!statsData) return;
     setIsLoading(true);
     setResult(null);
 
+    const ageNum = age === "" ? 20 : age;
+
     setTimeout(() => {
-      const res = calculatePercentile({
-        age,
-        region,
-        netAsset,
-        income: incomeMan,
-      });
+      const res = calculatePercentile(
+        { age: ageNum, region, netAsset, income: incomeMan },
+        statsData
+      );
       setResult(res);
       setIsLoading(false);
       setTimeout(() => {
@@ -338,9 +355,41 @@ export default function App() {
   const analysis = result ? getAnalysis(result.assetPercentileByAge) : null;
   const AnalysisIcon = analysis?.icon ?? Target;
 
+  // ── 통계 데이터 로딩/에러 ─────────────────────────────────
+  if (statsError) {
+    return (
+      <div className="min-h-screen bg-[#F9FAFB] flex items-center justify-center px-4">
+        <div className="bg-white rounded-3xl shadow-lg p-10 text-center max-w-sm w-full">
+          <p className="text-xl font-black text-navy mb-3">데이터 로딩 실패</p>
+          <p className="text-sm font-medium text-gray-400 mb-8">{statsError}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="inline-flex items-center gap-2 bg-gold hover:bg-gold-dark text-navy font-bold px-6 py-3.5 rounded-2xl transition-colors cursor-pointer"
+          >
+            <RefreshCw className="w-4 h-4" />
+            새로고침
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!statsData) {
+    return (
+      <div className="min-h-screen bg-[#F9FAFB] flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 mx-auto mb-5 rounded-full border-4 border-gold-100 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-full border-4 border-t-gold border-r-gold border-b-transparent border-l-transparent animate-spin-slow" />
+          </div>
+          <p className="text-sm font-medium text-gray-400">통계 데이터 로딩 중...</p>
+        </div>
+      </div>
+    );
+  }
+
   // ═════════════════════════════════════════════════════════
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-blue-50/30 to-indigo-50/40">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <Helmet>
         <title>대한민국 자산 상위 % 계산기 | 코리아리치랭크</title>
         <meta name="description" content="2026년 최신 통계청 자료 기반, 내 자산은 대한민국 상위 몇 %일까? 나의 경제적 위치를 확인하고 맞춤형 금융 정보를 얻으세요." />
@@ -360,71 +409,66 @@ export default function App() {
       <AdBanner slot="top-banner" className="w-full" />
 
       {/* ── 히어로 헤더 ───────────────────────────────────── */}
-      <header className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-indigo-700 to-purple-800 text-white">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-10 left-10 w-72 h-72 bg-white/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-10 w-96 h-96 bg-purple-300/10 rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-400/5 rounded-full blur-3xl" />
-        </div>
-        <div className="relative max-w-2xl mx-auto px-5 py-14 sm:py-16 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-white/15 backdrop-blur-sm rounded-2xl mb-5 ring-1 ring-white/20 animate-float">
-            <Calculator className="w-8 h-8" />
+      <header className="bg-navy">
+        <div className="max-w-2xl mx-auto px-6 py-16 sm:py-20 text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gold/15 rounded-3xl mb-6 animate-float">
+            <Calculator className="w-8 h-8 text-gold" />
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+          <h1 className="text-3xl sm:text-[40px] font-black tracking-tight leading-tight text-white">
             대한민국 자산 상위 %
           </h1>
-          <p className="mt-3 text-indigo-200 text-base sm:text-lg leading-relaxed">
+          <p className="mt-4 text-gray-400 text-base sm:text-lg font-medium leading-relaxed">
             2026 가계금융복지조사 기반 &middot; 내 자산은 상위 몇 %일까?
           </p>
-          <div className="mt-5 inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 text-xs text-indigo-100 ring-1 ring-white/10">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="mt-6 inline-flex items-center gap-2 bg-white/[0.06] rounded-full px-5 py-2 text-xs font-medium text-gray-400">
+            <div className="w-1.5 h-1.5 rounded-full bg-gold" />
             통계청 공식 데이터 기반 분석
           </div>
         </div>
       </header>
 
-      <main className="max-w-2xl mx-auto px-4 pb-12 -mt-6 relative z-10">
+      <main className="max-w-2xl mx-auto px-4 pb-16 -mt-8 relative z-10">
         {isLoading ? (
           /* ── 로딩 상태 ────────────────────────────────────── */
-          <section className="bg-white rounded-2xl shadow-xl shadow-indigo-100/50 ring-1 ring-gray-100 p-8 sm:p-10 text-center flex flex-col items-center justify-center min-h-[340px]">
-            <div className="relative mb-6">
-              <div className="w-20 h-20 rounded-full border-4 border-indigo-100 flex items-center justify-center">
-                <div className="w-16 h-16 rounded-full border-4 border-t-indigo-500 border-r-indigo-500 border-b-transparent border-l-transparent animate-spin-slow" />
+          <section className="bg-white rounded-3xl shadow-lg p-10 sm:p-12 text-center flex flex-col items-center justify-center min-h-[360px]">
+            <div className="relative mb-8">
+              <div className="w-20 h-20 rounded-full border-4 border-gold-100 flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full border-4 border-t-gold border-r-gold border-b-transparent border-l-transparent animate-spin-slow" />
               </div>
               <div className="absolute inset-0 flex items-center justify-center">
-                <BarChart3 className="w-6 h-6 text-indigo-500" />
+                <BarChart3 className="w-6 h-6 text-gold" />
               </div>
             </div>
-            <p className="text-xl font-bold text-gray-900 mb-2">
+            <p className="text-xl font-black text-navy mb-2">
               데이터 분석 중
             </p>
-            <p className="text-sm text-gray-400 mb-5">
+            <p className="text-sm font-medium text-gray-400 mb-6">
               2026년 통계청 자료와 비교하고 있습니다
             </p>
             <div className="w-full max-w-xs mx-auto">
               <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full animate-progress" />
+                <div className="h-full bg-gold rounded-full animate-progress" />
               </div>
             </div>
-            <div className="mt-8 w-full max-w-sm">
+            <div className="mt-10 w-full max-w-sm">
               <AdBanner slot="loading-banner" className="w-full" />
             </div>
           </section>
         ) : (
           <>
             {/* ── 입력 카드 ───────────────────────────────────── */}
-            <section className="bg-white rounded-2xl shadow-xl shadow-indigo-100/50 ring-1 ring-gray-100 p-6 sm:p-8">
-              <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2.5">
-                <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-50">
-                  <Wallet className="w-4.5 h-4.5 text-indigo-600" />
+            <section className="bg-white rounded-3xl shadow-lg p-7 sm:p-10">
+              <h2 className="text-xl font-black text-navy mb-8 flex items-center gap-3">
+                <div className="flex items-center justify-center w-10 h-10 rounded-2xl bg-gold-50">
+                  <Wallet className="w-5 h-5 text-gold-dark" />
                 </div>
                 내 정보 입력
               </h2>
 
               {/* 나이 + 지역 */}
-              <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="grid grid-cols-2 gap-4 mb-8">
                 <div>
-                  <label className="block text-sm font-medium text-gray-500 mb-2">
+                  <label className="block text-sm font-bold text-navy mb-2.5">
                     나이
                   </label>
                   <input
@@ -432,28 +476,32 @@ export default function App() {
                     min={20}
                     max={99}
                     value={age}
+                    placeholder="나이 입력"
                     onChange={(e) => {
                       const v = e.target.value;
-                      if (v === "") { setAge(0); return; }
+                      if (v === "") { setAge(""); return; }
                       setAge(+v);
                     }}
-                    onBlur={() => setAge((prev) => Math.max(20, Math.min(99, prev || 20)))}
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-lg font-semibold text-gray-900 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                    onBlur={() => {
+                      if (age === "") return;
+                      setAge(Math.max(20, Math.min(99, age)));
+                    }}
+                    className="w-full border border-gray-200 rounded-2xl px-4 py-3.5 text-lg font-bold text-navy bg-[#F9FAFB] placeholder:text-gray-300 placeholder:font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-all duration-200"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-500 mb-2 flex items-center gap-1">
+                  <label className="block text-sm font-bold text-navy mb-2.5 flex items-center gap-1.5">
                     <MapPin className="w-3.5 h-3.5 text-gray-400" />
                     거주 지역
                   </label>
                   <select
                     value={region}
                     onChange={(e) => setRegion(e.target.value)}
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-lg font-semibold text-gray-900 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 appearance-none cursor-pointer"
+                    className="w-full border border-gray-200 rounded-2xl px-4 py-3.5 text-lg font-bold text-navy bg-[#F9FAFB] focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-all duration-200 appearance-none cursor-pointer"
                     style={{
                       backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%239ca3af' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E")`,
                       backgroundRepeat: "no-repeat",
-                      backgroundPosition: "right 14px center",
+                      backgroundPosition: "right 16px center",
                     }}
                   >
                     {REGION_OPTIONS.map((r) => (
@@ -465,29 +513,29 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent my-6" />
+              <div className="h-px bg-gray-100 my-8" />
 
               {/* 순자산 */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-500 mb-2">
+              <div className="mb-8">
+                <label className="block text-sm font-bold text-navy mb-2.5">
                   순자산 (자산 - 부채)
                 </label>
-                <div className="flex items-center gap-2 mb-3">
+                <div className="flex items-center gap-2.5 mb-4">
                   <input
                     type="number"
                     value={assetEok}
                     onChange={(e) => setAssetEok(Math.max(0, +e.target.value || 0))}
-                    className="w-20 border border-gray-200 rounded-xl px-3 py-2.5 text-center text-lg font-semibold text-gray-900 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
+                    className="w-20 border border-gray-200 rounded-2xl px-3 py-3 text-center text-lg font-bold text-navy bg-[#F9FAFB] focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-all duration-200"
                   />
-                  <span className="text-gray-400 font-medium text-sm">억</span>
+                  <span className="text-gray-400 font-bold text-sm">억</span>
                   <input
                     type="number"
                     value={assetMan}
                     step={100}
                     onChange={(e) => setAssetMan(Math.max(0, Math.min(9999, +e.target.value || 0)))}
-                    className="w-28 border border-gray-200 rounded-xl px-3 py-2.5 text-center text-lg font-semibold text-gray-900 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
+                    className="w-28 border border-gray-200 rounded-2xl px-3 py-3 text-center text-lg font-bold text-navy bg-[#F9FAFB] focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-all duration-200"
                   />
-                  <span className="text-gray-400 font-medium text-sm">만원</span>
+                  <span className="text-gray-400 font-bold text-sm">만원</span>
                 </div>
                 <input
                   type="range"
@@ -496,28 +544,28 @@ export default function App() {
                   value={assetSliderPos}
                   onChange={(e) => handleAssetSlider(+e.target.value)}
                 />
-                <div className="flex justify-between text-xs text-gray-400 mt-1.5">
+                <div className="flex justify-between text-xs font-medium text-gray-400 mt-2">
                   <span>0원</span>
-                  <span className="font-semibold text-indigo-500 bg-indigo-50 px-2 py-0.5 rounded-full">{formatWon(netAsset)}</span>
+                  <span className="font-bold text-navy bg-gold-50 px-3 py-1 rounded-full">{formatWon(netAsset)}</span>
                   <span>100억+</span>
                 </div>
               </div>
 
               {/* 연봉 */}
-              <div className="mb-8">
-                <label className="block text-sm font-medium text-gray-500 mb-2 flex items-center gap-1">
+              <div className="mb-10">
+                <label className="block text-sm font-bold text-navy mb-2.5 flex items-center gap-1.5">
                   <Briefcase className="w-3.5 h-3.5 text-gray-400" />
                   연봉 (세전)
                 </label>
-                <div className="flex items-center gap-2 mb-3">
+                <div className="flex items-center gap-2.5 mb-4">
                   <input
                     type="number"
                     value={incomeMan}
                     step={100}
                     onChange={(e) => setIncomeMan(Math.max(0, +e.target.value || 0))}
-                    className="w-32 border border-gray-200 rounded-xl px-3 py-2.5 text-center text-lg font-semibold text-gray-900 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
+                    className="w-32 border border-gray-200 rounded-2xl px-3 py-3 text-center text-lg font-bold text-navy bg-[#F9FAFB] focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-all duration-200"
                   />
-                  <span className="text-gray-400 font-medium text-sm">만원</span>
+                  <span className="text-gray-400 font-bold text-sm">만원</span>
                 </div>
                 <input
                   type="range"
@@ -526,9 +574,9 @@ export default function App() {
                   value={incomeSliderPos}
                   onChange={(e) => handleIncomeSlider(+e.target.value)}
                 />
-                <div className="flex justify-between text-xs text-gray-400 mt-1.5">
+                <div className="flex justify-between text-xs font-medium text-gray-400 mt-2">
                   <span>0원</span>
-                  <span className="font-semibold text-indigo-500 bg-indigo-50 px-2 py-0.5 rounded-full">{formatWon(incomeMan)}</span>
+                  <span className="font-bold text-navy bg-gold-50 px-3 py-1 rounded-full">{formatWon(incomeMan)}</span>
                   <span>5억+</span>
                 </div>
               </div>
@@ -536,7 +584,7 @@ export default function App() {
               {/* CTA 버튼 */}
               <button
                 onClick={handleCalculate}
-                className="w-full group bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-lg font-bold py-4 rounded-xl shadow-lg shadow-indigo-200/70 transition-all duration-300 active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
+                className="w-full group bg-gold hover:bg-gold-dark text-navy text-lg font-black py-4.5 rounded-2xl shadow-lg shadow-gold/25 transition-all duration-300 active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
               >
                 내 순위 계산하기
                 <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -545,49 +593,50 @@ export default function App() {
 
             {/* ── 결과 섹션 ───────────────────────────────────── */}
             {result && analysis && (
-              <div ref={resultRef} className="mt-8 space-y-5">
+              <div ref={resultRef} className="mt-6 space-y-4">
                 {/* 메인 결과 카드 */}
-                <section
-                  className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${analysis.gradient} shadow-xl animate-fade-in-up`}
-                >
+                <section className="relative overflow-hidden rounded-3xl bg-navy shadow-xl animate-fade-in-up">
                   <div className="absolute inset-0 overflow-hidden">
-                    <div className="absolute -top-20 -right-20 w-60 h-60 bg-white/10 rounded-full blur-2xl" />
-                    <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-white/5 rounded-full blur-2xl" />
+                    <div className="absolute -top-20 -right-20 w-60 h-60 bg-gold/[0.06] rounded-full blur-3xl" />
+                    <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-gold/[0.04] rounded-full blur-3xl" />
                   </div>
-                  <div className="relative p-6 sm:p-8 text-center text-white">
-                    <span className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-sm font-bold px-4 py-1.5 rounded-full mb-4">
-                      <Sparkles className="w-3.5 h-3.5" />
+                  <div className="relative p-8 sm:p-10 text-center">
+                    <span
+                      className="inline-flex items-center gap-1.5 text-xs font-black px-4 py-1.5 rounded-full mb-5"
+                      style={{ backgroundColor: `${analysis.accentColor}20`, color: analysis.accentColor }}
+                    >
                       {analysis.badge}
                     </span>
-                    <p className="text-white/70 text-sm mb-1">
+                    <p className="text-gray-400 text-sm font-medium mb-2">
                       {result.ageGroup} 기준 &middot; {result.region} 거주
                     </p>
-                    <div className="my-5">
-                      <span className="text-6xl sm:text-7xl font-extrabold tracking-tight animate-count-pulse drop-shadow-sm">
+                    <div className="my-6">
+                      <span className="text-6xl sm:text-7xl font-black tracking-tight text-gold animate-count-pulse drop-shadow-sm">
                         {displayPct}
                       </span>
-                      <span className="text-3xl font-bold ml-1 opacity-80">%</span>
+                      <span className="text-3xl font-black ml-1 text-gold/70">%</span>
                     </div>
-                    <p className="text-lg sm:text-xl font-semibold">
-                      동년배 자산 상위 <span className="underline decoration-2 underline-offset-4">{result.assetPercentileByAge}%</span>
+                    <p className="text-lg sm:text-xl font-bold text-white">
+                      동년배 자산 상위{" "}
+                      <span className="text-gold underline decoration-2 underline-offset-4">{result.assetPercentileByAge}%</span>
                     </p>
                   </div>
                 </section>
 
                 {/* 심리 분석 */}
-                <section
-                  className="bg-white rounded-2xl shadow-lg ring-1 ring-gray-100 p-6 animate-fade-in-up animation-delay-100 opacity-0"
-                  style={{ boxShadow: `0 4px 24px ${analysis.bgGlow}` }}
-                >
+                <section className="bg-white rounded-3xl shadow-md p-7 animate-fade-in-up animation-delay-100 opacity-0">
                   <div className="flex items-start gap-4">
-                    <div className={`shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br ${analysis.gradient} flex items-center justify-center shadow-md`}>
-                      <AnalysisIcon className="w-5.5 h-5.5 text-white" />
+                    <div
+                      className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center"
+                      style={{ backgroundColor: `${analysis.accentColor}18` }}
+                    >
+                      <AnalysisIcon className="w-5 h-5" style={{ color: analysis.accentColor }} />
                     </div>
                     <div>
-                      <h3 className="font-bold text-gray-900 text-lg mb-1.5">
+                      <h3 className="font-black text-navy text-lg mb-2">
                         {analysis.title}
                       </h3>
-                      <p className="text-gray-500 leading-relaxed text-sm sm:text-[15px]">
+                      <p className="text-gray-400 font-medium leading-relaxed text-sm sm:text-[15px]">
                         {analysis.message}
                       </p>
                     </div>
@@ -601,42 +650,38 @@ export default function App() {
                     label="전국 자산"
                     value={`상위 ${result.assetPercentile}%`}
                     sub={`평균의 ${result.assetToAvgRatio}배`}
-                    color="indigo"
                   />
                   <StatCard
                     icon={<Users className="w-4 h-4" />}
                     label={`${result.ageGroup} 자산`}
                     value={`상위 ${result.assetPercentileByAge}%`}
                     sub={`동년배 평균의 ${result.assetToAvgRatio}배`}
-                    color="purple"
                   />
                   <StatCard
                     icon={<Briefcase className="w-4 h-4" />}
                     label="전국 소득"
                     value={`상위 ${result.incomePercentile}%`}
                     sub={`평균의 ${result.incomeToAvgRatio}배`}
-                    color="blue"
                   />
                   <StatCard
                     icon={<MapPin className="w-4 h-4" />}
                     label={`${result.region} 자산`}
                     value={`상위 ${result.assetPercentileByRegion}%`}
                     sub="지역 기준"
-                    color="cyan"
                   />
                 </div>
 
                 {/* 차트 */}
-                <section className="bg-white rounded-2xl shadow-lg ring-1 ring-gray-100 p-5 sm:p-6 animate-fade-in-up animation-delay-300 opacity-0">
-                  <div className="flex items-center gap-2.5 mb-1">
-                    <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-indigo-50">
-                      <BarChart3 className="w-4 h-4 text-indigo-600" />
+                <section className="bg-white rounded-3xl shadow-md p-6 sm:p-8 animate-fade-in-up animation-delay-300 opacity-0">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-gold-50">
+                      <BarChart3 className="w-4.5 h-4.5 text-gold-dark" />
                     </div>
-                    <h3 className="font-bold text-gray-900">
+                    <h3 className="font-black text-navy text-lg">
                       대한민국 순자산 분포
                     </h3>
                   </div>
-                  <p className="text-sm text-gray-400 mb-5 ml-[38px]">
+                  <p className="text-sm font-medium text-gray-400 mb-6 ml-12">
                     전체 가구 기준 &middot; 내 위치가 강조 표시됩니다
                   </p>
                   <div className="w-full h-64 sm:h-72">
@@ -647,23 +692,23 @@ export default function App() {
                       >
                         <XAxis
                           dataKey="range"
-                          tick={{ fontSize: 10, fill: "#9ca3af" }}
+                          tick={{ fontSize: 10, fill: "#94A3B8" }}
                           interval={0}
                           angle={-35}
                           textAnchor="end"
                           height={60}
                         />
                         <YAxis
-                          tick={{ fontSize: 11, fill: "#9ca3af" }}
+                          tick={{ fontSize: 11, fill: "#94A3B8" }}
                           tickFormatter={(v: number) => `${v}%`}
                         />
                         <Tooltip content={<ChartTooltip />} />
-                        <Bar dataKey="percent" radius={[6, 6, 0, 0]}>
+                        <Bar dataKey="percent" radius={[8, 8, 0, 0]}>
                           {chartData.map((entry, i) => (
                             <Cell
                               key={i}
-                              fill={entry.isUser ? "#4f46e5" : "#e0e7ff"}
-                              stroke={entry.isUser ? "#4338ca" : "none"}
+                              fill={entry.isUser ? "#FFD700" : "#E2E8F0"}
+                              stroke={entry.isUser ? "#C5A600" : "none"}
                               strokeWidth={entry.isUser ? 2 : 0}
                             />
                           ))}
@@ -671,13 +716,13 @@ export default function App() {
                         {result && (
                           <ReferenceLine
                             x={DISTRIBUTION[userBin].range}
-                            stroke="#4f46e5"
+                            stroke="#FFD700"
                             strokeDasharray="4 4"
                             strokeWidth={1.5}
                             label={{
                               value: "나",
                               position: "top",
-                              fill: "#4f46e5",
+                              fill: "#1E293B",
                               fontSize: 12,
                               fontWeight: "bold",
                             }}
@@ -692,7 +737,7 @@ export default function App() {
                 <section className="animate-fade-in-up animation-delay-400 opacity-0">
                   <button
                     onClick={() => alert("카카오톡 공유 기능은 현재 준비 중입니다.")}
-                    className="w-full flex items-center justify-center gap-3 bg-[#FEE500] hover:bg-[#F5DC00] text-[#3C1E1E] font-bold text-lg py-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 active:scale-[0.98] cursor-pointer"
+                    className="w-full flex items-center justify-center gap-3 bg-[#FEE500] hover:bg-[#F5DC00] text-[#3C1E1E] font-black text-lg py-4.5 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 active:scale-[0.98] cursor-pointer"
                   >
                     <MessageCircle className="w-5 h-5" />
                     카카오톡으로 결과 공유하기
@@ -708,85 +753,85 @@ export default function App() {
       </main>
 
       {/* ── 전문 칼럼 ─────────────────────────────────────── */}
-      <section className="max-w-2xl mx-auto px-4 pb-12">
-        <div className="flex items-center gap-2.5 mb-5">
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-50">
-            <TrendingUp className="w-4.5 h-4.5 text-indigo-600" />
+      <section className="max-w-2xl mx-auto px-4 pb-16">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center justify-center w-10 h-10 rounded-2xl bg-gold-50">
+            <TrendingUp className="w-5 h-5 text-gold-dark" />
           </div>
-          <h2 className="text-xl font-extrabold text-gray-900">
+          <h2 className="text-xl font-black text-navy">
             자산 관리 인사이트
           </h2>
         </div>
         <div className="space-y-3">
           <AccordionItem title="2026 대한민국 평균 자산과 소득 (통계 분석)">
             <p className="mb-3">
-              <strong className="font-semibold text-gray-800">2026년 통계청 발표 기준, 대한민국의 자산 및 소득 분포는 다음과 같습니다.</strong>
+              <strong className="font-bold text-navy">2026년 통계청 발표 기준, 대한민국의 자산 및 소득 분포는 다음과 같습니다.</strong>
             </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-gray-600">
-              <li><strong className="font-medium text-gray-700">전국 가구 평균 순자산:</strong> 약 4억 7,144만 원</li>
-              <li><strong className="font-medium text-gray-700">전국 가구 순자산 중위값:</strong> 약 2억 3,800만 원 (중산층 기준)</li>
-              <li><strong className="font-medium text-gray-700">자산 불평등 심화:</strong> 상위 1%가 전체 순자산의 약 20% 보유, 상위 10%가 46% 보유. 이는 부동산, 금융자산, 상속/증여 등 복합적 요인에 기인합니다.</li>
-              <li><strong className="font-medium text-gray-700">중산층의 변화:</strong> 과거 &apos;내 집 마련&apos;, &apos;안정적 직업&apos;에서 현재는 &apos;포괄적 자산 포트폴리오&apos;와 &apos;재정적 안정성&apos;이 중요.</li>
+            <ul className="list-disc pl-5 space-y-1.5 text-gray-500">
+              <li><strong className="font-semibold text-navy-light">전국 가구 평균 순자산:</strong> 약 4억 7,144만 원</li>
+              <li><strong className="font-semibold text-navy-light">전국 가구 순자산 중위값:</strong> 약 2억 3,800만 원 (중산층 기준)</li>
+              <li><strong className="font-semibold text-navy-light">자산 불평등 심화:</strong> 상위 1%가 전체 순자산의 약 20% 보유, 상위 10%가 46% 보유. 이는 부동산, 금융자산, 상속/증여 등 복합적 요인에 기인합니다.</li>
+              <li><strong className="font-semibold text-navy-light">중산층의 변화:</strong> 과거 &apos;내 집 마련&apos;, &apos;안정적 직업&apos;에서 현재는 &apos;포괄적 자산 포트폴리오&apos;와 &apos;재정적 안정성&apos;이 중요.</li>
             </ul>
           </AccordionItem>
 
           <AccordionItem title="상위 1% 부자들의 자산 배분 전략">
             <p className="mb-3">
-              <strong className="font-semibold text-gray-800">상위 1% 자산가들은 일반 가구와는 다른 자산 배분 전략을 통해 부를 증식합니다.</strong>
+              <strong className="font-bold text-navy">상위 1% 자산가들은 일반 가구와는 다른 자산 배분 전략을 통해 부를 증식합니다.</strong>
             </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-gray-600">
-              <li><strong className="font-medium text-gray-700">부동산:</strong> 여전히 핵심 자산으로, 핵심 지역의 다주택 또는 상업용 부동산에 투자하여 임대 수익 및 시세 차익 추구.</li>
-              <li><strong className="font-medium text-gray-700">금융 자산:</strong> 주식, 채권, 펀드 외에도 헤지펀드, 사모펀드 등 대체 투자 비중을 높여 고수익 추구 및 위험 분산.</li>
-              <li><strong className="font-medium text-gray-700">사업체 투자:</strong> 직접 사업체를 운영하거나 유망 스타트업에 투자하여 지분 가치 상승을 통한 자산 증대.</li>
-              <li><strong className="font-medium text-gray-700">해외 투자:</strong> 국내 시장의 한계를 넘어 해외 부동산, 주식, 벤처 투자 등으로 포트폴리오 다변화.</li>
-              <li><strong className="font-medium text-gray-700">절세 전략:</strong> 법인 설립, 증여/상속 계획 등 전문가와 협력하여 합법적인 절세 전략 적극 활용.</li>
+            <ul className="list-disc pl-5 space-y-1.5 text-gray-500">
+              <li><strong className="font-semibold text-navy-light">부동산:</strong> 여전히 핵심 자산으로, 핵심 지역의 다주택 또는 상업용 부동산에 투자하여 임대 수익 및 시세 차익 추구.</li>
+              <li><strong className="font-semibold text-navy-light">금융 자산:</strong> 주식, 채권, 펀드 외에도 헤지펀드, 사모펀드 등 대체 투자 비중을 높여 고수익 추구 및 위험 분산.</li>
+              <li><strong className="font-semibold text-navy-light">사업체 투자:</strong> 직접 사업체를 운영하거나 유망 스타트업에 투자하여 지분 가치 상승을 통한 자산 증대.</li>
+              <li><strong className="font-semibold text-navy-light">해외 투자:</strong> 국내 시장의 한계를 넘어 해외 부동산, 주식, 벤처 투자 등으로 포트폴리오 다변화.</li>
+              <li><strong className="font-semibold text-navy-light">절세 전략:</strong> 법인 설립, 증여/상속 계획 등 전문가와 협력하여 합법적인 절세 전략 적극 활용.</li>
             </ul>
           </AccordionItem>
 
           <AccordionItem title="나이대별 권장 순자산 목표치">
             <p className="mb-3">
-              <strong className="font-semibold text-gray-800">개인의 재무 목표는 나이와 상황에 따라 달라지지만, 일반적으로 다음의 순자산 목표치를 참고할 수 있습니다.</strong>
+              <strong className="font-bold text-navy">개인의 재무 목표는 나이와 상황에 따라 달라지지만, 일반적으로 다음의 순자산 목표치를 참고할 수 있습니다.</strong>
             </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-gray-600">
-              <li><strong className="font-medium text-gray-700">20대:</strong> 종잣돈 마련 및 부채 관리. 학자금 대출 상환, 비상금 확보(3~6개월 생활비).</li>
-              <li><strong className="font-medium text-gray-700">30대:</strong> 자산 형성의 기반 다지기. 주택 마련 자금, 결혼 및 출산 준비. 투자 시작 및 포트폴리오 구축.</li>
-              <li><strong className="font-medium text-gray-700">40대:</strong> 자산 증식 가속화. 은퇴 자산 마련의 중요성 증대. 적극적인 투자 및 자산 리밸런싱.</li>
-              <li><strong className="font-medium text-gray-700">50대:</strong> 은퇴 준비 마무리 단계. 안정적인 자산 유지 및 인출 계획 수립. 현금 흐름 확보.</li>
-              <li><strong className="font-medium text-gray-700">60대 이상:</strong> 자산 보존 및 효율적인 인출 전략. 건강 관리 비용, 여가 생활비 등 고려.</li>
+            <ul className="list-disc pl-5 space-y-1.5 text-gray-500">
+              <li><strong className="font-semibold text-navy-light">20대:</strong> 종잣돈 마련 및 부채 관리. 학자금 대출 상환, 비상금 확보(3~6개월 생활비).</li>
+              <li><strong className="font-semibold text-navy-light">30대:</strong> 자산 형성의 기반 다지기. 주택 마련 자금, 결혼 및 출산 준비. 투자 시작 및 포트폴리오 구축.</li>
+              <li><strong className="font-semibold text-navy-light">40대:</strong> 자산 증식 가속화. 은퇴 자산 마련의 중요성 증대. 적극적인 투자 및 자산 리밸런싱.</li>
+              <li><strong className="font-semibold text-navy-light">50대:</strong> 은퇴 준비 마무리 단계. 안정적인 자산 유지 및 인출 계획 수립. 현금 흐름 확보.</li>
+              <li><strong className="font-semibold text-navy-light">60대 이상:</strong> 자산 보존 및 효율적인 인출 전략. 건강 관리 비용, 여가 생활비 등 고려.</li>
             </ul>
-            <p className="mt-3 text-xs text-gray-400">
+            <p className="mt-3 text-xs text-gray-400 font-medium">
               *위 목표치는 일반적인 가이드라인이며, 개인의 소득, 소비 습관, 투자 성향에 따라 조절이 필요합니다.
             </p>
           </AccordionItem>
 
           <AccordionItem title="자산 상위 %를 높이기 위한 실전 재테크 팁">
             <p className="mb-3">
-              <strong className="font-semibold text-gray-800">자산 순위를 높이고 경제적 자유를 달성하기 위한 실질적인 재테크 팁입니다.</strong>
+              <strong className="font-bold text-navy">자산 순위를 높이고 경제적 자유를 달성하기 위한 실질적인 재테크 팁입니다.</strong>
             </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-gray-600">
-              <li><strong className="font-medium text-gray-700">체계적인 재무 계획:</strong> 목표 설정(주택, 은퇴, 교육 등), 예산 수립, 정기적인 재무 상태 점검.</li>
-              <li><strong className="font-medium text-gray-700">조기 투자 시작:</strong> 복리의 마법을 활용하여 소액이라도 일찍 시작하는 것이 중요.</li>
-              <li><strong className="font-medium text-gray-700">분산 투자 원칙:</strong> 주식, 채권, 부동산, 대체 투자 등 다양한 자산에 분산하여 위험 최소화.</li>
-              <li><strong className="font-medium text-gray-700">꾸준한 자기 계발:</strong> 소득 증대를 위한 능력 향상, 시장 변화에 대한 학습 지속.</li>
-              <li><strong className="font-medium text-gray-700">부채 현명하게 활용:</strong> 좋은 부채(투자 목적)와 나쁜 부채(소비 목적)를 구분하고, 이자율 낮은 대출 우선 상환.</li>
-              <li><strong className="font-medium text-gray-700">절세 전략 숙지:</strong> 연금저축, ISA, 비과세 상품 등 다양한 절세 혜택을 활용하여 세금 부담 최소화.</li>
-              <li><strong className="font-medium text-gray-700">부동산 인사이트:</strong> 거주 목적 외 투자 목적 부동산은 시장 분석 및 전문가 자문 필수.</li>
+            <ul className="list-disc pl-5 space-y-1.5 text-gray-500">
+              <li><strong className="font-semibold text-navy-light">체계적인 재무 계획:</strong> 목표 설정(주택, 은퇴, 교육 등), 예산 수립, 정기적인 재무 상태 점검.</li>
+              <li><strong className="font-semibold text-navy-light">조기 투자 시작:</strong> 복리의 마법을 활용하여 소액이라도 일찍 시작하는 것이 중요.</li>
+              <li><strong className="font-semibold text-navy-light">분산 투자 원칙:</strong> 주식, 채권, 부동산, 대체 투자 등 다양한 자산에 분산하여 위험 최소화.</li>
+              <li><strong className="font-semibold text-navy-light">꾸준한 자기 계발:</strong> 소득 증대를 위한 능력 향상, 시장 변화에 대한 학습 지속.</li>
+              <li><strong className="font-semibold text-navy-light">부채 현명하게 활용:</strong> 좋은 부채(투자 목적)와 나쁜 부채(소비 목적)를 구분하고, 이자율 낮은 대출 우선 상환.</li>
+              <li><strong className="font-semibold text-navy-light">절세 전략 숙지:</strong> 연금저축, ISA, 비과세 상품 등 다양한 절세 혜택을 활용하여 세금 부담 최소화.</li>
+              <li><strong className="font-semibold text-navy-light">부동산 인사이트:</strong> 거주 목적 외 투자 목적 부동산은 시장 분석 및 전문가 자문 필수.</li>
             </ul>
           </AccordionItem>
         </div>
       </section>
 
       {/* ── 푸터 ──────────────────────────────────────────── */}
-      <footer className="border-t border-gray-100 bg-white/60 backdrop-blur-sm">
-        <div className="max-w-2xl mx-auto px-4 py-8 text-center">
-          <p className="text-xs text-gray-400 leading-relaxed">
+      <footer className="border-t border-gray-100 bg-white">
+        <div className="max-w-2xl mx-auto px-4 py-10 text-center">
+          <p className="text-xs font-medium text-gray-400 leading-relaxed">
             통계 출처: 2026년 가계금융복지조사 (국가데이터처 &middot; 금융감독원 &middot; 한국은행)
           </p>
-          <p className="text-xs text-gray-400 mt-1.5 leading-relaxed">
+          <p className="text-xs font-medium text-gray-400 mt-2 leading-relaxed">
             본 서비스는 통계 기반의 추정치이며, 실제 개인 자산 순위와 다를 수 있습니다.
           </p>
-          <div className="mt-4 h-px w-16 mx-auto bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
-          <p className="mt-4 text-xs text-gray-300 font-medium">
+          <div className="mt-5 h-px w-12 mx-auto bg-gray-200" />
+          <p className="mt-5 text-sm font-black text-navy/30">
             코리아리치랭크
           </p>
         </div>
@@ -801,36 +846,20 @@ function StatCard({
   label,
   value,
   sub,
-  color,
 }: {
   icon: React.ReactNode;
   label: string;
   value: string;
   sub: string;
-  color: "indigo" | "purple" | "blue" | "cyan";
 }) {
-  const colors = {
-    indigo: "bg-indigo-50 text-indigo-600",
-    purple: "bg-purple-50 text-purple-600",
-    blue: "bg-blue-50 text-blue-600",
-    cyan: "bg-cyan-50 text-cyan-600",
-  };
-  const borderColors = {
-    indigo: "hover:border-indigo-200",
-    purple: "hover:border-purple-200",
-    blue: "hover:border-blue-200",
-    cyan: "hover:border-cyan-200",
-  };
   return (
-    <div className={`bg-white rounded-xl shadow-sm ring-1 ring-gray-100 p-4 transition-all duration-200 hover:shadow-md ${borderColors[color]}`}>
-      <div
-        className={`inline-flex items-center justify-center w-8 h-8 rounded-lg mb-2.5 ${colors[color]}`}
-      >
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 transition-all duration-200 hover:shadow-md">
+      <div className="inline-flex items-center justify-center w-9 h-9 rounded-xl mb-3 bg-gold-50 text-gold-dark">
         {icon}
       </div>
-      <p className="text-xs text-gray-400 mb-0.5">{label}</p>
-      <p className="text-xl font-extrabold text-gray-900">{value}</p>
-      <p className="text-xs text-gray-400 mt-1">{sub}</p>
+      <p className="text-xs font-medium text-gray-400 mb-1">{label}</p>
+      <p className="text-xl font-black text-navy">{value}</p>
+      <p className="text-xs font-medium text-gray-400 mt-1">{sub}</p>
     </div>
   );
 }

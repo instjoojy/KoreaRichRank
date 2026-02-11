@@ -18,16 +18,16 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children }) => {
   }, [isOpen, children]);
 
   return (
-    <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden transition-shadow duration-200 hover:shadow-md">
+    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden transition-shadow duration-200 hover:shadow-md">
       <button
-        className="flex justify-between items-center w-full px-5 py-4 text-left font-semibold text-[15px] text-gray-800 hover:text-indigo-600 transition-colors duration-200 cursor-pointer"
+        className="flex justify-between items-center w-full px-6 py-5 text-left font-semibold text-[15px] text-navy hover:text-navy-light transition-colors duration-200 cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
       >
         <span className="pr-4 leading-snug">{title}</span>
         <ChevronDown
           className={`w-5 h-5 shrink-0 transition-transform duration-300 ease-out ${
-            isOpen ? 'rotate-180 text-indigo-500' : 'text-gray-400'
+            isOpen ? 'rotate-180 text-gold-dark' : 'text-gray-400'
           }`}
         />
       </button>
@@ -35,7 +35,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children }) => {
         className="overflow-hidden transition-all duration-300 ease-out"
         style={{ maxHeight: isOpen ? `${height}px` : '0px' }}
       >
-        <div ref={contentRef} className="px-5 pb-5 text-gray-600 leading-relaxed text-sm">
+        <div ref={contentRef} className="px-6 pb-6 text-gray-500 font-medium leading-relaxed text-sm">
           {children}
         </div>
       </div>
