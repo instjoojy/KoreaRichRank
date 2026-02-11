@@ -335,7 +335,7 @@ export default function App() {
         <meta name="description" content="2026년 최신 통계청 자료 기반, 내 자산은 대한민국 상위 몇 %일까? 나의 경제적 위치를 확인하고 맞춤형 금융 정보를 얻으세요." />
         <meta property="og:title" content={`대한민국 자산 상위 ${result ? displayPct : ''}% | 코리아리치랭크`} />
         <meta property="og:description" content="2026년 최신 통계청 자료 기반, 내 자산은 대한민국 상위 몇 %일까? 나의 경제적 위치를 확인하고 맞춤형 금융 정보를 얻으세요." />
-        <meta property="og:image" content={`${window.location.origin}/og-image.jpg`} /> {/* Replace with actual image URL */}
+        <meta property="og:image" content={`${window.location.origin}/og-image.jpg`} />
         <meta property="og:url" content={window.location.origin} />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="코리아리치랭크" />
