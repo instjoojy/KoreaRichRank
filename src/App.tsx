@@ -303,20 +303,7 @@ export default function App() {
     }, 3500); // 3.5초 로딩 지연
   }
 
-  // ── 카카오톡 공유 핸들러 ──────────────────────────────────
-  const handleKakaoShare = async () => {
-    if (!result) return;
 
-    const shareMessage = `나 상위 ${displayPct}% 나왔어! 대한민국 자산 순위 알아보기: ${window.location.origin}`;
-
-    try {
-      await navigator.clipboard.writeText(shareMessage);
-      alert("결과 메시지가 클립보드에 복사되었습니다. 카카오톡에 붙여넣어 공유해주세요!");
-    } catch (err) {
-      console.error("클립보드 복사 실패:", err);
-      alert("클립보드 복사에 실패했습니다. 직접 복사하여 공유해주세요: " + shareMessage);
-    }
-  };
 
   // ── 슬라이더 핸들러 ───────────────────────────────────────
   function handleAssetSlider(pos: number) {
@@ -650,14 +637,23 @@ export default function App() {
 
                   {/* 카카오톡 공유 */}
                   <section className="animate-fade-in-up animation-delay-400 opacity-0">
-                    <button
-                      onClick={() => alert("카카오톡 공유 기능은 곧 연동됩니다!")}
-                      className="w-full flex items-center justify-center gap-3 bg-[#FEE500] hover:bg-[#F5DC00] text-[#3C1E1E] font-bold text-lg py-4 rounded-xl shadow-md transition-all duration-200 active:scale-[0.98] cursor-pointer"
-                    >
-                      <MessageCircle className="w-5 h-5" />
-                      카카오톡으로 결과 공유하기
-                    </button>
-                  </section>
+                                      <button
+                                        onClick={async () => {
+                      if (!result) return;
+                      const shareMessage = `나 상위 ${displayPct}% 나왔어! 대한민국 자산 순위 알아보기: ${window.location.origin}`;
+                      try {
+                        await navigator.clipboard.writeText(shareMessage);
+                        alert("결과 메시지가 클립보드에 복사되었습니다. 카카오톡에 붙여넣어 공유해주세요!");
+                      } catch (err) {
+                        console.error("클립보드 복사 실패:", err);
+                        alert("클립보드 복사에 실패했습니다. 직접 복사하여 공유해주세요: " + shareMessage);
+                      }
+                    }}
+                                        className="w-full flex items-center justify-center gap-3 bg-[#FEE500] hover:bg-[#F5DC00] text-[#3C1E1E] font-bold text-lg py-4 rounded-xl shadow-md transition-all duration-200 active:scale-[0.98] cursor-pointer"
+                                      >
+                                        <MessageCircle className="w-5 h-5" />
+                                        카카오톡으로 결과 공유하기
+                                      </button>                  </section>
 
                   {/* 하단 광고 */}
                   <AdBanner slot="bottom-banner" className="w-full" />
