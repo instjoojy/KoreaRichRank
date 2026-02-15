@@ -1,15 +1,18 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import { HelmetProvider } from "@dr.pogodin/react-helmet";
+import ErrorBoundary from "./components/ErrorBoundary";
 import App from "./App";
 import "./index.css";
-import ErrorBoundary from "./components/ErrorBoundary"; // Import ErrorBoundary
-import { HelmetProvider } from "@dr.pogodin/react-helmet"; // Import HelmetProvider
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <HelmetProvider> {/* Wrap the entire app with HelmetProvider */}
+    <HelmetProvider>
       <ErrorBoundary>
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </ErrorBoundary>
     </HelmetProvider>
   </StrictMode>
