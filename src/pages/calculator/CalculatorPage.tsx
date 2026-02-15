@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef, useMemo } from "react";
-import { BarChart3, RefreshCw } from "lucide-react";
+import { RefreshCw } from "lucide-react";
+import AnalyzingLoader from "../../components/AnalyzingLoader";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import {
   calculatePercentile,
   type CalculatorResult as CalcResult,
 } from "../../utils/calculator";
 import type { StatsData } from "../../data/types";
-import AdBanner from "../../components/AdBanner";
 import {
   ASSET_STOPS,
   INCOME_STOPS,
@@ -205,31 +205,18 @@ export default function CalculatorPage() {
 
       <div className="max-w-[600px] mx-auto px-5 pb-20 -mt-8 relative z-10">
         {isLoading ? (
-          /* ── 로딩 상태 ────────────────────────────────────── */
-          <section className="bg-white rounded-3xl shadow-xl p-10 sm:p-12 text-center flex flex-col items-center justify-center min-h-[360px]">
-            <div className="relative mb-8">
-              <div className="w-20 h-20 rounded-full border-4 border-indigo-100 flex items-center justify-center">
-                <div className="w-16 h-16 rounded-full border-4 border-t-indigo border-r-indigo border-b-transparent border-l-transparent animate-spin-slow" />
-              </div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <BarChart3 className="w-6 h-6 text-indigo" />
-              </div>
-            </div>
-            <p className="text-2xl font-black text-navy mb-3">
-              데이터 분석 중
-            </p>
-            <p className="text-base font-medium text-gray-400 mb-6">
-              2026년 통계청 자료와 비교하고 있습니다
-            </p>
-            <div className="w-full max-w-xs mx-auto">
-              <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                <div className="h-full bg-indigo rounded-full animate-progress" />
-              </div>
-            </div>
-            <div className="mt-10 w-full max-w-sm">
-              <AdBanner slot="loading-banner" className="w-full" />
-            </div>
-          </section>
+          <AnalyzingLoader
+            accentColor="#6366F1"
+            accentBgColor="#E0E7FF"
+            adSlot="asset-loading"
+            messages={[
+              "자산 데이터 매칭 중...",
+              "전국 가구와 비교 분석 중...",
+              "상위 % 계산 중...",
+              "연령대별 순위 산출 중...",
+              "지역별 자산 분포 대조 중...",
+            ]}
+          />
         ) : (
           <>
             <CalculatorForm

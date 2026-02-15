@@ -1,4 +1,5 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import AnalyzingLoader from "../../components/AnalyzingLoader";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Helmet } from "@dr.pogodin/react-helmet";
@@ -30,7 +31,7 @@ const slideVariants = {
 };
 
 export default function BqTestPage() {
-  const [step, setStep] = useState<"intro" | "quiz" | "result">("intro");
+  const [step, setStep] = useState<"intro" | "quiz" | "loading" | "result">("intro");
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [direction, setDirection] = useState(1);
@@ -52,7 +53,7 @@ export default function BqTestPage() {
         setSelectedIdx(null);
 
         if (currentQ + 1 >= questions.length) {
-          setStep("result");
+          setStep("loading");
         } else {
           setCurrentQ((q) => q + 1);
         }
@@ -60,6 +61,12 @@ export default function BqTestPage() {
     },
     [answers, currentQ, selectedIdx]
   );
+
+  useEffect(() => {
+    if (step !== "loading") return;
+    const timer = setTimeout(() => setStep("result"), 3500);
+    return () => clearTimeout(timer);
+  }, [step]);
 
   const handleRestart = () => {
     setStep("intro");
@@ -230,6 +237,24 @@ export default function BqTestPage() {
                 </div>
               </motion.section>
             </AnimatePresence>
+          </div>
+        )}
+
+        {/* ═════════════ LOADING ═════════════ */}
+        {step === "loading" && (
+          <div className="-mt-6 relative z-10">
+            <AnalyzingLoader
+              accentColor="#D97706"
+              accentBgColor="#FEF3C7"
+              adSlot="bq-loading"
+              messages={[
+                "부자 잠재력 측정 중...",
+                "소비 습관 분석 중...",
+                "투자 성향 판별 중...",
+                "경제 지식 레벨 계산 중...",
+                "부자 지수(BQ) 산출 중...",
+              ]}
+            />
           </div>
         )}
 

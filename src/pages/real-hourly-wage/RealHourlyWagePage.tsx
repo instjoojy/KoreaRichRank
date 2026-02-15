@@ -1,4 +1,5 @@
-import { useState, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
+import AnalyzingLoader from "../../components/AnalyzingLoader";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import {
   Clock,
@@ -184,6 +185,7 @@ export default function RealHourlyWagePage() {
     prepHours: "",
   });
   const [showResult, setShowResult] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
   const handleChange = (key: keyof Inputs, value: string) => {
@@ -211,11 +213,21 @@ export default function RealHourlyWagePage() {
 
   const handleCalculate = () => {
     if (!inputs.monthlySalary || !inputs.regularHours) return;
-    setShowResult(true);
-    setTimeout(() => {
-      document.getElementById("result-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 100);
+    setIsLoading(true);
+    setShowResult(false);
   };
+
+  useEffect(() => {
+    if (!isLoading) return;
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+      setShowResult(true);
+      setTimeout(() => {
+        document.getElementById("result-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }, 3500);
+    return () => clearTimeout(timer);
+  }, [isLoading]);
 
   const handleReset = () => {
     setInputs({
@@ -368,6 +380,24 @@ export default function RealHourlyWagePage() {
             <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5" />
           </button>
         </section>
+
+        {/* ── 로딩 ─────────────────────────────────────── */}
+        {isLoading && (
+          <div className="mt-8">
+            <AnalyzingLoader
+              accentColor="#F43F5E"
+              accentBgColor="#FFE4E6"
+              adSlot="wage-loading"
+              messages={[
+                "급여 데이터 분석 중...",
+                "숨은 근무시간 계산 중...",
+                "진짜 시급 환산 중...",
+                "최저임금 대비 비교 중...",
+                "워라밸 지수 측정 중...",
+              ]}
+            />
+          </div>
+        )}
 
         {/* ── 결과 ─────────────────────────────────────── */}
         {result && (() => {

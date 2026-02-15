@@ -1,4 +1,5 @@
-import { useState, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
+import AnalyzingLoader from "../../components/AnalyzingLoader";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import {
   Flame,
@@ -263,6 +264,7 @@ export default function FireCalculatorPage() {
     expectedReturn: "",
   });
   const [showResult, setShowResult] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
   const handleChange = (key: keyof Inputs, value: string) => {
@@ -287,13 +289,23 @@ export default function FireCalculatorPage() {
 
   const handleCalculate = () => {
     if (!inputs.currentAge || !inputs.monthlyExpenses) return;
-    setShowResult(true);
-    setTimeout(() => {
-      document
-        .getElementById("result-section")
-        ?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 100);
+    setIsLoading(true);
+    setShowResult(false);
   };
+
+  useEffect(() => {
+    if (!isLoading) return;
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+      setShowResult(true);
+      setTimeout(() => {
+        document
+          .getElementById("result-section")
+          ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }, 3500);
+    return () => clearTimeout(timer);
+  }, [isLoading]);
 
   const handleReset = () => {
     setInputs({
@@ -436,6 +448,24 @@ export default function FireCalculatorPage() {
             <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5" />
           </button>
         </section>
+
+        {/* ── 로딩 ─────────────────────────────────────── */}
+        {isLoading && (
+          <div className="mt-8">
+            <AnalyzingLoader
+              accentColor="#10B981"
+              accentBgColor="#D1FAE5"
+              adSlot="fire-loading"
+              messages={[
+                "FIRE 목표 금액 산출 중...",
+                "복리 수익 시뮬레이션 중...",
+                "은퇴 시점 계산 중...",
+                "저축률 분석 중...",
+                "경제적 자유 지수 측정 중...",
+              ]}
+            />
+          </div>
+        )}
 
         {/* ── 결과 ─────────────────────────────────────── */}
         {result &&
