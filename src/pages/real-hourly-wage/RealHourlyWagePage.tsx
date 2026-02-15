@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 import AnalyzingLoader from "../../components/AnalyzingLoader";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import {
@@ -178,6 +179,7 @@ function formatNumber(n: number): string {
 }
 
 export default function RealHourlyWagePage() {
+  const [searchParams] = useSearchParams();
   const [inputs, setInputs] = useState<Inputs>({
     monthlySalary: "",
     regularHours: "",
@@ -189,6 +191,28 @@ export default function RealHourlyWagePage() {
   const [showResult, setShowResult] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+
+  // ── URL 파라미터 자동 계산 ─────────────────────────────────
+  const hasAutoCalced = useRef(false);
+  useEffect(() => {
+    if (hasAutoCalced.current) return;
+    const urlSalary = searchParams.get("salary");
+    const urlHours = searchParams.get("hours");
+    if (!urlSalary || !urlHours) return;
+    hasAutoCalced.current = true;
+
+    const newInputs: Inputs = {
+      monthlySalary: Number(urlSalary),
+      regularHours: Number(urlHours),
+      commuteHours: Number(searchParams.get("commute") || 0),
+      overtimeHours: Number(searchParams.get("overtime") || 0),
+      afterWorkMinutes: Number(searchParams.get("afterwork") || 0),
+      prepHours: Number(searchParams.get("prep") || 0),
+    };
+    setInputs(newInputs);
+    setIsLoading(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleChange = (key: keyof Inputs, value: string) => {
     setInputs((prev) => ({
@@ -408,6 +432,7 @@ export default function RealHourlyWagePage() {
           const wageDropPct = Math.round(
             ((result.officialHourlyWage - result.realHourlyWage) / result.officialHourlyWage) * 100
           );
+          const sharePath = `/real-hourly-wage?salary=${inputs.monthlySalary}&hours=${inputs.regularHours}&commute=${inputs.commuteHours || 0}&overtime=${inputs.overtimeHours || 0}&afterwork=${inputs.afterWorkMinutes || 0}&prep=${inputs.prepHours || 0}`;
 
           return (
           <div id="result-section" className="mt-8 space-y-8">
@@ -739,7 +764,7 @@ export default function RealHourlyWagePage() {
                   shareKakao({
                     title: `${grade.emoji} 내 진짜 시급: ${formatNumber(result.realHourlyWage)}원!`,
                     description: `최저임금의 ${result.minWageRatio}% · 명목 시급에서 ${wageDropPct}% 하락\n당신도 부자연구소에서 분석받아보세요!`,
-                    path: "/real-hourly-wage",
+                    path: sharePath,
                     buttonText: "내 진짜 시급 계산해보기",
                   })
                 }
@@ -750,7 +775,7 @@ export default function RealHourlyWagePage() {
               </button>
               <button
                 onClick={() => {
-                  const text = `[나의 진짜 시급 테스트]\n${grade.emoji} ${grade.title}\n내 진짜 시급: ${formatNumber(result.realHourlyWage)}원 (최저임금의 ${result.minWageRatio}%)\n명목 시급에서 ${wageDropPct}% 하락...\n\n나도 테스트하기 ▸ https://www.korearichlab.com/real-hourly-wage`;
+                  const text = `[나의 진짜 시급 테스트]\n${grade.emoji} ${grade.title}\n내 진짜 시급: ${formatNumber(result.realHourlyWage)}원 (최저임금의 ${result.minWageRatio}%)\n명목 시급에서 ${wageDropPct}% 하락...\n\n나도 테스트하기 ▸ https://www.korearichlab.com${sharePath}`;
                   if (navigator.share) {
                     navigator.share({ title: "나의 진짜 시급 계산기", text }).catch(() => {});
                   } else {

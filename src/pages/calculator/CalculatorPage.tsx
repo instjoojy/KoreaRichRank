@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import { RefreshCw } from "lucide-react";
 import AnalyzingLoader from "../../components/AnalyzingLoader";
 import { Helmet } from "@dr.pogodin/react-helmet";
@@ -21,6 +22,8 @@ import CalculatorResult from "./components/CalculatorResult";
 import InsightsSection from "./components/InsightsSection";
 
 export default function CalculatorPage() {
+  const [searchParams] = useSearchParams();
+
   // ── 통계 데이터 로딩 ────────────────────────────────────────
   const [statsData, setStatsData] = useState<StatsData | null>(null);
   const [statsError, setStatsError] = useState<string | null>(null);
@@ -68,6 +71,39 @@ export default function CalculatorPage() {
   const [displayPct, setDisplayPct] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
+
+  // ── URL 파라미터 자동 계산 ─────────────────────────────────
+  const hasAutoCalced = useRef(false);
+  useEffect(() => {
+    if (!statsData || hasAutoCalced.current) return;
+    const urlAge = searchParams.get("age");
+    const urlAsset = searchParams.get("asset");
+    const urlIncome = searchParams.get("income");
+    if (!urlAge || !urlAsset || !urlIncome) return;
+    hasAutoCalced.current = true;
+
+    const ageNum = Number(urlAge);
+    const regionVal = searchParams.get("region") || "national";
+    const assetNum = Number(urlAsset);
+    const incomeNum = Number(urlIncome);
+
+    setAge(ageNum);
+    setRegion(regionVal);
+    setAssetEok(Math.floor(assetNum / 10000));
+    setAssetMan(assetNum % 10000);
+    setIncomeMan(incomeNum);
+
+    setIsLoading(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(() => {
+      const res = calculatePercentile(
+        { age: ageNum, region: regionVal, netAsset: assetNum, income: incomeNum },
+        statsData
+      );
+      setResult(res);
+      setIsLoading(false);
+    }, 3500);
+  }, [statsData, searchParams]);
 
   // ── 카운트업 애니메이션 ────────────────────────────────────
   useEffect(() => {
@@ -248,6 +284,7 @@ export default function CalculatorPage() {
                 analysis={analysis}
                 chartData={chartData}
                 userBin={userBin}
+                sharePath={`/calculator?age=${age === "" ? 20 : age}&region=${region}&asset=${netAsset}&income=${incomeMan}`}
               />
             )}
           </>

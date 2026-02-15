@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import AnalyzingLoader from "../../components/AnalyzingLoader";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import {
@@ -34,11 +34,22 @@ const slideVariants = {
 };
 
 export default function BqTestPage() {
+  const [searchParams] = useSearchParams();
   const [step, setStep] = useState<"intro" | "quiz" | "loading" | "result">("intro");
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [direction, setDirection] = useState(1);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+
+  // ── URL 파라미터로 결과 복원 ──────────────────────────────
+  useEffect(() => {
+    const urlAnswers = searchParams.get("answers");
+    if (!urlAnswers) return;
+    const parsed = urlAnswers.split(",").map(Number);
+    if (parsed.length !== questions.length || parsed.some(isNaN)) return;
+    setAnswers(parsed);
+    setStep("result");
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const totalScore = answers.reduce((a, b) => a + b, 0);
   const result = step === "result" ? getBqResult(totalScore) : null;
@@ -390,7 +401,7 @@ export default function BqTestPage() {
                   shareKakao({
                     title: `${result.emoji} 나의 부자 지수(BQ): ${totalScore}/40점!`,
                     description: `등급: ${result.grade} ${result.title}\n${result.message}\n당신도 부자연구소에서 분석받아보세요!`,
-                    path: "/bq-test",
+                    path: `/bq-test?answers=${answers.join(",")}`,
                     buttonText: "내 부자 등급도 확인하기",
                   })
                 }
@@ -401,7 +412,7 @@ export default function BqTestPage() {
               </button>
               <button
                 onClick={() => {
-                  const text = `[부자 지수(BQ) 테스트]\n${result.emoji} ${result.title} (${totalScore}/40점)\n${result.message}\n\n나도 테스트하기 ▸ https://www.korearichlab.com/bq-test`;
+                  const text = `[부자 지수(BQ) 테스트]\n${result.emoji} ${result.title} (${totalScore}/40점)\n${result.message}\n\n나도 테스트하기 ▸ https://www.korearichlab.com/bq-test?answers=${answers.join(",")}`;
                   if (navigator.share) {
                     navigator.share({ title: "부자 지수(BQ) 테스트", text }).catch(() => {});
                   } else {

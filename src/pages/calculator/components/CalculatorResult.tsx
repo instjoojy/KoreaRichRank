@@ -32,10 +32,11 @@ interface CalculatorResultProps {
   analysis: Analysis;
   chartData: { range: string; percent: number; upper: number; isUser: boolean }[];
   userBin: number;
+  sharePath: string;
 }
 
 const CalculatorResult = forwardRef<HTMLDivElement, CalculatorResultProps>(
-  function CalculatorResult({ result, displayPct, analysis, chartData, userBin }, ref) {
+  function CalculatorResult({ result, displayPct, analysis, chartData, userBin, sharePath }, ref) {
     const AnalysisIcon = analysis.icon;
 
     return (
@@ -184,7 +185,7 @@ const CalculatorResult = forwardRef<HTMLDivElement, CalculatorResultProps>(
               shareKakao({
                 title: `🏆 나는 대한민국 자산 상위 ${displayPct}%!`,
                 description: `${result.ageGroup} 기준 상위 ${result.assetPercentileByAge}% · 전국 소득 상위 ${result.incomePercentile}%\n당신도 부자연구소에서 분석받아보세요!`,
-                path: "/calculator",
+                path: sharePath,
                 buttonText: "내 자산 순위도 확인하기",
               })
             }
@@ -195,7 +196,7 @@ const CalculatorResult = forwardRef<HTMLDivElement, CalculatorResultProps>(
           </button>
           <button
             onClick={() => {
-              const text = `[대한민국 자산 상위 % 테스트]\n🏆 나는 전국 자산 상위 ${displayPct}%!\n${result.ageGroup} 기준 상위 ${result.assetPercentileByAge}%\n\n나도 테스트하기 ▸ https://www.korearichlab.com/calculator`;
+              const text = `[대한민국 자산 상위 % 테스트]\n🏆 나는 전국 자산 상위 ${displayPct}%!\n${result.ageGroup} 기준 상위 ${result.assetPercentileByAge}%\n\n나도 테스트하기 ▸ https://www.korearichlab.com${sharePath}`;
               if (navigator.share) {
                 navigator.share({ title: "자산 상위 % 계산기", text }).catch(() => {});
               } else {

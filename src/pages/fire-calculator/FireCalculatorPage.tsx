@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 import AnalyzingLoader from "../../components/AnalyzingLoader";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import {
@@ -258,6 +259,7 @@ function formatWon(man: number): string {
 
 /* ── 메인 컴포넌트 ────────────────────────────── */
 export default function FireCalculatorPage() {
+  const [searchParams] = useSearchParams();
   const [inputs, setInputs] = useState<Inputs>({
     currentAge: "",
     totalAssets: "",
@@ -268,6 +270,26 @@ export default function FireCalculatorPage() {
   const [showResult, setShowResult] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+
+  // ── URL 파라미터 자동 계산 ─────────────────────────────────
+  const hasAutoCalced = useRef(false);
+  useEffect(() => {
+    if (hasAutoCalced.current) return;
+    const urlAge = searchParams.get("age");
+    const urlExpense = searchParams.get("expense");
+    if (!urlAge || !urlExpense) return;
+    hasAutoCalced.current = true;
+
+    setInputs({
+      currentAge: Number(urlAge),
+      totalAssets: Number(searchParams.get("assets") || 0),
+      monthlyExpenses: Number(urlExpense),
+      monthlySavings: Number(searchParams.get("saving") || 0),
+      expectedReturn: Number(searchParams.get("return") || 0),
+    });
+    setIsLoading(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleChange = (key: keyof Inputs, value: string) => {
     setInputs((prev) => ({
@@ -474,6 +496,7 @@ export default function FireCalculatorPage() {
         {result &&
           (() => {
             const grade = getGrade(result);
+            const sharePath = `/fire-calculator?age=${inputs.currentAge}&assets=${inputs.totalAssets || 0}&expense=${inputs.monthlyExpenses}&saving=${inputs.monthlySavings || 0}&return=${inputs.expectedReturn || 0}`;
 
             return (
               <div id="result-section" className="mt-8 space-y-8">
@@ -846,7 +869,7 @@ export default function FireCalculatorPage() {
                         description: result.reachable
                           ? `목표 금액: ${formatWon(result.fireNumber)}원 · 달성률: ${result.progressPercent}%\n당신도 부자연구소에서 분석받아보세요!`
                           : `현재 조건으로는 FIRE 달성이 어렵습니다.\n당신도 부자연구소에서 분석받아보세요!`,
-                        path: "/fire-calculator",
+                        path: sharePath,
                         buttonText: "내 은퇴 나이도 계산해보기",
                       })
                     }
@@ -858,8 +881,8 @@ export default function FireCalculatorPage() {
                   <button
                     onClick={() => {
                       const text = result.reachable
-                        ? `[FIRE 지수 테스트]\n${grade.emoji} ${grade.title}\nFIRE 예상 나이: ${result.fireAge}세 (${result.fireYear}년 ${result.fireMonth}월)\n목표 금액: ${formatWon(result.fireNumber)}원 | 달성률: ${result.progressPercent}%\n\n나도 테스트하기 ▸ https://www.korearichlab.com/fire-calculator`
-                        : `[FIRE 지수 테스트]\n${grade.emoji} ${grade.title}\n현재 조건으로는 FIRE 달성이 어렵습니다.\n\n나도 테스트하기 ▸ https://www.korearichlab.com/fire-calculator`;
+                        ? `[FIRE 지수 테스트]\n${grade.emoji} ${grade.title}\nFIRE 예상 나이: ${result.fireAge}세 (${result.fireYear}년 ${result.fireMonth}월)\n목표 금액: ${formatWon(result.fireNumber)}원 | 달성률: ${result.progressPercent}%\n\n나도 테스트하기 ▸ https://www.korearichlab.com${sharePath}`
+                        : `[FIRE 지수 테스트]\n${grade.emoji} ${grade.title}\n현재 조건으로는 FIRE 달성이 어렵습니다.\n\n나도 테스트하기 ▸ https://www.korearichlab.com${sharePath}`;
                       if (navigator.share) {
                         navigator.share({ title: "FIRE 지수 계산기", text }).catch(() => {});
                       } else {
