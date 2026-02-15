@@ -1,12 +1,7 @@
-import { useState, useEffect, useRef, useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useState, useEffect, useMemo } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { RefreshCw } from "lucide-react";
-import AnalyzingLoader from "../../components/AnalyzingLoader";
 import { Helmet } from "@dr.pogodin/react-helmet";
-import {
-  calculatePercentile,
-  type CalculatorResult as CalcResult,
-} from "../../utils/calculator";
 import type { StatsData } from "../../data/types";
 import {
   ASSET_STOPS,
@@ -14,18 +9,23 @@ import {
   stopsToValue,
   valueToStops,
 } from "../../utils/sliderStops";
-import { getUserBin } from "./utils/distribution";
-import { DISTRIBUTION } from "./utils/distribution";
-import { getAnalysis } from "./utils/analysis";
 import CalculatorForm from "./components/CalculatorForm";
-import CalculatorResult from "./components/CalculatorResult";
-import SharedResultBanner from "../../components/SharedResultBanner";
 import InsightsSection from "./components/InsightsSection";
 
 export default function CalculatorPage() {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
-  // ── 통계 데이터 로딩 ────────────────────────────────────────
+  // ── 기존 공유 URL 리다이렉트 ─────────────────────────────
+  useEffect(() => {
+    const urlAge = searchParams.get("age");
+    const urlAsset = searchParams.get("asset");
+    if (urlAge && urlAsset) {
+      navigate(`/calculator/result?${searchParams.toString()}`, { replace: true });
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ── 통계 데이터 로딩 ────────────────────────────────────
   const [statsData, setStatsData] = useState<StatsData | null>(null);
   const [statsError, setStatsError] = useState<string | null>(null);
 
@@ -67,93 +67,17 @@ export default function CalculatorPage() {
   const assetSliderPos = valueToStops(netAsset, ASSET_STOPS);
   const incomeSliderPos = valueToStops(incomeMan, INCOME_STOPS);
 
-  // ── 결과 상태 ──────────────────────────────────────────────
-  const [result, setResult] = useState<CalcResult | null>(null);
-  const [displayPct, setDisplayPct] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const resultRef = useRef<HTMLDivElement>(null);
-
-  // ── URL 파라미터 자동 계산 ─────────────────────────────────
-  const hasAutoCalced = useRef(false);
-  useEffect(() => {
-    if (!statsData || hasAutoCalced.current) return;
-    const urlAge = searchParams.get("age");
-    const urlAsset = searchParams.get("asset");
-    const urlIncome = searchParams.get("income");
-    if (!urlAge || !urlAsset || !urlIncome) return;
-    hasAutoCalced.current = true;
-
-    const ageNum = Number(urlAge);
-    const regionVal = searchParams.get("region") || "national";
-    const assetNum = Number(urlAsset);
-    const incomeNum = Number(urlIncome);
-
-    setAge(ageNum);
-    setRegion(regionVal);
-    setAssetEok(Math.floor(assetNum / 10000));
-    setAssetMan(assetNum % 10000);
-    setIncomeMan(incomeNum);
-
-    const isSharedVisit = searchParams.get("shared") === "true";
-    if (isSharedVisit) {
-      const res = calculatePercentile(
-        { age: ageNum, region: regionVal, netAsset: assetNum, income: incomeNum },
-        statsData
-      );
-      setResult(res);
-    } else {
-      setIsLoading(true);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      setTimeout(() => {
-        const res = calculatePercentile(
-          { age: ageNum, region: regionVal, netAsset: assetNum, income: incomeNum },
-          statsData
-        );
-        setResult(res);
-        setIsLoading(false);
-      }, 3500);
-    }
-  }, [statsData, searchParams]);
-
-  // ── 카운트업 애니메이션 ────────────────────────────────────
-  useEffect(() => {
-    if (!result) return;
-    const target = result.assetPercentileByAge;
-    const duration = 1200;
-    const start = performance.now();
-
-    function tick(now: number) {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setDisplayPct(
-        Math.round((100 - (100 - target) * eased) * 10) / 10
-      );
-      if (progress < 1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  }, [result]);
-
-  // ── 계산 핸들러 ────────────────────────────────────────────
+  // ── 계산 핸들러 → 결과 페이지로 이동 ──────────────────────
   function handleCalculate() {
     if (!statsData) return;
-    setIsLoading(true);
-    setResult(null);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-
     const ageNum = age === "" ? 20 : age;
-
-    setTimeout(() => {
-      const res = calculatePercentile(
-        { age: ageNum, region, netAsset, income: incomeMan },
-        statsData
-      );
-      setResult(res);
-      setIsLoading(false);
-      setTimeout(() => {
-        resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 100);
-    }, 3500);
+    const params = new URLSearchParams({
+      age: String(ageNum),
+      region,
+      asset: String(netAsset),
+      income: String(incomeMan),
+    });
+    navigate(`/calculator/result?${params.toString()}`);
   }
 
   // ── 슬라이더 핸들러 ───────────────────────────────────────
@@ -166,17 +90,6 @@ export default function CalculatorPage() {
   function handleIncomeSlider(pos: number) {
     setIncomeMan(stopsToValue(pos, INCOME_STOPS));
   }
-
-  // ── 차트 데이터 ────────────────────────────────────────────
-  const userBin = getUserBin(netAsset);
-  const chartData = DISTRIBUTION.map((d, i) => ({
-    ...d,
-    isUser: result ? i === userBin : false,
-  }));
-
-  // ── 분석 데이터 ────────────────────────────────────────────
-  const analysis = result ? getAnalysis(result.assetPercentileByAge) : null;
-  const isShared = searchParams.get("shared") === "true";
 
   // ── 통계 데이터 로딩/에러 ─────────────────────────────────
   if (statsError) {
@@ -217,14 +130,14 @@ export default function CalculatorPage() {
         <title>내 자산 상위 몇 %? 2026 자산순위 계산기 | 대한민국 부자연구소</title>
         <meta name="description" content="2026년 통계청 가계금융복지조사 기반, 내 순자산은 전국 상위 몇 퍼센트일까? 나이·지역·소득별 자산 백분위를 무료로 확인하세요." />
         <link rel="canonical" href="https://korearichlab.com/calculator" />
-        <meta property="og:title" content={`대한민국 자산 상위 ${result ? displayPct : '?'}% | 대한민국 부자연구소`} />
+        <meta property="og:title" content="대한민국 자산 상위 % 계산기 | 대한민국 부자연구소" />
         <meta property="og:description" content="2026년 통계청 기반, 내 자산은 전국 상위 몇 %? 나이·지역·소득별 백분위를 무료로 확인하세요." />
         <meta property="og:image" content="https://korearichlab.com/og-image.jpg" />
         <meta property="og:url" content="https://korearichlab.com/calculator" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="대한민국 부자연구소" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`대한민국 자산 상위 ${result ? displayPct : '?'}% | 대한민국 부자연구소`} />
+        <meta name="twitter:title" content="대한민국 자산 상위 % 계산기 | 대한민국 부자연구소" />
         <meta name="twitter:description" content="2026년 통계청 기반, 내 자산은 전국 상위 몇 %? 나이·지역·소득별 백분위를 무료로 확인하세요." />
         <meta name="twitter:image" content="https://korearichlab.com/og-image.jpg" />
       </Helmet>
@@ -252,63 +165,25 @@ export default function CalculatorPage() {
       </header>
 
       <div className="max-w-[600px] mx-auto px-5 pb-20 -mt-8 relative z-10">
-        {isLoading ? (
-          <AnalyzingLoader
-            accentColor="#6366F1"
-            accentBgColor="#E0E7FF"
-            adSlot="asset-loading"
-            messages={[
-              "자산 데이터 매칭 중...",
-              "전국 가구와 비교 분석 중...",
-              "상위 % 계산 중...",
-              "연령대별 순위 산출 중...",
-              "지역별 자산 분포 대조 중...",
-            ]}
-          />
-        ) : (
-          <>
-            <CalculatorForm
-              age={age}
-              region={region}
-              assetEok={assetEok}
-              assetMan={assetMan}
-              incomeMan={incomeMan}
-              netAsset={netAsset}
-              assetSliderPos={assetSliderPos}
-              incomeSliderPos={incomeSliderPos}
-              regionOptions={REGION_OPTIONS}
-              onAgeChange={setAge}
-              onRegionChange={setRegion}
-              onAssetSlider={handleAssetSlider}
-              onAssetEokChange={setAssetEok}
-              onAssetManChange={setAssetMan}
-              onIncomeSlider={handleIncomeSlider}
-              onIncomeManChange={setIncomeMan}
-              onCalculate={handleCalculate}
-            />
-
-            {result && analysis && (
-              <>
-                {isShared && (
-                  <SharedResultBanner
-                    calculatorPath="/calculator"
-                    accentColor="#6366F1"
-                    ctaText="나도 자산 순위 확인하기"
-                  />
-                )}
-                <CalculatorResult
-                  ref={resultRef}
-                  result={result}
-                  displayPct={displayPct}
-                  analysis={analysis}
-                  chartData={chartData}
-                  userBin={userBin}
-                  sharePath={`/calculator?age=${age === "" ? 20 : age}&region=${region}&asset=${netAsset}&income=${incomeMan}`}
-                />
-              </>
-            )}
-          </>
-        )}
+        <CalculatorForm
+          age={age}
+          region={region}
+          assetEok={assetEok}
+          assetMan={assetMan}
+          incomeMan={incomeMan}
+          netAsset={netAsset}
+          assetSliderPos={assetSliderPos}
+          incomeSliderPos={incomeSliderPos}
+          regionOptions={REGION_OPTIONS}
+          onAgeChange={setAge}
+          onRegionChange={setRegion}
+          onAssetSlider={handleAssetSlider}
+          onAssetEokChange={setAssetEok}
+          onAssetManChange={setAssetMan}
+          onIncomeSlider={handleIncomeSlider}
+          onIncomeManChange={setIncomeMan}
+          onCalculate={handleCalculate}
+        />
       </div>
 
       {/* ── 연구소의 비밀 노트 ──────────────────────────────── */}
