@@ -23,6 +23,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, bgColor 
       className="rounded-3xl border border-gray-100 overflow-hidden shadow-sm transition-all duration-200 hover:shadow-lg"
       style={{ backgroundColor: bgColor || '#ffffff' }}
     >
+      <h3 className="m-0">
       <button
         className="flex justify-between items-center w-full px-6 py-5 text-left font-bold text-base text-navy hover:text-indigo transition-colors duration-200 cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
@@ -35,6 +36,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, bgColor 
           }`}
         />
       </button>
+      </h3>
       <div
         className="overflow-hidden transition-all duration-300 ease-out"
         style={{ maxHeight: isOpen ? `${height}px` : '0px' }}

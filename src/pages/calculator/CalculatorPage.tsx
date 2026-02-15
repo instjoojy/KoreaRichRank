@@ -166,18 +166,19 @@ export default function CalculatorPage() {
   return (
     <>
       <Helmet>
-        <title>대한민국 자산 상위 % 계산기 | 부자연구소</title>
-        <meta name="description" content="2026년 최신 통계청 자료 기반, 내 자산은 대한민국 상위 몇 %일까? 나의 경제적 위치를 확인하고 맞춤형 금융 정보를 얻으세요." />
-        <meta property="og:title" content={`대한민국 자산 상위 ${result ? displayPct : ''}% | 부자연구소`} />
-        <meta property="og:description" content="2026년 최신 통계청 자료 기반, 내 자산은 대한민국 상위 몇 %일까? 나의 경제적 위치를 확인하고 맞춤형 금융 정보를 얻으세요." />
-        <meta property="og:image" content={`${window.location.origin}/og-image.jpg`} />
-        <meta property="og:url" content={window.location.origin} />
+        <title>내 자산 상위 몇 %? 2026 자산순위 계산기 | 대한민국 부자연구소</title>
+        <meta name="description" content="2026년 통계청 가계금융복지조사 기반, 내 순자산은 전국 상위 몇 퍼센트일까? 나이·지역·소득별 자산 백분위를 무료로 확인하세요." />
+        <link rel="canonical" href="https://korearichlab.com/calculator" />
+        <meta property="og:title" content={`대한민국 자산 상위 ${result ? displayPct : '?'}% | 대한민국 부자연구소`} />
+        <meta property="og:description" content="2026년 통계청 기반, 내 자산은 전국 상위 몇 %? 나이·지역·소득별 백분위를 무료로 확인하세요." />
+        <meta property="og:image" content="https://korearichlab.com/og-image.jpg" />
+        <meta property="og:url" content="https://korearichlab.com/calculator" />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="부자연구소" />
+        <meta property="og:site_name" content="대한민국 부자연구소" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`대한민국 자산 상위 ${result ? displayPct : ''}% | 부자연구소`} />
-        <meta name="twitter:description" content="2026년 최신 통계청 자료 기반, 내 자산은 대한민국 상위 몇 %일까? 나의 경제적 위치를 확인하고 맞춤형 금융 정보를 얻으세요." />
-        <meta name="twitter:image" content={`${window.location.origin}/og-image.jpg`} />
+        <meta name="twitter:title" content={`대한민국 자산 상위 ${result ? displayPct : '?'}% | 대한민국 부자연구소`} />
+        <meta name="twitter:description" content="2026년 통계청 기반, 내 자산은 전국 상위 몇 %? 나이·지역·소득별 백분위를 무료로 확인하세요." />
+        <meta name="twitter:image" content="https://korearichlab.com/og-image.jpg" />
       </Helmet>
 
       {/* ── 상단 광고 ─────────────────────────────────────── */}
@@ -186,7 +187,7 @@ export default function CalculatorPage() {
       {/* ── 히어로 헤더 ───────────────────────────────────── */}
       <header className="bg-gradient-to-b from-indigo to-indigo-dark">
         <div className="max-w-[600px] mx-auto px-6 py-16 sm:py-20 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-white/10 rounded-3xl mb-6 animate-float text-4xl">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-white/10 rounded-3xl mb-6 animate-float text-4xl" role="img" aria-label="자산 순위 트로피 아이콘">
             🏆
           </div>
           <h1 className="text-[32px] sm:text-[40px] font-black tracking-tight leading-tight text-white">

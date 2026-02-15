@@ -6,7 +6,9 @@ export default function NotFoundPage() {
   return (
     <>
       <Helmet>
-        <title>페이지를 찾을 수 없습니다 | 부자연구소</title>
+        <title>페이지를 찾을 수 없습니다 | 대한민국 부자연구소</title>
+        <meta name="description" content="요청하신 페이지가 존재하지 않거나 이동되었습니다. 대한민국 부자연구소 홈으로 이동해주세요." />
+        <meta name="robots" content="noindex" />
       </Helmet>
       <div className="min-h-[70vh] flex items-center justify-center px-4">
         <div className="text-center">

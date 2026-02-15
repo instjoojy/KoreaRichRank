@@ -309,20 +309,23 @@ export default function FireCalculatorPage() {
   return (
     <>
       <Helmet>
-        <title>파이어(FIRE) 지수 계산기 | 부자연구소</title>
+        <title>FIRE 조기 은퇴 계산기 — 나는 몇 살에 은퇴할 수 있을까? | 대한민국 부자연구소</title>
         <meta
           name="description"
-          content="나는 몇 살에 은퇴할 수 있을까? 4% 룰 기반 FIRE(경제적 자립 조기 은퇴) 시뮬레이션으로 나의 은퇴 시점을 계산해보세요."
+          content="4% 룰 기반 FIRE(경제적 자립 조기 은퇴) 시뮬레이션. 현재 자산·저축·소비 습관을 입력하면 은퇴 가능 시점을 월 단위로 계산해드립니다."
         />
+        <link rel="canonical" href="https://korearichlab.com/fire-calculator" />
         <meta
           property="og:title"
-          content="파이어(FIRE) 지수 계산기 | 부자연구소"
+          content="FIRE 조기 은퇴 계산기 | 대한민국 부자연구소"
         />
         <meta
           property="og:description"
-          content="나는 몇 살에 은퇴할 수 있을까? 4% 룰 기반 FIRE 시뮬레이션."
+          content="나는 몇 살에 은퇴할 수 있을까? 4% 룰 기반 FIRE 시뮬레이션으로 은퇴 시점을 계산하세요."
         />
         <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://korearichlab.com/fire-calculator" />
+        <meta property="og:site_name" content="대한민국 부자연구소" />
       </Helmet>
 
       {/* ── 히어로 ─────────────────────────────────────── */}

@@ -74,11 +74,17 @@ export default function BqTestPage() {
   return (
     <>
       <Helmet>
-        <title>부자 지수(BQ) 테스트 | 부자연구소</title>
+        <title>부자 지수(BQ) 테스트 — 나의 부자 잠재력 점수는? | 대한민국 부자연구소</title>
         <meta
           name="description"
-          content="나의 부자 잠재력은 몇 점? 소비, 투자, 경제 지식 10문항으로 알아보는 BQ(부자 지수) 테스트."
+          content="소비 습관, 투자 성향, 경제 지식 10문항으로 측정하는 부자 지수(BQ) 테스트. 나는 부자가 될 떡잎일까? 무료로 진단해보세요."
         />
+        <link rel="canonical" href="https://korearichlab.com/bq-test" />
+        <meta property="og:title" content="부자 지수(BQ) 테스트 | 대한민국 부자연구소" />
+        <meta property="og:description" content="소비·투자·경제 지식 10문항으로 측정하는 부자 잠재력 점수. 무료 BQ 테스트." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://korearichlab.com/bq-test" />
+        <meta property="og:site_name" content="대한민국 부자연구소" />
       </Helmet>
 
       {/* ── 히어로 헤더 ───────────────────────────────────── */}

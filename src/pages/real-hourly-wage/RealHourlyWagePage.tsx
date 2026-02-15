@@ -232,14 +232,17 @@ export default function RealHourlyWagePage() {
   return (
     <>
       <Helmet>
-        <title>나의 진짜 시급 계산기 | 부자연구소</title>
+        <title>나의 진짜 시급 계산기 — 숨겨진 근무시간 포함 실제 시급 | 대한민국 부자연구소</title>
         <meta
           name="description"
-          content="출퇴근, 야근, 업무 연락까지 포함한 나의 진짜 시급은? 2026 최저임금 대비 내 실제 시급을 계산해보세요."
+          content="출퇴근·야근·업무 연락 시간까지 반영한 진짜 시급은 얼마일까? 2026년 최저임금 10,030원 대비 내 실제 시급을 무료로 계산해보세요."
         />
-        <meta property="og:title" content="나의 진짜 시급 계산기 | 부자연구소" />
-        <meta property="og:description" content="출퇴근, 야근, 업무 연락까지 포함한 나의 진짜 시급은?" />
+        <link rel="canonical" href="https://korearichlab.com/real-hourly-wage" />
+        <meta property="og:title" content="나의 진짜 시급 계산기 | 대한민국 부자연구소" />
+        <meta property="og:description" content="출퇴근·야근·업무 연락까지 포함한 실제 시급을 계산해보세요. 2026 최저임금 대비 분석." />
         <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://korearichlab.com/real-hourly-wage" />
+        <meta property="og:site_name" content="대한민국 부자연구소" />
       </Helmet>
 
       {/* ── 히어로 ─────────────────────────────────────── */}

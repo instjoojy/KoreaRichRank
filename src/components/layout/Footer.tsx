@@ -26,19 +26,17 @@ export default function Footer() {
         <div className="mt-8 h-px w-12 mx-auto bg-gray-200" />
 
         <p className="mt-6 text-[15px] font-bold text-navy/50 leading-relaxed">
-          "모든 부자는 처음에 궁금한 사람이었다" — 부자연구소
+          "모든 부자는 처음에 궁금한 사람이었다" — 대한민국 부자연구소
         </p>
 
         <div className="mt-6 flex flex-wrap justify-center gap-4 text-xs font-medium text-gray-300">
-          <span className="hover:text-gray-500 cursor-pointer transition-colors">개인정보처리방침</span>
+          <Link to="/privacy" className="hover:text-gray-500 transition-colors">개인정보처리방침</Link>
           <span className="text-gray-200">|</span>
-          <span className="hover:text-gray-500 cursor-pointer transition-colors">이용약관</span>
-          <span className="text-gray-200">|</span>
-          <span className="hover:text-gray-500 cursor-pointer transition-colors">문의하기</span>
+          <Link to="/terms" className="hover:text-gray-500 transition-colors">이용약관</Link>
         </div>
 
         <p className="mt-5 text-base font-black text-navy/20 flex items-center justify-center gap-1.5">
-          <span>🧪</span> 부자연구소 Rich Lab
+          <span role="img" aria-label="부자연구소 로고">🧪</span> 대한민국 부자연구소
         </p>
       </div>
     </footer>

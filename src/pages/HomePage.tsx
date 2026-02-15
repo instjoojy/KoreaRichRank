@@ -6,22 +6,24 @@ export default function HomePage() {
   return (
     <>
       <Helmet>
-        <title>부자연구소 | 대한민국 금융 실험실</title>
-        <meta name="description" content="통계청 공식 데이터 기반 금융 분석 도구 모음. 자산 백분위 계산, 부자 지수 테스트, 진짜 시급 계산, FIRE 은퇴 시뮬레이션까지 무료로 사용하세요." />
-        <meta property="og:title" content="부자연구소 | 대한민국 금융 실험실" />
-        <meta property="og:description" content="통계청 공식 데이터 기반 금융 분석 도구 모음. 자산 백분위 계산, 부자 지수 테스트, 진짜 시급 계산, FIRE 은퇴 시뮬레이션까지." />
+        <title>대한민국 부자연구소 | 통계 기반 무료 금융 계산기 모음</title>
+        <meta name="description" content="2026 통계청 공식 데이터 기반 금융 분석 도구. 자산 상위 % 계산, 부자 지수(BQ) 테스트, 진짜 시급 계산기, FIRE 은퇴 시뮬레이션까지 무료로 이용하세요." />
+        <link rel="canonical" href="https://korearichlab.com/" />
+        <meta property="og:title" content="대한민국 부자연구소 | 통계 기반 무료 금융 계산기 모음" />
+        <meta property="og:description" content="2026 통계청 공식 데이터 기반 금융 분석 도구. 자산 상위 % 계산, 부자 지수 테스트, 진짜 시급 계산기, FIRE 은퇴 시뮬레이션까지 무료." />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="부자연구소" />
+        <meta property="og:url" content="https://korearichlab.com/" />
+        <meta property="og:site_name" content="대한민국 부자연구소" />
       </Helmet>
 
       {/* ── 히어로 ──────────────────────────────────────── */}
       <header className="bg-gradient-to-b from-indigo to-indigo-dark">
         <div className="max-w-[600px] mx-auto px-6 py-16 sm:py-20 text-center">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-white/10 rounded-[28px] mb-6 animate-float text-5xl">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-white/10 rounded-[28px] mb-6 animate-float text-5xl" role="img" aria-label="부자연구소 실험 플라스크 아이콘">
             🧪
           </div>
           <h1 className="text-[32px] sm:text-[40px] font-black tracking-tight leading-tight text-white">
-            부자연구소
+            대한민국 부자연구소
           </h1>
           <p className="mt-4 font-display text-2xl sm:text-3xl text-amber leading-snug">
             Rich Lab
