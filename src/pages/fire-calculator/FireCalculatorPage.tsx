@@ -293,6 +293,7 @@ export default function FireCalculatorPage() {
     if (!inputs.currentAge || !inputs.monthlyExpenses) return;
     setIsLoading(true);
     setShowResult(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   useEffect(() => {

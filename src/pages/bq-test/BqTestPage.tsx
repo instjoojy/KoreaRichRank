@@ -67,6 +67,7 @@ export default function BqTestPage() {
 
   useEffect(() => {
     if (step !== "loading") return;
+    window.scrollTo({ top: 0, behavior: "smooth" });
     const timer = setTimeout(() => setStep("result"), 3500);
     return () => clearTimeout(timer);
   }, [step]);

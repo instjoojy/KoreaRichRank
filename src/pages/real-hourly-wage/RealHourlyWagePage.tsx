@@ -217,6 +217,7 @@ export default function RealHourlyWagePage() {
     if (!inputs.monthlySalary || !inputs.regularHours) return;
     setIsLoading(true);
     setShowResult(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   useEffect(() => {

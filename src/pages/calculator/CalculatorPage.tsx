@@ -93,6 +93,7 @@ export default function CalculatorPage() {
     if (!statsData) return;
     setIsLoading(true);
     setResult(null);
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
     const ageNum = age === "" ? 20 : age;
 
