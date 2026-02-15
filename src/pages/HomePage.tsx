@@ -7,9 +7,9 @@ export default function HomePage() {
     <>
       <Helmet>
         <title>부자연구소 | 대한민국 금융 실험실</title>
-        <meta name="description" content="통계청 공식 데이터 기반 금융 분석 도구 모음. 자산 백분위 계산, 부자 지수 테스트, 진짜 시급 계산까지 무료로 사용하세요." />
+        <meta name="description" content="통계청 공식 데이터 기반 금융 분석 도구 모음. 자산 백분위 계산, 부자 지수 테스트, 진짜 시급 계산, FIRE 은퇴 시뮬레이션까지 무료로 사용하세요." />
         <meta property="og:title" content="부자연구소 | 대한민국 금융 실험실" />
-        <meta property="og:description" content="통계청 공식 데이터 기반 금융 분석 도구 모음. 자산 백분위 계산, 부자 지수 테스트, 진짜 시급 계산까지." />
+        <meta property="og:description" content="통계청 공식 데이터 기반 금융 분석 도구 모음. 자산 백분위 계산, 부자 지수 테스트, 진짜 시급 계산, FIRE 은퇴 시뮬레이션까지." />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="부자연구소" />
       </Helmet>

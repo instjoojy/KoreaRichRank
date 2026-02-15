@@ -1,4 +1,4 @@
-import { Calculator, Brain, Timer, type LucideIcon } from "lucide-react";
+import { Calculator, Brain, Timer, Flame, type LucideIcon } from "lucide-react";
 
 export interface Tool {
   id: string;
@@ -45,6 +45,17 @@ export const tools: Tool[] = [
     path: "/real-hourly-wage",
     icon: Timer,
     accentColor: "#F43F5E",
+    badge: "NEW",
+  },
+  {
+    id: "fire-calculator",
+    name: "파이어(FIRE) 지수 계산기",
+    navLabel: "은퇴계산",
+    description: "나는 몇 살에 은퇴할 수 있을까?",
+    emoji: "🔥",
+    path: "/fire-calculator",
+    icon: Flame,
+    accentColor: "#10B981",
     badge: "NEW",
   },
 ];
