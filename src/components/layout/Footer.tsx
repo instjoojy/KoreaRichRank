@@ -30,6 +30,8 @@ export default function Footer() {
         </p>
 
         <div className="mt-6 flex flex-wrap justify-center gap-4 text-xs font-medium text-gray-300">
+          <Link to="/about" className="hover:text-gray-500 transition-colors">연구소 소개</Link>
+          <span className="text-gray-200">|</span>
           <Link to="/privacy" className="hover:text-gray-500 transition-colors">개인정보처리방침</Link>
           <span className="text-gray-200">|</span>
           <Link to="/terms" className="hover:text-gray-500 transition-colors">이용약관</Link>

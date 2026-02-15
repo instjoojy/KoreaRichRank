@@ -68,6 +68,9 @@ export default function BqArticle() {
           </p>
         </AccordionItem>
       </div>
+      <p className="mt-8 text-xs font-medium text-gray-300 text-center leading-relaxed">
+        데이터 출처: Thomas J. Stanley &apos;The Millionaire Next Door&apos;, 2026년 통계청 가계금융복지조사 재구성
+      </p>
     </section>
   );
 }

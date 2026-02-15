@@ -65,6 +65,9 @@ export default function FireArticle() {
           </p>
         </AccordionItem>
       </div>
+      <p className="mt-8 text-xs font-medium text-gray-300 text-center leading-relaxed">
+        데이터 출처: Trinity Study(1998), 2026년 통계청 가계금융복지조사 및 한국은행 보도자료 재구성
+      </p>
     </section>
   );
 }

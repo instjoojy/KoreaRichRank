@@ -120,6 +120,9 @@ export default function InsightsSection() {
           </p>
         </AccordionItem>
       </div>
+      <p className="mt-8 text-xs font-medium text-gray-300 text-center leading-relaxed">
+        데이터 출처: 2026년 통계청·금융감독원·한국은행 &apos;가계금융복지조사&apos; 보도자료 재구성
+      </p>
     </section>
   );
 }

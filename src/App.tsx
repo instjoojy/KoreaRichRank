@@ -7,6 +7,7 @@ import RealHourlyWagePage from "./pages/real-hourly-wage/RealHourlyWagePage";
 import FireCalculatorPage from "./pages/fire-calculator/FireCalculatorPage";
 import TermsPage from "./pages/legal/TermsPage";
 import PrivacyPage from "./pages/legal/PrivacyPage";
+import AboutPage from "./pages/legal/AboutPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="fire-calculator" element={<FireCalculatorPage />} />
         <Route path="terms" element={<TermsPage />} />
         <Route path="privacy" element={<PrivacyPage />} />
+        <Route path="about" element={<AboutPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
