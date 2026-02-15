@@ -46,18 +46,18 @@ export default function CalculatorForm({
   onCalculate,
 }: CalculatorFormProps) {
   return (
-    <section className="bg-white rounded-3xl shadow-lg p-7 sm:p-10">
-      <h2 className="text-xl font-black text-navy mb-8 flex items-center gap-3">
-        <div className="flex items-center justify-center w-10 h-10 rounded-2xl bg-gold-50">
-          <Wallet className="w-5 h-5 text-gold-dark" />
+    <section className="bg-white rounded-3xl shadow-xl p-7 sm:p-10">
+      <h2 className="text-[32px] font-black text-navy mb-10 flex items-center gap-3">
+        <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-gold-50">
+          <Wallet className="w-6 h-6 text-gold-dark" />
         </div>
         내 정보 입력
       </h2>
 
       {/* 나이 + 지역 */}
-      <div className="grid grid-cols-2 gap-4 mb-8">
+      <div className="grid grid-cols-2 gap-5 mb-10">
         <div>
-          <label className="block text-sm font-bold text-navy mb-2.5">
+          <label className="block text-[15px] font-bold text-navy mb-3">
             나이
           </label>
           <input
@@ -75,18 +75,18 @@ export default function CalculatorForm({
               if (age === "") return;
               onAgeChange(Math.max(20, Math.min(99, age)));
             }}
-            className="w-full border border-gray-200 rounded-2xl px-4 py-3.5 text-lg font-bold text-navy bg-[#F9FAFB] placeholder:text-gray-300 placeholder:font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-all duration-200"
+            className="w-full border border-gray-200 rounded-2xl px-4 py-4 text-lg font-bold text-navy bg-[#F9FAFB] placeholder:text-gray-300 placeholder:font-medium transition-all duration-200"
           />
         </div>
         <div>
-          <label className="block text-sm font-bold text-navy mb-2.5 flex items-center gap-1.5">
+          <label className="block text-[15px] font-bold text-navy mb-3 flex items-center gap-1.5">
             <MapPin className="w-3.5 h-3.5 text-gray-400" />
             거주 지역
           </label>
           <select
             value={region}
             onChange={(e) => onRegionChange(e.target.value)}
-            className="w-full border border-gray-200 rounded-2xl px-4 py-3.5 text-lg font-bold text-navy bg-[#F9FAFB] focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-all duration-200 appearance-none cursor-pointer"
+            className="w-full border border-gray-200 rounded-2xl px-4 py-4 text-lg font-bold text-navy bg-[#F9FAFB] appearance-none cursor-pointer transition-all duration-200"
             style={{
               backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%239ca3af' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E")`,
               backgroundRepeat: "no-repeat",
@@ -102,11 +102,11 @@ export default function CalculatorForm({
         </div>
       </div>
 
-      <div className="h-px bg-gray-100 my-8" />
+      <div className="h-px bg-gray-100 my-10" />
 
       {/* 순자산 */}
-      <div className="mb-8">
-        <label className="block text-sm font-bold text-navy mb-2.5">
+      <div className="mb-10">
+        <label className="block text-[15px] font-bold text-navy mb-3">
           순자산 (자산 - 부채)
         </label>
         <div className="flex items-center gap-2.5 mb-4">
@@ -114,17 +114,17 @@ export default function CalculatorForm({
             type="number"
             value={assetEok}
             onChange={(e) => onAssetEokChange(Math.max(0, +e.target.value || 0))}
-            className="w-20 border border-gray-200 rounded-2xl px-3 py-3 text-center text-lg font-bold text-navy bg-[#F9FAFB] focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-all duration-200"
+            className="w-24 border border-gray-200 rounded-2xl px-3 py-3.5 text-center text-lg font-bold text-navy bg-[#F9FAFB] transition-all duration-200"
           />
-          <span className="text-gray-400 font-bold text-sm">억</span>
+          <span className="text-gray-400 font-bold text-[15px]">억</span>
           <input
             type="number"
             value={assetMan}
             step={100}
             onChange={(e) => onAssetManChange(Math.max(0, Math.min(9999, +e.target.value || 0)))}
-            className="w-28 border border-gray-200 rounded-2xl px-3 py-3 text-center text-lg font-bold text-navy bg-[#F9FAFB] focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-all duration-200"
+            className="w-32 border border-gray-200 rounded-2xl px-3 py-3.5 text-center text-lg font-bold text-navy bg-[#F9FAFB] transition-all duration-200"
           />
-          <span className="text-gray-400 font-bold text-sm">만원</span>
+          <span className="text-gray-400 font-bold text-[15px]">만원</span>
         </div>
         <input
           type="range"
@@ -133,7 +133,7 @@ export default function CalculatorForm({
           value={assetSliderPos}
           onChange={(e) => onAssetSlider(+e.target.value)}
         />
-        <div className="flex justify-between text-xs font-medium text-gray-400 mt-2">
+        <div className="flex justify-between text-sm font-medium text-gray-400 mt-2.5">
           <span>0원</span>
           <span className="font-bold text-navy bg-gold-50 px-3 py-1 rounded-full">{formatWon(netAsset)}</span>
           <span>100억+</span>
@@ -141,8 +141,8 @@ export default function CalculatorForm({
       </div>
 
       {/* 연봉 */}
-      <div className="mb-10">
-        <label className="block text-sm font-bold text-navy mb-2.5 flex items-center gap-1.5">
+      <div className="mb-12">
+        <label className="block text-[15px] font-bold text-navy mb-3 flex items-center gap-1.5">
           <Briefcase className="w-3.5 h-3.5 text-gray-400" />
           연봉 (세전)
         </label>
@@ -152,9 +152,9 @@ export default function CalculatorForm({
             value={incomeMan}
             step={100}
             onChange={(e) => onIncomeManChange(Math.max(0, +e.target.value || 0))}
-            className="w-32 border border-gray-200 rounded-2xl px-3 py-3 text-center text-lg font-bold text-navy bg-[#F9FAFB] focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-all duration-200"
+            className="w-36 border border-gray-200 rounded-2xl px-3 py-3.5 text-center text-lg font-bold text-navy bg-[#F9FAFB] transition-all duration-200"
           />
-          <span className="text-gray-400 font-bold text-sm">만원</span>
+          <span className="text-gray-400 font-bold text-[15px]">만원</span>
         </div>
         <input
           type="range"
@@ -163,17 +163,17 @@ export default function CalculatorForm({
           value={incomeSliderPos}
           onChange={(e) => onIncomeSlider(+e.target.value)}
         />
-        <div className="flex justify-between text-xs font-medium text-gray-400 mt-2">
+        <div className="flex justify-between text-sm font-medium text-gray-400 mt-2.5">
           <span>0원</span>
           <span className="font-bold text-navy bg-gold-50 px-3 py-1 rounded-full">{formatWon(incomeMan)}</span>
           <span>5억+</span>
         </div>
       </div>
 
-      {/* CTA 버튼 */}
+      {/* CTA 버튼 - 64px height, gold gradient */}
       <button
         onClick={onCalculate}
-        className="w-full group bg-gold hover:bg-gold-dark text-navy text-lg font-black py-4.5 rounded-2xl shadow-lg shadow-gold/25 transition-all duration-300 active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
+        className="w-full group bg-gradient-to-r from-[#FFE44D] to-gold hover:from-gold hover:to-gold-dark text-navy text-lg font-black h-16 rounded-2xl shadow-lg shadow-gold/25 transition-all duration-300 active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
       >
         내 순위 계산하기
         <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5" />

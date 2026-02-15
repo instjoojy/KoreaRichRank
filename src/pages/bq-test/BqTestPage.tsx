@@ -83,11 +83,11 @@ export default function BqTestPage() {
       {/* ── 히어로 헤더 ───────────────────────────────────── */}
       {step === "intro" && (
         <header className="bg-navy">
-          <div className="max-w-2xl mx-auto px-6 py-16 sm:py-20 text-center">
+          <div className="max-w-[600px] mx-auto px-6 py-16 sm:py-20 text-center">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-500/15 rounded-3xl mb-6 animate-float">
               <Brain className="w-8 h-8 text-purple-400" />
             </div>
-            <h1 className="text-4xl sm:text-5xl font-black tracking-tight leading-tight text-white">
+            <h1 className="text-[32px] sm:text-[40px] font-black tracking-tight leading-tight text-white">
               부자 지수(BQ) 테스트
             </h1>
             <p className="mt-5 text-lg sm:text-xl font-bold text-white/90 leading-relaxed">
@@ -107,7 +107,7 @@ export default function BqTestPage() {
       {/* ── 프로그레스 바 (퀴즈 중) ──────────────────────── */}
       {step === "quiz" && (
         <div className="bg-navy">
-          <div className="max-w-2xl mx-auto px-6 pt-8 pb-12">
+          <div className="max-w-[600px] mx-auto px-6 pt-8 pb-12">
             <div className="flex items-center justify-between mb-3">
               <span className="text-sm font-bold text-white/60">
                 {currentQ + 1} / {questions.length}
@@ -128,11 +128,11 @@ export default function BqTestPage() {
         </div>
       )}
 
-      <div className="max-w-2xl mx-auto px-4 pb-16 relative">
+      <div className="max-w-[600px] mx-auto px-4 pb-16 relative">
         {/* ═════════════ INTRO ═════════════ */}
         {step === "intro" && (
           <div className="-mt-8 relative z-10">
-            <section className="bg-white rounded-3xl shadow-lg p-7 sm:p-10 text-center">
+            <section className="bg-white rounded-3xl shadow-xl p-7 sm:p-10 text-center">
               <div className="space-y-4 mb-8">
                 {[
                   { emoji: "💳", label: "소비 습관", desc: "당신의 돈 쓰는 패턴 분석" },
@@ -153,7 +153,7 @@ export default function BqTestPage() {
               </div>
               <button
                 onClick={() => setStep("quiz")}
-                className="w-full group bg-gold hover:bg-gold-dark text-navy text-lg font-black py-4.5 rounded-2xl shadow-lg shadow-gold/25 transition-all duration-300 active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
+                className="w-full group bg-gold hover:bg-gold-dark text-navy text-lg font-black h-16 rounded-2xl shadow-lg shadow-gold/25 transition-all duration-300 active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
               >
                 테스트 시작하기
                 <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -174,7 +174,7 @@ export default function BqTestPage() {
                 animate="center"
                 exit="exit"
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="bg-white rounded-3xl shadow-lg p-7 sm:p-10"
+                className="bg-white rounded-3xl shadow-xl p-7 sm:p-10"
               >
                 {/* 카테고리 태그 */}
                 <span className="inline-flex items-center gap-1.5 text-xs font-black px-3 py-1.5 rounded-full bg-purple-50 text-purple-500 mb-5">
@@ -232,7 +232,7 @@ export default function BqTestPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="mt-6 space-y-4"
+            className="mt-6 space-y-6"
           >
             {/* 메인 결과 카드 */}
             <section className="relative overflow-hidden rounded-3xl bg-navy shadow-xl">
@@ -269,7 +269,7 @@ export default function BqTestPage() {
             </section>
 
             {/* 분석 카드 */}
-            <section className="bg-white rounded-3xl shadow-md p-7">
+            <section className="bg-white rounded-3xl shadow-xl p-7">
               <div className="flex items-start gap-4">
                 <div
                   className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center"
@@ -307,7 +307,7 @@ export default function BqTestPage() {
             </section>
 
             {/* 점수 상세 */}
-            <section className="bg-white rounded-3xl shadow-md p-6">
+            <section className="bg-white rounded-3xl shadow-xl p-6">
               <h3 className="font-black text-navy text-base mb-4 flex items-center gap-2">
                 <Brain className="w-4 h-4 text-purple-500" />
                 점수 분포
@@ -351,7 +351,7 @@ export default function BqTestPage() {
             <div className="space-y-3">
               <Link
                 to="/calculator"
-                className="w-full flex items-center justify-center gap-3 bg-gold hover:bg-gold-dark text-navy font-black text-lg py-4.5 rounded-2xl shadow-lg shadow-gold/25 transition-all duration-300 active:scale-[0.98]"
+                className="w-full flex items-center justify-center gap-3 bg-gold hover:bg-gold-dark text-navy font-black text-lg h-16 rounded-2xl shadow-lg shadow-gold/25 transition-all duration-300 active:scale-[0.98]"
               >
                 <Calculator className="w-5 h-5" />
                 자산 순위 확인하러 가기

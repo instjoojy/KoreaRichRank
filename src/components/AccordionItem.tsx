@@ -18,9 +18,9 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children }) => {
   }, [isOpen, children]);
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden transition-shadow duration-200 hover:shadow-md">
+    <div className="bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-xl transition-shadow duration-200 hover:shadow-2xl">
       <button
-        className="flex justify-between items-center w-full px-6 py-5 text-left font-bold text-[15px] text-navy hover:text-navy-light transition-colors duration-200 cursor-pointer"
+        className="flex justify-between items-center w-full px-6 py-5 text-left font-bold text-base text-navy hover:text-navy-light transition-colors duration-200 cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
       >
@@ -35,7 +35,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children }) => {
         className="overflow-hidden transition-all duration-300 ease-out"
         style={{ maxHeight: isOpen ? `${height}px` : '0px' }}
       >
-        <div ref={contentRef} className="px-6 pb-6 text-gray-500 font-medium leading-relaxed text-sm">
+        <div ref={contentRef} className="px-6 pb-6 text-gray-500 font-medium leading-[1.7] text-[15px]">
           {children}
         </div>
       </div>

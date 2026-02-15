@@ -14,8 +14,21 @@
 }
 
 body {
+  font-size: 18px;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Gold glow focus for inputs ────────────────────── */
+input[type="number"]:focus,
+input[type="text"]:focus,
+select:focus {
+  outline: none;
+  border-color: #FFD700 !important;
+  box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.15), 0 0 12px rgba(255, 215, 0, 0.1) !important;
+  background-color: #fff !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 /* ── Custom range slider ───────────────────────────── */

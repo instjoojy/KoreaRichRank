@@ -6,7 +6,7 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-100">
-      <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+      <div className="max-w-[600px] mx-auto px-4 h-14 flex items-center justify-between">
         <Link to="/" className="text-lg font-black text-navy tracking-tight">
           코리아리치랭크
         </Link>

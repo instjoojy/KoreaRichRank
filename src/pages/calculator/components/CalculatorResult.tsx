@@ -37,7 +37,7 @@ const CalculatorResult = forwardRef<HTMLDivElement, CalculatorResultProps>(
     const AnalysisIcon = analysis.icon;
 
     return (
-      <div ref={ref} className="mt-6 space-y-4">
+      <div ref={ref} className="mt-10 space-y-8">
         {/* 메인 결과 카드 */}
         <section className="relative overflow-hidden rounded-3xl bg-navy shadow-xl animate-fade-in-up">
           <div className="absolute inset-0 overflow-hidden">
@@ -68,7 +68,7 @@ const CalculatorResult = forwardRef<HTMLDivElement, CalculatorResultProps>(
         </section>
 
         {/* 심리 분석 */}
-        <section className="bg-white rounded-3xl shadow-md p-7 animate-fade-in-up animation-delay-100 opacity-0">
+        <section className="bg-white rounded-3xl shadow-xl p-8 animate-fade-in-up animation-delay-100 opacity-0">
           <div className="flex items-start gap-4">
             <div
               className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center"
@@ -80,7 +80,7 @@ const CalculatorResult = forwardRef<HTMLDivElement, CalculatorResultProps>(
               <h3 className="font-black text-navy text-lg mb-2">
                 {analysis.title}
               </h3>
-              <p className="text-gray-400 font-medium leading-relaxed text-sm sm:text-[15px]">
+              <p className="text-gray-400 font-medium leading-[1.7] text-[15px] sm:text-base">
                 {analysis.message}
               </p>
             </div>
@@ -88,7 +88,7 @@ const CalculatorResult = forwardRef<HTMLDivElement, CalculatorResultProps>(
         </section>
 
         {/* 상세 수치 카드 그리드 */}
-        <div className="grid grid-cols-2 gap-3 animate-fade-in-up animation-delay-200 opacity-0">
+        <div className="grid grid-cols-2 gap-4 animate-fade-in-up animation-delay-200 opacity-0">
           <StatCard
             icon={<TrendingUp className="w-4 h-4" />}
             label="전국 자산"
@@ -116,7 +116,7 @@ const CalculatorResult = forwardRef<HTMLDivElement, CalculatorResultProps>(
         </div>
 
         {/* 차트 */}
-        <section className="bg-white rounded-3xl shadow-md p-6 sm:p-8 animate-fade-in-up animation-delay-300 opacity-0">
+        <section className="bg-white rounded-3xl shadow-xl p-7 sm:p-9 animate-fade-in-up animation-delay-300 opacity-0">
           <div className="flex items-center gap-3 mb-2">
             <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-gold-50">
               <BarChart3 className="w-4.5 h-4.5 text-gold-dark" />
@@ -179,7 +179,7 @@ const CalculatorResult = forwardRef<HTMLDivElement, CalculatorResultProps>(
         <section className="animate-fade-in-up animation-delay-400 opacity-0">
           <button
             onClick={() => alert("카카오톡 공유 기능은 현재 준비 중입니다.")}
-            className="w-full flex items-center justify-center gap-3 bg-[#FEE500] hover:bg-[#F5DC00] text-[#3C1E1E] font-black text-lg py-4.5 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 active:scale-[0.98] cursor-pointer"
+            className="w-full flex items-center justify-center gap-3 bg-[#FEE500] hover:bg-[#F5DC00] text-[#3C1E1E] font-black text-lg h-16 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 active:scale-[0.98] cursor-pointer"
           >
             <MessageCircle className="w-5 h-5" />
             카카오톡으로 결과 공유하기

@@ -3,16 +3,16 @@ import AccordionItem from "../../../components/AccordionItem";
 
 export default function InsightsSection() {
   return (
-    <section className="max-w-2xl mx-auto px-4 pb-16">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="flex items-center justify-center w-10 h-10 rounded-2xl bg-gold-50">
-          <TrendingUp className="w-5 h-5 text-gold-dark" />
+    <section className="max-w-[600px] mx-auto px-5 pb-20">
+      <div className="flex items-center gap-3 mb-8">
+        <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-gold-50">
+          <TrendingUp className="w-6 h-6 text-gold-dark" />
         </div>
-        <h2 className="text-xl font-black text-navy">
+        <h2 className="text-[32px] font-black text-navy">
           자산 관리 인사이트
         </h2>
       </div>
-      <div className="space-y-3">
+      <div className="space-y-6">
         <AccordionItem title="2026 대한민국 평균 자산과 소득 (통계 분석)">
           <p className="mb-3">
             <strong className="font-bold text-navy">2026년 통계청 발표 기준, 대한민국의 자산 및 소득 분포는 다음과 같습니다.</strong>
