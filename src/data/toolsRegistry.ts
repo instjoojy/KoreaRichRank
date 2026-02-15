@@ -1,4 +1,4 @@
-import { Calculator, Brain, type LucideIcon } from "lucide-react";
+import { Calculator, Brain, Timer, type LucideIcon } from "lucide-react";
 
 export interface Tool {
   id: string;
@@ -28,6 +28,15 @@ export const tools: Tool[] = [
     path: "/bq-test",
     icon: Brain,
     accentColor: "#8B5CF6",
+    badge: "NEW",
+  },
+  {
+    id: "real-hourly-wage",
+    name: "나의 진짜 시급 계산기",
+    description: "출퇴근·야근·업무연락까지, 내 진짜 시급은?",
+    path: "/real-hourly-wage",
+    icon: Timer,
+    accentColor: "#10B981",
     badge: "NEW",
   },
 ];
