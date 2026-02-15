@@ -10,9 +10,9 @@ export default function Footer() {
             <Link
               key={t.id}
               to={t.path}
-              className="text-[15px] font-medium text-gray-400 hover:text-navy transition-colors"
+              className="text-[15px] font-medium text-gray-400 hover:text-indigo transition-colors"
             >
-              {t.name}
+              {t.emoji} {t.name}
             </Link>
           ))}
         </div>
@@ -22,9 +22,23 @@ export default function Footer() {
         <p className="text-sm font-medium text-gray-400 mt-2 leading-[1.7]">
           본 서비스는 통계 기반의 추정치이며, 실제 개인 자산 순위와 다를 수 있습니다.
         </p>
-        <div className="mt-6 h-px w-12 mx-auto bg-gray-200" />
-        <p className="mt-6 text-base font-black text-navy/30">
-          코리아리치랭크
+
+        <div className="mt-8 h-px w-12 mx-auto bg-gray-200" />
+
+        <p className="mt-6 text-[15px] font-bold text-navy/50 leading-relaxed">
+          "모든 부자는 처음에 궁금한 사람이었다" — 부자연구소
+        </p>
+
+        <div className="mt-6 flex flex-wrap justify-center gap-4 text-xs font-medium text-gray-300">
+          <span className="hover:text-gray-500 cursor-pointer transition-colors">개인정보처리방침</span>
+          <span className="text-gray-200">|</span>
+          <span className="hover:text-gray-500 cursor-pointer transition-colors">이용약관</span>
+          <span className="text-gray-200">|</span>
+          <span className="hover:text-gray-500 cursor-pointer transition-colors">문의하기</span>
+        </div>
+
+        <p className="mt-5 text-base font-black text-navy/20 flex items-center justify-center gap-1.5">
+          <span>🧪</span> 부자연구소 Rich Lab
         </p>
       </div>
     </footer>

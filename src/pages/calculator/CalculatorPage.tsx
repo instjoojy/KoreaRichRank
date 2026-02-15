@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from "react";
-import { Calculator, BarChart3, RefreshCw } from "lucide-react";
+import { BarChart3, RefreshCw } from "lucide-react";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import {
   calculatePercentile,
@@ -139,7 +139,7 @@ export default function CalculatorPage() {
           <p className="text-sm font-medium text-gray-400 mb-8">{statsError}</p>
           <button
             onClick={() => window.location.reload()}
-            className="inline-flex items-center gap-2 bg-gold hover:bg-gold-dark text-navy font-bold px-6 py-3.5 rounded-2xl transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 bg-indigo hover:bg-indigo-dark text-navy font-bold px-6 py-3.5 rounded-2xl transition-colors cursor-pointer"
           >
             <RefreshCw className="w-4 h-4" />
             새로고침
@@ -153,8 +153,8 @@ export default function CalculatorPage() {
     return (
       <div className="min-h-[80vh] flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 mx-auto mb-5 rounded-full border-4 border-gold-100 flex items-center justify-center">
-            <div className="w-12 h-12 rounded-full border-4 border-t-gold border-r-gold border-b-transparent border-l-transparent animate-spin-slow" />
+          <div className="w-16 h-16 mx-auto mb-5 rounded-full border-4 border-indigo-100 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-full border-4 border-t-indigo border-r-indigo border-b-transparent border-l-transparent animate-spin-slow" />
           </div>
           <p className="text-sm font-medium text-gray-400">통계 데이터 로딩 중...</p>
         </div>
@@ -166,16 +166,16 @@ export default function CalculatorPage() {
   return (
     <>
       <Helmet>
-        <title>대한민국 자산 상위 % 계산기 | 코리아리치랭크</title>
+        <title>대한민국 자산 상위 % 계산기 | 부자연구소</title>
         <meta name="description" content="2026년 최신 통계청 자료 기반, 내 자산은 대한민국 상위 몇 %일까? 나의 경제적 위치를 확인하고 맞춤형 금융 정보를 얻으세요." />
-        <meta property="og:title" content={`대한민국 자산 상위 ${result ? displayPct : ''}% | 코리아리치랭크`} />
+        <meta property="og:title" content={`대한민국 자산 상위 ${result ? displayPct : ''}% | 부자연구소`} />
         <meta property="og:description" content="2026년 최신 통계청 자료 기반, 내 자산은 대한민국 상위 몇 %일까? 나의 경제적 위치를 확인하고 맞춤형 금융 정보를 얻으세요." />
         <meta property="og:image" content={`${window.location.origin}/og-image.jpg`} />
         <meta property="og:url" content={window.location.origin} />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="코리아리치랭크" />
+        <meta property="og:site_name" content="부자연구소" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`대한민국 자산 상위 ${result ? displayPct : ''}% | 코리아리치랭크`} />
+        <meta name="twitter:title" content={`대한민국 자산 상위 ${result ? displayPct : ''}% | 부자연구소`} />
         <meta name="twitter:description" content="2026년 최신 통계청 자료 기반, 내 자산은 대한민국 상위 몇 %일까? 나의 경제적 위치를 확인하고 맞춤형 금융 정보를 얻으세요." />
         <meta name="twitter:image" content={`${window.location.origin}/og-image.jpg`} />
       </Helmet>
@@ -184,22 +184,22 @@ export default function CalculatorPage() {
       <AdBanner slot="top-banner" className="w-full" />
 
       {/* ── 히어로 헤더 ───────────────────────────────────── */}
-      <header className="bg-navy">
+      <header className="bg-gradient-to-b from-indigo to-indigo-dark">
         <div className="max-w-[600px] mx-auto px-6 py-20 sm:py-24 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gold/15 rounded-3xl mb-6 animate-float">
-            <Calculator className="w-8 h-8 text-gold" />
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-white/10 rounded-3xl mb-6 animate-float text-4xl">
+            🏆
           </div>
           <h1 className="text-[32px] sm:text-[40px] font-black tracking-tight leading-tight text-white">
-            대한민국 자산 상위 %
+            내 지갑, 전국 몇 등?
           </h1>
-          <p className="mt-5 text-lg sm:text-xl font-bold text-white/90 leading-[1.7]">
-            내 자산은 상위 몇 %일까?
+          <p className="mt-5 text-lg sm:text-xl font-bold text-white/80 leading-[1.7]">
+            대한민국 자산 상위 % 계산기
           </p>
-          <p className="mt-2 text-base sm:text-lg font-medium text-gray-400">
+          <p className="mt-2 text-base sm:text-lg font-medium text-indigo-light/60">
             2026 가계금융복지조사 기반
           </p>
-          <div className="mt-6 inline-flex items-center gap-2 bg-white/[0.06] rounded-full px-5 py-2.5 text-[15px] font-medium text-gray-400">
-            <div className="w-1.5 h-1.5 rounded-full bg-gold" />
+          <div className="mt-6 inline-flex items-center gap-2 bg-white/[0.08] rounded-full px-5 py-2.5 text-[15px] font-medium text-indigo-100/60">
+            <div className="w-1.5 h-1.5 rounded-full bg-amber" />
             통계청 공식 데이터 기반 분석
           </div>
         </div>
@@ -210,11 +210,11 @@ export default function CalculatorPage() {
           /* ── 로딩 상태 ────────────────────────────────────── */
           <section className="bg-white rounded-3xl shadow-xl p-10 sm:p-12 text-center flex flex-col items-center justify-center min-h-[360px]">
             <div className="relative mb-8">
-              <div className="w-20 h-20 rounded-full border-4 border-gold-100 flex items-center justify-center">
-                <div className="w-16 h-16 rounded-full border-4 border-t-gold border-r-gold border-b-transparent border-l-transparent animate-spin-slow" />
+              <div className="w-20 h-20 rounded-full border-4 border-indigo-100 flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full border-4 border-t-indigo border-r-indigo border-b-transparent border-l-transparent animate-spin-slow" />
               </div>
               <div className="absolute inset-0 flex items-center justify-center">
-                <BarChart3 className="w-6 h-6 text-gold" />
+                <BarChart3 className="w-6 h-6 text-indigo" />
               </div>
             </div>
             <p className="text-2xl font-black text-navy mb-3">
@@ -225,7 +225,7 @@ export default function CalculatorPage() {
             </p>
             <div className="w-full max-w-xs mx-auto">
               <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                <div className="h-full bg-gold rounded-full animate-progress" />
+                <div className="h-full bg-indigo rounded-full animate-progress" />
               </div>
             </div>
             <div className="mt-10 w-full max-w-sm">

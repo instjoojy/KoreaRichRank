@@ -1,4 +1,5 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Gaegu:wght@700&display=swap");
 @import "tailwindcss";
 
 @theme {
@@ -10,7 +11,18 @@
   --color-navy: #1E293B;
   --color-navy-light: #334155;
   --color-navy-dark: #0F172A;
+  --color-indigo: #6366F1;
+  --color-indigo-50: #EEF2FF;
+  --color-indigo-100: #E0E7FF;
+  --color-indigo-light: #818CF8;
+  --color-indigo-dark: #4F46E5;
+  --color-amber: #FBBF24;
+  --color-amber-50: #FFFBEB;
+  --color-amber-100: #FEF3C7;
+  --color-amber-dark: #F59E0B;
+  --color-cream: #FEFCF6;
   --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  --font-display: "Gaegu", "Pretendard Variable", cursive;
 }
 
 body {
@@ -20,13 +32,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Gold glow focus for inputs ────────────────────── */
+/* ── Playful focus glow for inputs ────────────────── */
 input[type="number"]:focus,
 input[type="text"]:focus,
 select:focus {
   outline: none;
-  border-color: #FFD700 !important;
-  box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.15), 0 0 12px rgba(255, 215, 0, 0.1) !important;
+  border-color: #6366F1 !important;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12), 0 0 12px rgba(99, 102, 241, 0.08) !important;
   background-color: #fff !important;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -49,14 +61,14 @@ input[type="range"]::-webkit-slider-thumb {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #FFE44D, #FFD700);
-  box-shadow: 0 2px 10px rgba(255, 215, 0, 0.45), 0 0 0 3px rgba(255, 215, 0, 0.12);
+  background: linear-gradient(135deg, #818CF8, #6366F1);
+  box-shadow: 0 2px 10px rgba(99, 102, 241, 0.4), 0 0 0 3px rgba(99, 102, 241, 0.1);
   border: 3px solid #fff;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 input[type="range"]::-webkit-slider-thumb:hover {
   transform: scale(1.18);
-  box-shadow: 0 3px 14px rgba(255, 215, 0, 0.55), 0 0 0 5px rgba(255, 215, 0, 0.15);
+  box-shadow: 0 3px 14px rgba(99, 102, 241, 0.5), 0 0 0 5px rgba(99, 102, 241, 0.12);
 }
 input[type="range"]::-webkit-slider-thumb:active {
   transform: scale(1.1);
@@ -65,8 +77,8 @@ input[type="range"]::-moz-range-thumb {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #FFE44D, #FFD700);
-  box-shadow: 0 2px 10px rgba(255, 215, 0, 0.45);
+  background: linear-gradient(135deg, #818CF8, #6366F1);
+  box-shadow: 0 2px 10px rgba(99, 102, 241, 0.4);
   border: 3px solid #fff;
   cursor: pointer;
 }
@@ -147,6 +159,16 @@ input[type="number"] {
   animation: float 3s ease-in-out infinite;
 }
 
+/* ── Bounce hover animation ─────────────────────── */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-3deg); }
+  75% { transform: rotate(3deg); }
+}
+.animate-wiggle {
+  animation: wiggle 0.4s ease-in-out;
+}
+
 /* ── Progress bar animation ─────────────────────── */
 @keyframes progressFill {
   from { width: 0%; }
@@ -171,6 +193,11 @@ input[type="number"] {
   -webkit-backdrop-filter: blur(8px);
 }
 
+/* ── Display font (round, playful) ──────────────── */
+.font-display {
+  font-family: var(--font-display);
+}
+
 /* ── Smooth scrollbar ────────────────────────────── */
 html {
   scroll-behavior: smooth;
@@ -178,6 +205,6 @@ html {
 
 /* ── Selection color ─────────────────────────────── */
 ::selection {
-  background: rgba(255, 215, 0, 0.25);
+  background: rgba(99, 102, 241, 0.2);
   color: #1E293B;
 }

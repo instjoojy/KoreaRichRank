@@ -6,7 +6,7 @@ export default function NotFoundPage() {
   return (
     <>
       <Helmet>
-        <title>페이지를 찾을 수 없습니다 | 코리아리치랭크</title>
+        <title>페이지를 찾을 수 없습니다 | 부자연구소</title>
       </Helmet>
       <div className="min-h-[70vh] flex items-center justify-center px-4">
         <div className="text-center">
@@ -19,7 +19,7 @@ export default function NotFoundPage() {
           </p>
           <Link
             to="/"
-            className="inline-flex items-center gap-2 bg-gold hover:bg-gold-dark text-navy font-bold px-6 py-3.5 rounded-2xl transition-colors"
+            className="inline-flex items-center gap-2 bg-indigo hover:bg-indigo-dark text-white font-bold px-6 py-3.5 rounded-2xl transition-colors"
           >
             <Home className="w-4 h-4" />
             홈으로 돌아가기

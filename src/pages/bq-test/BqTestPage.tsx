@@ -73,7 +73,7 @@ export default function BqTestPage() {
   return (
     <>
       <Helmet>
-        <title>부자 지수(BQ) 테스트 | 코리아리치랭크</title>
+        <title>부자 지수(BQ) 테스트 | 부자연구소</title>
         <meta
           name="description"
           content="나의 부자 잠재력은 몇 점? 소비, 투자, 경제 지식 10문항으로 알아보는 BQ(부자 지수) 테스트."
@@ -82,7 +82,7 @@ export default function BqTestPage() {
 
       {/* ── 히어로 헤더 ───────────────────────────────────── */}
       {step === "intro" && (
-        <header className="bg-navy">
+        <header className="bg-gradient-to-b from-violet-600 to-violet-800">
           <div className="max-w-[600px] mx-auto px-6 py-16 sm:py-20 text-center">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-500/15 rounded-3xl mb-6 animate-float">
               <Brain className="w-8 h-8 text-purple-400" />
@@ -106,19 +106,19 @@ export default function BqTestPage() {
 
       {/* ── 프로그레스 바 (퀴즈 중) ──────────────────────── */}
       {step === "quiz" && (
-        <div className="bg-navy">
+        <div className="bg-gradient-to-b from-violet-600 to-violet-800">
           <div className="max-w-[600px] mx-auto px-6 pt-8 pb-12">
             <div className="flex items-center justify-between mb-3">
               <span className="text-sm font-bold text-white/60">
                 {currentQ + 1} / {questions.length}
               </span>
-              <span className="text-sm font-bold text-gold">
+              <span className="text-sm font-bold text-amber">
                 {Math.round(progress)}%
               </span>
             </div>
             <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
               <motion.div
-                className="h-full bg-gold rounded-full"
+                className="h-full bg-amber rounded-full"
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
@@ -153,7 +153,7 @@ export default function BqTestPage() {
               </div>
               <button
                 onClick={() => setStep("quiz")}
-                className="w-full group bg-gold hover:bg-gold-dark text-navy text-lg font-black h-16 rounded-2xl shadow-lg shadow-gold/25 transition-all duration-300 active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
+                className="w-full group bg-amber hover:bg-amber-dark text-navy text-lg font-black h-16 rounded-2xl shadow-lg shadow-amber/25 transition-all duration-300 active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
               >
                 테스트 시작하기
                 <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -195,7 +195,7 @@ export default function BqTestPage() {
                         whileTap={{ scale: 0.98 }}
                         className={`w-full text-left p-5 rounded-2xl border-2 transition-all duration-200 cursor-pointer ${
                           isSelected
-                            ? "border-gold bg-gold/10 shadow-md"
+                            ? "border-amber bg-amber/10 shadow-md"
                             : "border-gray-100 bg-[#F9FAFB] hover:border-gray-200 hover:bg-white"
                         }`}
                       >
@@ -203,7 +203,7 @@ export default function BqTestPage() {
                           <span
                             className={`shrink-0 w-8 h-8 rounded-xl flex items-center justify-center text-sm font-black ${
                               isSelected
-                                ? "bg-gold text-navy"
+                                ? "bg-amber text-navy"
                                 : "bg-gray-200/60 text-gray-400"
                             }`}
                           >
@@ -237,8 +237,8 @@ export default function BqTestPage() {
             {/* 메인 결과 카드 */}
             <section className="relative overflow-hidden rounded-3xl bg-navy shadow-xl">
               <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute -top-20 -right-20 w-60 h-60 bg-gold/[0.06] rounded-full blur-3xl" />
-                <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-gold/[0.04] rounded-full blur-3xl" />
+                <div className="absolute -top-20 -right-20 w-60 h-60 bg-amber/[0.06] rounded-full blur-3xl" />
+                <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-amber/[0.04] rounded-full blur-3xl" />
               </div>
               <div className="relative p-8 sm:p-10 text-center">
                 <span
@@ -254,10 +254,10 @@ export default function BqTestPage() {
                   당신의 BQ 점수
                 </p>
                 <div className="my-6">
-                  <span className="text-6xl sm:text-7xl font-black tracking-tight text-gold drop-shadow-sm">
+                  <span className="text-6xl sm:text-7xl font-black tracking-tight text-amber drop-shadow-sm">
                     {totalScore}
                   </span>
-                  <span className="text-2xl font-black ml-1 text-gold/70">
+                  <span className="text-2xl font-black ml-1 text-amber/70">
                     / 40
                   </span>
                 </div>
@@ -292,9 +292,9 @@ export default function BqTestPage() {
             </section>
 
             {/* 팁 카드 */}
-            <section className="bg-gold/5 rounded-3xl border border-gold/20 p-6">
+            <section className="bg-amber/5 rounded-3xl border border-amber/20 p-6">
               <div className="flex items-start gap-3">
-                <Sparkles className="w-5 h-5 text-gold shrink-0 mt-0.5" />
+                <Sparkles className="w-5 h-5 text-amber shrink-0 mt-0.5" />
                 <div>
                   <p className="font-black text-navy text-sm mb-1">
                     맞춤 조언
@@ -335,7 +335,7 @@ export default function BqTestPage() {
                       </div>
                       <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
                         <motion.div
-                          className="h-full rounded-full bg-gold"
+                          className="h-full rounded-full bg-amber"
                           initial={{ width: 0 }}
                           animate={{ width: `${pct}%` }}
                           transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
@@ -351,7 +351,7 @@ export default function BqTestPage() {
             <div className="space-y-3">
               <Link
                 to="/calculator"
-                className="w-full flex items-center justify-center gap-3 bg-gold hover:bg-gold-dark text-navy font-black text-lg h-16 rounded-2xl shadow-lg shadow-gold/25 transition-all duration-300 active:scale-[0.98]"
+                className="w-full flex items-center justify-center gap-3 bg-amber hover:bg-amber-dark text-navy font-black text-lg h-16 rounded-2xl shadow-lg shadow-amber/25 transition-all duration-300 active:scale-[0.98]"
               >
                 <Calculator className="w-5 h-5" />
                 자산 순위 확인하러 가기

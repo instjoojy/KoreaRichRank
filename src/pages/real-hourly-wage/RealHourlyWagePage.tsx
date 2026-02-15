@@ -231,12 +231,12 @@ export default function RealHourlyWagePage() {
   return (
     <>
       <Helmet>
-        <title>나의 진짜 시급 계산기 | 코리아리치랭크</title>
+        <title>나의 진짜 시급 계산기 | 부자연구소</title>
         <meta
           name="description"
           content="출퇴근, 야근, 업무 연락까지 포함한 나의 진짜 시급은? 2026 최저임금 대비 내 실제 시급을 계산해보세요."
         />
-        <meta property="og:title" content="나의 진짜 시급 계산기 | 코리아리치랭크" />
+        <meta property="og:title" content="나의 진짜 시급 계산기 | 부자연구소" />
         <meta property="og:description" content="출퇴근, 야근, 업무 연락까지 포함한 나의 진짜 시급은?" />
         <meta property="og:type" content="website" />
       </Helmet>
@@ -649,7 +649,7 @@ export default function RealHourlyWagePage() {
               </div>
               <div className="relative p-7 sm:p-9">
                 <div className="flex items-center justify-between mb-6">
-                  <span className="text-xs font-bold text-gray-500">코리아리치랭크</span>
+                  <span className="text-xs font-bold text-gray-500">부자연구소</span>
                   <span className="text-xs font-bold text-gray-500">나의 진짜 시급</span>
                 </div>
 
@@ -689,7 +689,7 @@ export default function RealHourlyWagePage() {
 
                 <div className="flex items-center justify-center gap-2 text-[10px] font-medium text-gray-600">
                   <div className="w-1 h-1 rounded-full bg-gray-600" />
-                  korearichrank.com
+                  부자연구소 Rich Lab
                   <div className="w-1 h-1 rounded-full bg-gray-600" />
                 </div>
               </div>

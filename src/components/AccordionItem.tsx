@@ -4,9 +4,10 @@ import { ChevronDown } from 'lucide-react';
 interface AccordionItemProps {
   title: string;
   children: React.ReactNode;
+  bgColor?: string;
 }
 
-const AccordionItem: React.FC<AccordionItemProps> = ({ title, children }) => {
+const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, bgColor }) => {
   const [isOpen, setIsOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
@@ -18,16 +19,19 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children }) => {
   }, [isOpen, children]);
 
   return (
-    <div className="bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-xl transition-shadow duration-200 hover:shadow-2xl">
+    <div
+      className="rounded-3xl border border-gray-100 overflow-hidden shadow-sm transition-all duration-200 hover:shadow-lg"
+      style={{ backgroundColor: bgColor || '#ffffff' }}
+    >
       <button
-        className="flex justify-between items-center w-full px-6 py-5 text-left font-bold text-base text-navy hover:text-navy-light transition-colors duration-200 cursor-pointer"
+        className="flex justify-between items-center w-full px-6 py-5 text-left font-bold text-base text-navy hover:text-indigo transition-colors duration-200 cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
       >
         <span className="pr-4 leading-snug">{title}</span>
         <ChevronDown
           className={`w-5 h-5 shrink-0 transition-transform duration-300 ease-out ${
-            isOpen ? 'rotate-180 text-gold-dark' : 'text-gray-400'
+            isOpen ? 'rotate-180 text-indigo' : 'text-gray-400'
           }`}
         />
       </button>

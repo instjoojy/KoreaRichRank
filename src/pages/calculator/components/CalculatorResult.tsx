@@ -41,8 +41,8 @@ const CalculatorResult = forwardRef<HTMLDivElement, CalculatorResultProps>(
         {/* 메인 결과 카드 */}
         <section className="relative overflow-hidden rounded-3xl bg-navy shadow-xl animate-fade-in-up">
           <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute -top-20 -right-20 w-60 h-60 bg-gold/[0.06] rounded-full blur-3xl" />
-            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-gold/[0.04] rounded-full blur-3xl" />
+            <div className="absolute -top-20 -right-20 w-60 h-60 bg-amber/[0.06] rounded-full blur-3xl" />
+            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-amber/[0.04] rounded-full blur-3xl" />
           </div>
           <div className="relative p-8 sm:p-10 text-center">
             <span
@@ -55,14 +55,14 @@ const CalculatorResult = forwardRef<HTMLDivElement, CalculatorResultProps>(
               {result.ageGroup} 기준 &middot; {result.region} 거주
             </p>
             <div className="my-6">
-              <span className="text-6xl sm:text-7xl font-black tracking-tight text-gold animate-count-pulse drop-shadow-sm">
+              <span className="text-6xl sm:text-7xl font-black tracking-tight text-amber animate-count-pulse drop-shadow-sm">
                 {displayPct}
               </span>
-              <span className="text-3xl font-black ml-1 text-gold/70">%</span>
+              <span className="text-3xl font-black ml-1 text-amber/70">%</span>
             </div>
             <p className="text-lg sm:text-xl font-bold text-white">
               동년배 자산 상위{" "}
-              <span className="text-gold underline decoration-2 underline-offset-4">{result.assetPercentileByAge}%</span>
+              <span className="text-amber underline decoration-2 underline-offset-4">{result.assetPercentileByAge}%</span>
             </p>
           </div>
         </section>
@@ -118,8 +118,8 @@ const CalculatorResult = forwardRef<HTMLDivElement, CalculatorResultProps>(
         {/* 차트 */}
         <section className="bg-white rounded-3xl shadow-xl p-7 sm:p-9 animate-fade-in-up animation-delay-300 opacity-0">
           <div className="flex items-center gap-3 mb-2">
-            <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-gold-50">
-              <BarChart3 className="w-4.5 h-4.5 text-gold-dark" />
+            <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-amber-50">
+              <BarChart3 className="w-4.5 h-4.5 text-amber-dark" />
             </div>
             <h3 className="font-black text-navy text-lg">
               대한민국 순자산 분포
@@ -151,15 +151,15 @@ const CalculatorResult = forwardRef<HTMLDivElement, CalculatorResultProps>(
                   {chartData.map((entry, i) => (
                     <Cell
                       key={i}
-                      fill={entry.isUser ? "#FFD700" : "#E2E8F0"}
-                      stroke={entry.isUser ? "#C5A600" : "none"}
+                      fill={entry.isUser ? "#6366F1" : "#E2E8F0"}
+                      stroke={entry.isUser ? "#4F46E5" : "none"}
                       strokeWidth={entry.isUser ? 2 : 0}
                     />
                   ))}
                 </Bar>
                 <ReferenceLine
                   x={DISTRIBUTION[userBin].range}
-                  stroke="#FFD700"
+                  stroke="#6366F1"
                   strokeDasharray="4 4"
                   strokeWidth={1.5}
                   label={{

@@ -1,19 +1,21 @@
-import { TrendingUp } from "lucide-react";
 import AccordionItem from "../../../components/AccordionItem";
+
+const pastelColors = ["#FFF0F5", "#F0FFF4", "#F0F4FF", "#FFFBEB"];
 
 export default function InsightsSection() {
   return (
     <section className="max-w-[600px] mx-auto px-5 pb-20">
       <div className="flex items-center gap-3 mb-8">
-        <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-gold-50">
-          <TrendingUp className="w-6 h-6 text-gold-dark" />
+        <span className="text-3xl">📝</span>
+        <div>
+          <h2 className="text-[28px] sm:text-[32px] font-black text-navy leading-tight">
+            연구소의 비밀 노트
+          </h2>
+          <p className="text-sm font-medium text-gray-400 mt-1">부자가 되기 위한 핵심 인사이트</p>
         </div>
-        <h2 className="text-[32px] font-black text-navy">
-          자산 관리 인사이트
-        </h2>
       </div>
-      <div className="space-y-6">
-        <AccordionItem title="2026 대한민국 평균 자산과 소득 (통계 분석)">
+      <div className="space-y-5">
+        <AccordionItem title="📊 2026 대한민국 평균 자산과 소득" bgColor={pastelColors[0]}>
           <p className="mb-3">
             <strong className="font-bold text-navy">2026년 통계청 발표 기준, 대한민국의 자산 및 소득 분포는 다음과 같습니다.</strong>
           </p>
@@ -25,7 +27,7 @@ export default function InsightsSection() {
           </ul>
         </AccordionItem>
 
-        <AccordionItem title="상위 1% 부자들의 자산 배분 전략">
+        <AccordionItem title="💎 상위 1% 부자들의 자산 배분 전략" bgColor={pastelColors[1]}>
           <p className="mb-3">
             <strong className="font-bold text-navy">상위 1% 자산가들은 일반 가구와는 다른 자산 배분 전략을 통해 부를 증식합니다.</strong>
           </p>
@@ -38,7 +40,7 @@ export default function InsightsSection() {
           </ul>
         </AccordionItem>
 
-        <AccordionItem title="나이대별 권장 순자산 목표치">
+        <AccordionItem title="🎯 나이대별 권장 순자산 목표치" bgColor={pastelColors[2]}>
           <p className="mb-3">
             <strong className="font-bold text-navy">개인의 재무 목표는 나이와 상황에 따라 달라지지만, 일반적으로 다음의 순자산 목표치를 참고할 수 있습니다.</strong>
           </p>
@@ -54,7 +56,7 @@ export default function InsightsSection() {
           </p>
         </AccordionItem>
 
-        <AccordionItem title="자산 상위 %를 높이기 위한 실전 재테크 팁">
+        <AccordionItem title="🚀 자산 순위를 높이는 실전 재테크 팁" bgColor={pastelColors[3]}>
           <p className="mb-3">
             <strong className="font-bold text-navy">자산 순위를 높이고 경제적 자유를 달성하기 위한 실질적인 재테크 팁입니다.</strong>
           </p>
