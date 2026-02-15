@@ -616,6 +616,9 @@ export default function FireCalculatorPage() {
                   </div>
                 </section>
 
+                {/* 인페이지 광고 (결과 수치 아래) */}
+                <AdBanner slot="fire-result-top" format="rectangle" />
+
                 {/* ② 핵심 지표 그리드 */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-6">

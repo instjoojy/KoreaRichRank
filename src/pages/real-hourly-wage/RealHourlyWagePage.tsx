@@ -497,6 +497,9 @@ export default function RealHourlyWagePage() {
               </div>
             </section>
 
+            {/* 인페이지 광고 (결과 수치 아래) */}
+            <AdBanner slot="wage-result-top" format="rectangle" />
+
             {/* ② 비교 카드 */}
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-6">

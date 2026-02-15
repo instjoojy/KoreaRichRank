@@ -29,16 +29,19 @@ export default function AdBanner({
       </p>
       {isDev ? (
         <div
-          className="bg-indigo-50 border-2 border-dashed border-indigo-200 rounded-2xl p-4 text-center flex items-center justify-center"
+          className="bg-[#F3F4F6] border-2 border-dashed border-gray-200 rounded-3xl p-4 text-center flex items-center justify-center"
           style={{ minHeight: minH }}
         >
           <div>
             <p className="text-sm text-gray-400">광고 영역 ({slot} / {format})</p>
-            <p className="text-[11px] text-indigo-300 font-medium mt-1">Sponsored</p>
+            <p className="text-[11px] text-gray-300 font-medium mt-1">Sponsored</p>
           </div>
         </div>
       ) : (
-        <div style={{ minHeight: minH }}>
+        <div
+          className="bg-[#F9FAFB] rounded-3xl overflow-hidden"
+          style={{ minHeight: minH }}
+        >
           <ins
             className="adsbygoogle"
             style={{ display: "block", minHeight: minH }}

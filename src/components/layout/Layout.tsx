@@ -20,6 +20,8 @@ export default function Layout() {
         <Outlet />
       </main>
       <Footer />
+      {/* 앵커/오버레이 광고가 하단 메뉴와 겹치지 않도록 모바일 여백 */}
+      <div className="h-20 sm:h-0" />
     </div>
   );
 }

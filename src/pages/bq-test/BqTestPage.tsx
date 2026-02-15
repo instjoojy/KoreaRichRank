@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { shareKakao } from "../../utils/kakaoShare";
 import SharedResultBanner from "../../components/SharedResultBanner";
+import AdBanner from "../../components/AdBanner";
 import { questions } from "./questions";
 import { getBqResult } from "./results";
 import BqArticle from "./BqArticle";
@@ -323,6 +324,9 @@ export default function BqTestPage() {
                 </div>
               </div>
             </section>
+
+            {/* 인페이지 광고 (결과 수치 아래) */}
+            <AdBanner slot="bq-result-top" format="rectangle" />
 
             {/* 분석 카드 */}
             <section className="bg-white rounded-3xl shadow-xl p-7">

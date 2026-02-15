@@ -70,6 +70,9 @@ const CalculatorResult = forwardRef<HTMLDivElement, CalculatorResultProps>(
           </div>
         </section>
 
+        {/* 인페이지 광고 (결과 수치 아래) */}
+        <AdBanner slot="asset-result-top" format="rectangle" className="mt-2" />
+
         {/* 심리 분석 */}
         <section className="bg-white rounded-3xl shadow-xl p-8 animate-fade-in-up animation-delay-100 opacity-0">
           <div className="flex items-start gap-4">

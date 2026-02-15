@@ -1,7 +1,7 @@
 import AccordionItem from "../../components/AccordionItem";
 import AdBanner from "../../components/AdBanner";
 
-const pastelColors = ["#ECFDF5", "#F0FFF4", "#F0FDFA", "#F0F4FF", "#FFFBEB"];
+const pastelColors = ["#ECFDF5", "#F0FFF4", "#F0FDFA", "#F0F4FF", "#FFFBEB", "#FFF0F5", "#F5F0FF", "#FEF2F2", "#FEF3C7"];
 
 export default function FireArticle() {
   return (
@@ -41,8 +41,6 @@ export default function FireArticle() {
           </ul>
         </AccordionItem>
 
-        <AdBanner slot="fire-insights-mid1" format="rectangle" className="my-4" />
-
         <AccordionItem title="💰 FIRE의 다섯 가지 유형" bgColor={pastelColors[2]}>
           <p className="mb-3">
             <strong className="font-bold text-navy">FIRE는 하나의 방식이 아닙니다. 개인의 성향과 목표에 따라 다섯 가지 유형으로 나뉩니다.</strong>
@@ -56,7 +54,22 @@ export default function FireArticle() {
           </ul>
         </AccordionItem>
 
-        <AccordionItem title="🇰🇷 한국에서 FIRE 하려면 얼마가 필요할까?" bgColor={pastelColors[3]}>
+        <AdBanner slot="fire-insights-mid1" format="rectangle" className="my-4" />
+
+        <AccordionItem title="📊 저축률이 은퇴 시점을 결정하는 수학적 원리" bgColor={pastelColors[3]}>
+          <p className="mb-3">
+            <strong className="font-bold text-navy">FIRE까지 걸리는 시간은 소득의 절대액이 아니라 저축률에 의해 결정됩니다. 수학이 증명하는 진실입니다.</strong>
+          </p>
+          <ul className="list-disc pl-5 space-y-1.5 text-gray-500">
+            <li><strong className="font-bold text-navy-light">저축률 10%:</strong> 은퇴까지 약 51년. 사실상 일반적 정년퇴직과 동일합니다.</li>
+            <li><strong className="font-bold text-navy-light">저축률 30%:</strong> 약 28년. 25세에 시작하면 53세에 가능. 많은 직장인의 현실적 목표.</li>
+            <li><strong className="font-bold text-navy-light">저축률 50%:</strong> 약 17년. 30세 시작 시 47세 은퇴. 진정한 조기 은퇴의 영역.</li>
+            <li><strong className="font-bold text-navy-light">저축률 70%:</strong> 약 8.5년. 극한의 절약과 높은 소득이 필요하지만, 30대 FIRE도 가능한 영역.</li>
+            <li><strong className="font-bold text-navy-light">핵심 인사이트:</strong> 연봉 3,000만 원으로 50% 저축하는 사람이, 연봉 1억으로 10% 저축하는 사람보다 훨씬 빨리 은퇴합니다.</li>
+          </ul>
+        </AccordionItem>
+
+        <AccordionItem title="🇰🇷 한국에서 FIRE 하려면 얼마가 필요할까?" bgColor={pastelColors[4]}>
           <p className="mb-3">
             <strong className="font-bold text-navy">한국의 FIRE 목표 금액은 주거 형태와 거주 지역에 따라 크게 달라지며, 추가 비용도 반드시 고려해야 합니다.</strong>
           </p>
@@ -68,9 +81,33 @@ export default function FireArticle() {
           </ul>
         </AccordionItem>
 
+        <AccordionItem title="🏥 FIRE 이후 건강보험과 국민연금 전략" bgColor={pastelColors[5]}>
+          <p className="mb-3">
+            <strong className="font-bold text-navy">한국에서 FIRE를 실행할 때 가장 간과하기 쉬운 것이 4대 보험과 세금 문제입니다.</strong>
+          </p>
+          <ul className="list-disc pl-5 space-y-1.5 text-gray-500">
+            <li><strong className="font-bold text-navy-light">건강보험 지역가입:</strong> 퇴직 후 피부양자 자격이 없으면 지역가입자로 전환. 재산·소득·자동차 기준으로 월 10~50만 원 납부.</li>
+            <li><strong className="font-bold text-navy-light">국민연금 임의가입:</strong> 최소 10년 납부해야 수급 가능. FIRE 후에도 임의가입으로 최소 보험료(약 10만 원)를 납부하면 노후 안전망 확보.</li>
+            <li><strong className="font-bold text-navy-light">금융소득종합과세:</strong> 이자·배당 소득 연 2,000만 원 초과 시 종합과세. ISA, 연금계좌 등 비과세·분리과세 상품을 최대한 활용.</li>
+            <li><strong className="font-bold text-navy-light">피부양자 전략:</strong> 배우자가 직장인이면 피부양자로 등록하여 건보료 절감 가능. 단, 소득·재산 기준 충족 필요.</li>
+          </ul>
+        </AccordionItem>
+
         <AdBanner slot="fire-insights-mid2" format="rectangle" className="my-4" />
 
-        <AccordionItem title="🗺️ FIRE를 앞당기는 실전 전략 5가지" bgColor={pastelColors[4]}>
+        <AccordionItem title="🧘 FIRE 달성 후의 삶: 심리적 준비가 필요한 이유" bgColor={pastelColors[6]}>
+          <p className="mb-3">
+            <strong className="font-bold text-navy">경제적 자유를 달성한 후 많은 사람들이 예상치 못한 심리적 공허함을 경험합니다. 재무적 준비만큼 심리적 준비도 중요합니다.</strong>
+          </p>
+          <ul className="list-disc pl-5 space-y-1.5 text-gray-500">
+            <li><strong className="font-bold text-navy-light">정체성 위기:</strong> &apos;회사원&apos;이라는 사회적 정체성이 사라진 후, &apos;나는 누구인가?&apos;라는 질문에 직면합니다. 퇴사 전에 답을 준비하세요.</li>
+            <li><strong className="font-bold text-navy-light">사회적 고립:</strong> 동료·직장 네트워크가 사라지면 사회적 관계가 급격히 줄어듭니다. 취미 커뮤니티, 봉사활동 등 대안이 필요합니다.</li>
+            <li><strong className="font-bold text-navy-light">목적의식:</strong> 성공적인 FIRE 달성자들의 공통점은 &apos;~로부터의 은퇴&apos;가 아닌 &apos;~를 향한 은퇴&apos;를 했다는 것입니다.</li>
+            <li><strong className="font-bold text-navy-light">FIRE 후 활동:</strong> 여행, 창작, 교육, 사회공헌, 소규모 사업 등 자신을 성장시키는 활동이 행복의 핵심 변수입니다.</li>
+          </ul>
+        </AccordionItem>
+
+        <AccordionItem title="🗺️ FIRE를 앞당기는 실전 전략 5가지" bgColor={pastelColors[7]}>
           <p className="mb-3">
             <strong className="font-bold text-navy">FIRE까지 걸리는 시간은 소득이 아니라 저축률에 달려 있습니다. 다섯 가지 실전 전략으로 은퇴를 앞당기세요.</strong>
           </p>
@@ -80,6 +117,18 @@ export default function FireArticle() {
             <li><strong className="font-bold text-navy-light">3. 추가 소득원 확보:</strong> 부업·사이드 프로젝트로 본업 한계 돌파. 추가 소득은 저축률을 높이는 가장 빠른 방법.</li>
             <li><strong className="font-bold text-navy-light">4. 3대 고정비 최적화:</strong> 주거비·교통비·보험료가 전체 지출의 50% 이상. 한 번의 결정으로 매달 수십만 원 절약 가능.</li>
             <li><strong className="font-bold text-navy-light">5. 세제 혜택 활용:</strong> 연금저축(연 최대 900만 원, 세액공제 13.2~16.5%), ISA(비과세 한도 200~400만 원), IRP로 세후 수익 극대화.</li>
+          </ul>
+        </AccordionItem>
+
+        <AccordionItem title="🔄 시뮬레이션의 한계와 현실적 계획 수정법" bgColor={pastelColors[8]}>
+          <p className="mb-3">
+            <strong className="font-bold text-navy">어떤 계산기도 미래를 완벽히 예측할 수 없습니다. FIRE 시뮬레이션의 한계를 알고 유연하게 대응하는 것이 진짜 전략입니다.</strong>
+          </p>
+          <ul className="list-disc pl-5 space-y-1.5 text-gray-500">
+            <li><strong className="font-bold text-navy-light">수익률 변동성:</strong> 연 7% 평균 수익률이어도 실제로는 +30%와 -20%가 교차합니다. 은퇴 직후 시장 폭락(Sequence of Returns Risk)이 가장 위험.</li>
+            <li><strong className="font-bold text-navy-light">생활비 변화:</strong> 결혼, 출산, 질병, 부모 부양 등 예상치 못한 지출이 발생합니다. FIRE 금액에 20% 안전 마진을 추가하세요.</li>
+            <li><strong className="font-bold text-navy-light">유연한 인출 전략:</strong> 고정 4% 인출 대신, 시장 상황에 따라 3~5% 범위 내 조절하는 &apos;가변 인출&apos; 전략이 더 안전합니다.</li>
+            <li><strong className="font-bold text-navy-light">연간 점검:</strong> 매년 1회 FIRE 계획을 점검하고 목표 금액·저축률·투자 전략을 현실에 맞게 조정하세요. 계획은 살아있는 문서입니다.</li>
           </ul>
         </AccordionItem>
       </div>
