@@ -738,8 +738,9 @@ export default function RealHourlyWagePage() {
                 onClick={() =>
                   shareKakao({
                     title: `${grade.emoji} 내 진짜 시급: ${formatNumber(result.realHourlyWage)}원!`,
-                    description: `최저임금의 ${result.minWageRatio}% · 명목 시급에서 ${wageDropPct}% 하락\n숨겨진 근무시간까지 반영한 진짜 시급 계산기`,
+                    description: `최저임금의 ${result.minWageRatio}% · 명목 시급에서 ${wageDropPct}% 하락\n당신도 부자연구소에서 분석받아보세요!`,
                     path: "/real-hourly-wage",
+                    buttonText: "내 진짜 시급 계산해보기",
                   })
                 }
                 className="w-full flex items-center justify-center gap-3 bg-[#FEE500] hover:bg-[#F5DC00] text-[#3C1E1E] font-black text-lg h-16 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 active:scale-[0.98] cursor-pointer"

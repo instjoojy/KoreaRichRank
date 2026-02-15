@@ -389,8 +389,9 @@ export default function BqTestPage() {
                 onClick={() =>
                   shareKakao({
                     title: `${result.emoji} 나의 부자 지수(BQ): ${totalScore}/40점!`,
-                    description: `등급: ${result.grade} ${result.title}\n${result.message}\n통계 기반 부자 잠재력 테스트`,
+                    description: `등급: ${result.grade} ${result.title}\n${result.message}\n당신도 부자연구소에서 분석받아보세요!`,
                     path: "/bq-test",
+                    buttonText: "내 부자 등급도 확인하기",
                   })
                 }
                 className="w-full flex items-center justify-center gap-3 bg-[#FEE500] hover:bg-[#F5DC00] text-[#3C1E1E] font-black text-lg h-16 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 active:scale-[0.98] cursor-pointer"

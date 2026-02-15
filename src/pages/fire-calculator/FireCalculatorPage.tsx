@@ -844,9 +844,10 @@ export default function FireCalculatorPage() {
                           ? `${grade.emoji} FIRE 예상 나이: ${result.fireAge}세!`
                           : `${grade.emoji} ${grade.title}`,
                         description: result.reachable
-                          ? `목표 금액: ${formatWon(result.fireNumber)}원 · 달성률: ${result.progressPercent}%\n4% 룰 기반 조기 은퇴 시뮬레이션`
-                          : `현재 조건으로는 FIRE 달성이 어렵습니다.\n나의 FIRE 지수를 확인해보세요!`,
+                          ? `목표 금액: ${formatWon(result.fireNumber)}원 · 달성률: ${result.progressPercent}%\n당신도 부자연구소에서 분석받아보세요!`
+                          : `현재 조건으로는 FIRE 달성이 어렵습니다.\n당신도 부자연구소에서 분석받아보세요!`,
                         path: "/fire-calculator",
+                        buttonText: "내 은퇴 나이도 계산해보기",
                       })
                     }
                     className="w-full flex items-center justify-center gap-3 bg-[#FEE500] hover:bg-[#F5DC00] text-[#3C1E1E] font-black text-lg h-16 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 active:scale-[0.98] cursor-pointer"

@@ -183,8 +183,9 @@ const CalculatorResult = forwardRef<HTMLDivElement, CalculatorResultProps>(
             onClick={() =>
               shareKakao({
                 title: `🏆 나는 대한민국 자산 상위 ${displayPct}%!`,
-                description: `${result.ageGroup} 기준 상위 ${result.assetPercentileByAge}% · 전국 소득 상위 ${result.incomePercentile}%\n통계청 데이터 기반 자산순위 계산기`,
+                description: `${result.ageGroup} 기준 상위 ${result.assetPercentileByAge}% · 전국 소득 상위 ${result.incomePercentile}%\n당신도 부자연구소에서 분석받아보세요!`,
                 path: "/calculator",
+                buttonText: "내 자산 순위도 확인하기",
               })
             }
             className="w-full flex items-center justify-center gap-3 bg-[#FEE500] hover:bg-[#F5DC00] text-[#3C1E1E] font-black text-lg h-16 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 active:scale-[0.98] cursor-pointer"
