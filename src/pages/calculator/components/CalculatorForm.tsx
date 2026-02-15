@@ -57,7 +57,7 @@ export default function CalculatorForm({
       </h2>
 
       {/* 나이 + 지역 */}
-      <div className="grid grid-cols-2 gap-5 mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10">
         <NumberStepper
           label="나이"
           icon={User}
