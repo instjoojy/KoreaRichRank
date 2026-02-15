@@ -321,9 +321,9 @@ export default function RealHourlyWagePage() {
               <div className="flex items-start gap-3">
                 <AlertTriangle className="w-5 h-5 text-orange-500 shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-black text-navy text-sm mb-1">
+                  <h4 className="font-black text-navy text-sm mb-1">
                     잠재적 손실 시간 (실시간)
-                  </p>
+                  </h4>
                   <p className="text-sm font-medium text-gray-500 leading-relaxed">
                     매일{" "}
                     <span className="font-black text-orange-600">
@@ -448,7 +448,7 @@ export default function RealHourlyWagePage() {
                 <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl mb-3 bg-gray-100 text-gray-400">
                   <Briefcase className="w-4 h-4" />
                 </div>
-                <p className="text-sm font-medium text-gray-400 mb-1">명목 시급</p>
+                <h4 className="text-sm font-medium text-gray-400 mb-1">명목 시급</h4>
                 <p className="text-xl font-black text-navy">
                   {formatNumber(result.officialHourlyWage)}원
                 </p>
@@ -458,7 +458,7 @@ export default function RealHourlyWagePage() {
                 <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl mb-3" style={{ backgroundColor: `${grade.color}15` }}>
                   <Timer className="w-4 h-4" style={{ color: grade.color }} />
                 </div>
-                <p className="text-sm font-medium text-gray-400 mb-1">진짜 시급</p>
+                <h4 className="text-sm font-medium text-gray-400 mb-1">진짜 시급</h4>
                 <p className="text-xl font-black" style={{ color: grade.color }}>
                   {formatNumber(result.realHourlyWage)}원
                 </p>

@@ -328,9 +328,9 @@ export default function BqTestPage() {
               <div className="flex items-start gap-3">
                 <Sparkles className="w-5 h-5 text-amber shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-black text-navy text-sm mb-1">
+                  <h4 className="font-black text-navy text-sm mb-1">
                     맞춤 조언
-                  </p>
+                  </h4>
                   <p className="text-sm font-medium text-gray-500 leading-relaxed">
                     {result.tip}
                   </p>

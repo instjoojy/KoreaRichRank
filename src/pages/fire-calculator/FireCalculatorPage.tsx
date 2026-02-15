@@ -404,9 +404,9 @@ export default function FireCalculatorPage() {
               <div className="flex items-start gap-3">
                 <Target className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
                 <div className="flex-1">
-                  <p className="font-black text-navy text-sm mb-1">
+                  <h4 className="font-black text-navy text-sm mb-1">
                     FIRE 목표 금액 (실시간)
-                  </p>
+                  </h4>
                   <p className="text-sm font-medium text-gray-500 leading-relaxed">
                     목표:{" "}
                     <span className="font-black text-emerald-600">
@@ -655,18 +655,18 @@ export default function FireCalculatorPage() {
                   {/* 저축률 & 월 캐시플로우 */}
                   <div className="grid grid-cols-2 gap-4 mb-6">
                     <div className="bg-emerald-50 rounded-2xl p-4 text-center">
-                      <p className="text-xs font-medium text-emerald-600 mb-1">
+                      <h4 className="text-xs font-medium text-emerald-600 mb-1">
                         저축률
-                      </p>
+                      </h4>
                       <p className="text-2xl font-black text-emerald-700">
                         {result.savingsRate}
                         <span className="text-sm ml-0.5">%</span>
                       </p>
                     </div>
                     <div className="bg-[#FFF7ED] rounded-2xl p-4 text-center">
-                      <p className="text-xs font-medium text-orange-500 mb-1">
+                      <h4 className="text-xs font-medium text-orange-500 mb-1">
                         연간 필요 소비
-                      </p>
+                      </h4>
                       <p className="text-2xl font-black text-orange-600">
                         {formatWon(result.annualExpenses)}
                         <span className="text-sm ml-0.5">원</span>
