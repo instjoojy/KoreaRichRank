@@ -20,7 +20,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children }) => {
   return (
     <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden transition-shadow duration-200 hover:shadow-md">
       <button
-        className="flex justify-between items-center w-full px-6 py-5 text-left font-semibold text-[15px] text-navy hover:text-navy-light transition-colors duration-200 cursor-pointer"
+        className="flex justify-between items-center w-full px-6 py-5 text-left font-bold text-[15px] text-navy hover:text-navy-light transition-colors duration-200 cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
       >
