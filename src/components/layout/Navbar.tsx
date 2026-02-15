@@ -21,13 +21,15 @@ export default function Navbar() {
                 <Link
                   key={tool.id}
                   to={tool.path}
-                  className={`px-3 py-2 rounded-2xl text-sm font-medium transition-all duration-200 ${
+                  className={`flex items-center gap-1 px-3 py-2 rounded-2xl text-xs font-bold transition-all duration-200 ${
                     isActive
-                      ? "font-bold text-indigo bg-indigo-50"
+                      ? "text-white shadow-sm"
                       : "text-gray-400 hover:text-navy hover:bg-gray-50"
                   }`}
+                  style={isActive ? { backgroundColor: tool.accentColor } : undefined}
                 >
-                  {tool.emoji}
+                  <span className="text-sm">{tool.emoji}</span>
+                  <span className="hidden sm:inline">{tool.navLabel}</span>
                 </Link>
               );
             })}

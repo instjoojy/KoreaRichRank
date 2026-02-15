@@ -20,6 +20,11 @@
   --color-amber-50: #FFFBEB;
   --color-amber-100: #FEF3C7;
   --color-amber-dark: #F59E0B;
+  --color-rose: #F43F5E;
+  --color-rose-50: #FFF1F2;
+  --color-rose-100: #FFE4E6;
+  --color-rose-light: #FB7185;
+  --color-rose-dark: #E11D48;
   --color-cream: #FEFCF6;
   --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   --font-display: "Gaegu", "Pretendard Variable", cursive;

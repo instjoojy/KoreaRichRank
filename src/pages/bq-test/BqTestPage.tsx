@@ -83,10 +83,10 @@ export default function BqTestPage() {
 
       {/* ── 히어로 헤더 ───────────────────────────────────── */}
       {step === "intro" && (
-        <header className="bg-gradient-to-b from-violet-600 to-violet-800">
+        <header className="bg-gradient-to-b from-[#D97706] to-[#92400E]">
           <div className="max-w-[600px] mx-auto px-6 py-16 sm:py-20 text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-500/15 rounded-3xl mb-6 animate-float">
-              <Brain className="w-8 h-8 text-purple-400" />
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-amber-100/20 rounded-3xl mb-6 animate-float">
+              <Brain className="w-8 h-8 text-amber-100" />
             </div>
             <h1 className="text-[32px] sm:text-[40px] font-black tracking-tight leading-tight text-white">
               부자 지수(BQ) 테스트
@@ -94,11 +94,11 @@ export default function BqTestPage() {
             <p className="mt-5 text-lg sm:text-xl font-bold text-white/90 leading-relaxed">
               나의 부자 잠재력은 몇 점?
             </p>
-            <p className="mt-2 text-base sm:text-lg font-medium text-gray-400">
+            <p className="mt-2 text-base sm:text-lg font-medium text-amber-100/60">
               소비 · 투자 · 경제 지식 10문항
             </p>
-            <div className="mt-6 inline-flex items-center gap-2 bg-white/[0.06] rounded-full px-5 py-2 text-sm font-medium text-gray-400">
-              <div className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+            <div className="mt-6 inline-flex items-center gap-2 bg-white/[0.06] rounded-full px-5 py-2 text-sm font-medium text-amber-100/60">
+              <div className="w-1.5 h-1.5 rounded-full bg-amber" />
               약 2분 소요
             </div>
           </div>
@@ -107,7 +107,7 @@ export default function BqTestPage() {
 
       {/* ── 프로그레스 바 (퀴즈 중) ──────────────────────── */}
       {step === "quiz" && (
-        <div className="bg-gradient-to-b from-violet-600 to-violet-800">
+        <div className="bg-gradient-to-b from-[#D97706] to-[#92400E]">
           <div className="max-w-[600px] mx-auto px-6 pt-8 pb-12">
             <div className="flex items-center justify-between mb-3">
               <span className="text-sm font-bold text-white/60">
@@ -178,7 +178,7 @@ export default function BqTestPage() {
                 className="bg-white rounded-3xl shadow-xl p-7 sm:p-10"
               >
                 {/* 카테고리 태그 */}
-                <span className="inline-flex items-center gap-1.5 text-xs font-black px-3 py-1.5 rounded-full bg-purple-50 text-purple-500 mb-5">
+                <span className="inline-flex items-center gap-1.5 text-xs font-black px-3 py-1.5 rounded-full bg-amber-50 text-amber-dark mb-5">
                   {questions[currentQ].category}
                 </span>
 
@@ -310,7 +310,7 @@ export default function BqTestPage() {
             {/* 점수 상세 */}
             <section className="bg-white rounded-3xl shadow-xl p-6">
               <h3 className="font-black text-navy text-base mb-4 flex items-center gap-2">
-                <Brain className="w-4 h-4 text-purple-500" />
+                <Brain className="w-4 h-4 text-amber-dark" />
                 점수 분포
               </h3>
               <div className="space-y-3">

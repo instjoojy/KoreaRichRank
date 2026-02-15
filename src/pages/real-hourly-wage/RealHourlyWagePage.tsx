@@ -56,16 +56,16 @@ interface Grade {
 
 function getGrade(minWageRatio: number): Grade {
   if (minWageRatio < 70)
-    return { title: "노동 착취의 굴레", subtitle: "이건 일이 아니라 봉사활동입니다", emoji: "💀", color: "#DC2626" };
+    return { title: "기부 천사", subtitle: "회사에 재능 기부 중이시군요? 아니, 돈까지 기부하고 계셨네요!", emoji: "😇", color: "#DC2626" };
   if (minWageRatio < 100)
-    return { title: "편의점 알바보다 못한 시급", subtitle: "사장님, 저 편의점 갈게요", emoji: "😱", color: "#EA580C" };
+    return { title: "삼각김밥 사장님", subtitle: "편의점 알바가 진심으로 부럽습니다. 사장님 삼각김밥 하나만요...", emoji: "🍙", color: "#EA580C" };
   if (minWageRatio < 150)
-    return { title: "월급루팡이라도 하고 싶은 시급", subtitle: "최저임금은 넘었지만... 마음은 퇴사", emoji: "😮‍💨", color: "#D97706" };
+    return { title: "이직 포털 즐겨찾기", subtitle: "퇴근 후 잡플래닛 켜는 거 다 보여요. 이직각입니다 이직각!", emoji: "🧳", color: "#D97706" };
   if (minWageRatio < 200)
-    return { title: "그럭저럭 버티는 직장인", subtitle: "나쁘진 않지만, 야근할 때 현타 옵니다", emoji: "🙂", color: "#059669" };
+    return { title: "야근 후유증 주의보", subtitle: "시급은 괜찮은데 병원비로 다 나갑니다. 제발 운동하세요!", emoji: "💊", color: "#059669" };
   if (minWageRatio < 300)
-    return { title: "갓생 사는 직장인", subtitle: "이 정도면 워라밸 지키면서 잘 벌고 있어요", emoji: "🔥", color: "#10B981" };
-  return { title: "시급 재벌", subtitle: "혹시 대표님이세요? 존경합니다", emoji: "👑", color: "#FFD700" };
+    return { title: "워라밸 수호자", subtitle: "칼퇴 후 넷플릭스 켜는 여유... 부럽다 정말 부럽다!", emoji: "🔥", color: "#10B981" };
+  return { title: "시급 재벌", subtitle: "혹시 대표님이세요? 아니라면 연봉 협상의 신이십니다!", emoji: "👑", color: "#FFD700" };
 }
 
 function calculate(inputs: Inputs): Result | null {
@@ -243,10 +243,10 @@ export default function RealHourlyWagePage() {
       </Helmet>
 
       {/* ── 히어로 ─────────────────────────────────────── */}
-      <header className="bg-navy">
+      <header className="bg-gradient-to-b from-[#E11D48] to-[#9F1239]">
         <div className="max-w-[600px] mx-auto px-6 py-16 sm:py-20 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-emerald-500/15 rounded-3xl mb-6 animate-float">
-            <Timer className="w-8 h-8 text-emerald-400" />
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-rose-100/20 rounded-3xl mb-6 animate-float">
+            <Timer className="w-8 h-8 text-rose-100" />
           </div>
           <h1 className="text-[32px] sm:text-[40px] font-black tracking-tight leading-tight text-white">
             나의 진짜 시급 계산기
@@ -254,8 +254,8 @@ export default function RealHourlyWagePage() {
           <p className="mt-5 text-lg sm:text-xl font-bold text-white/90 leading-[1.7]">
             출퇴근, 야근, 업무 연락까지 포함하면?
           </p>
-          <div className="mt-6 inline-flex items-center gap-2 bg-white/[0.06] rounded-full px-5 py-2.5 text-[15px] font-medium text-gray-400">
-            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+          <div className="mt-6 inline-flex items-center gap-2 bg-white/[0.06] rounded-full px-5 py-2.5 text-[15px] font-medium text-rose-100/60">
+            <div className="w-1.5 h-1.5 rounded-full bg-rose-light" />
             2026년 최저임금 {formatNumber(MIN_WAGE_2026)}원 기준
           </div>
         </div>
@@ -266,8 +266,8 @@ export default function RealHourlyWagePage() {
         {/* 입력 폼 카드 */}
         <section className="bg-white rounded-3xl shadow-xl p-7 sm:p-10">
           <h2 className="text-[32px] font-black text-navy mb-10 flex items-center gap-3">
-            <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-emerald-50">
-              <Clock className="w-6 h-6 text-emerald-600" />
+            <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-rose-50">
+              <Clock className="w-6 h-6 text-rose" />
             </div>
             근무 정보 입력
           </h2>
@@ -359,7 +359,7 @@ export default function RealHourlyWagePage() {
           <button
             onClick={handleCalculate}
             disabled={!inputs.monthlySalary || !inputs.regularHours}
-            className="w-full group bg-gradient-to-r from-[#34D399] to-[#10B981] hover:from-[#10B981] hover:to-[#059669] disabled:from-gray-200 disabled:to-gray-200 disabled:text-gray-400 text-white text-lg font-black h-16 rounded-2xl shadow-lg shadow-emerald-500/25 disabled:shadow-none transition-all duration-300 active:scale-[0.98] cursor-pointer disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full group bg-gradient-to-r from-[#FB7185] to-[#F43F5E] hover:from-[#F43F5E] hover:to-[#E11D48] disabled:from-gray-200 disabled:to-gray-200 disabled:text-gray-400 text-white text-lg font-black h-16 rounded-2xl shadow-lg shadow-rose/25 disabled:shadow-none transition-all duration-300 active:scale-[0.98] cursor-pointer disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             내 진짜 시급 계산하기
             <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -497,7 +497,7 @@ export default function RealHourlyWagePage() {
                 </div>
                 <div className="w-full h-8 bg-gray-100 rounded-full overflow-hidden flex">
                   <div
-                    className="h-full bg-emerald-400 flex items-center justify-center"
+                    className="h-full bg-rose-light flex items-center justify-center"
                     style={{ width: `${(Number(inputs.regularHours) / result.totalDailyHours) * 100}%` }}
                   >
                     <span className="text-[10px] font-black text-white">정규</span>
@@ -537,7 +537,7 @@ export default function RealHourlyWagePage() {
                 </div>
                 <div className="flex flex-wrap gap-3 mt-3">
                   {[
-                    { label: "정규", color: "bg-emerald-400" },
+                    { label: "정규", color: "bg-rose-light" },
                     { label: "이동", color: "bg-blue-400" },
                     { label: "야근", color: "bg-purple-400" },
                     { label: "연락", color: "bg-pink-400" },
@@ -707,7 +707,7 @@ export default function RealHourlyWagePage() {
                     navigator.clipboard.writeText(text).then(() => alert("결과가 복사되었습니다!"));
                   }
                 }}
-                className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-[#34D399] to-[#10B981] hover:from-[#10B981] hover:to-[#059669] text-white font-black text-lg h-16 rounded-2xl shadow-lg shadow-emerald-500/25 transition-all duration-300 active:scale-[0.98] cursor-pointer"
+                className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-[#FB7185] to-[#F43F5E] hover:from-[#F43F5E] hover:to-[#E11D48] text-white font-black text-lg h-16 rounded-2xl shadow-lg shadow-rose/25 transition-all duration-300 active:scale-[0.98] cursor-pointer"
               >
                 <Share2 className="w-5 h-5" />
                 결과 공유하기
@@ -735,7 +735,7 @@ export default function RealHourlyWagePage() {
                   ? "커리어 전환, 연봉 협상, 부업까지 — 지금 시작하세요"
                   : "더 높은 시급을 위한 투자, 지금이 적기입니다"}
               </p>
-              <AdBanner slot="wage-result-ad" format="rectangle" />
+              <AdBanner slot="wage-result-ad" format="rectangle" className="mt-2" />
             </section>
 
             {/* ⑨ 다시하기 버튼 */}

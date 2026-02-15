@@ -4,7 +4,7 @@ export default function BqArticle() {
   return (
     <article className="max-w-[600px] mx-auto px-5 pb-20">
       <div className="bg-white rounded-3xl shadow-lg p-7 sm:p-10">
-        <span className="inline-block text-xs font-black text-violet-600 bg-violet-50 px-3 py-1.5 rounded-full mb-5">
+        <span className="inline-block text-xs font-black text-amber-dark bg-amber-50 px-3 py-1.5 rounded-full mb-5">
           부자연구소 칼럼
         </span>
         <h2 className="text-[24px] sm:text-[28px] font-black text-navy leading-snug mb-2">

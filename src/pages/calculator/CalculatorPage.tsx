@@ -182,11 +182,11 @@ export default function CalculatorPage() {
       </Helmet>
 
       {/* ── 상단 광고 ─────────────────────────────────────── */}
-      <AdBanner slot="top-banner" className="w-full" />
+      <AdBanner slot="top-banner" className="w-full py-3" />
 
       {/* ── 히어로 헤더 ───────────────────────────────────── */}
       <header className="bg-gradient-to-b from-indigo to-indigo-dark">
-        <div className="max-w-[600px] mx-auto px-6 py-20 sm:py-24 text-center">
+        <div className="max-w-[600px] mx-auto px-6 py-16 sm:py-20 text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-white/10 rounded-3xl mb-6 animate-float text-4xl">
             🏆
           </div>

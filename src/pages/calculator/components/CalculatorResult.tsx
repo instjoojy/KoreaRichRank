@@ -187,7 +187,7 @@ const CalculatorResult = forwardRef<HTMLDivElement, CalculatorResultProps>(
         </section>
 
         {/* 하단 광고 */}
-        <AdBanner slot="bottom-banner" className="w-full" />
+        <AdBanner slot="bottom-banner" className="w-full mt-4" />
       </div>
     );
   }
