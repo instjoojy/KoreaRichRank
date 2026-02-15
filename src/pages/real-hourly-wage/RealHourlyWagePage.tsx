@@ -16,7 +16,9 @@ import {
   RotateCcw,
   Share2,
   ExternalLink,
+  MessageCircle,
 } from "lucide-react";
+import { shareKakao } from "../../utils/kakaoShare";
 import AdBanner from "../../components/AdBanner";
 import WageArticle from "./WageArticle";
 
@@ -732,18 +734,31 @@ export default function RealHourlyWagePage() {
             {/* ⑦ 공유 버튼들 */}
             <div className="space-y-3">
               <button
+                onClick={() =>
+                  shareKakao({
+                    title: `${grade.emoji} 내 진짜 시급: ${formatNumber(result.realHourlyWage)}원!`,
+                    description: `최저임금의 ${result.minWageRatio}% · 명목 시급에서 ${wageDropPct}% 하락\n숨겨진 근무시간까지 반영한 진짜 시급 계산기`,
+                    path: "/real-hourly-wage",
+                  })
+                }
+                className="w-full flex items-center justify-center gap-3 bg-[#FEE500] hover:bg-[#F5DC00] text-[#3C1E1E] font-black text-lg h-16 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 active:scale-[0.98] cursor-pointer"
+              >
+                <MessageCircle className="w-5 h-5" />
+                카카오톡으로 공유하기
+              </button>
+              <button
                 onClick={() => {
-                  const text = `[나의 진짜 시급 테스트]\n${grade.emoji} ${grade.title}\n내 진짜 시급: ${formatNumber(result.realHourlyWage)}원 (최저임금의 ${result.minWageRatio}%)\n명목 시급에서 ${wageDropPct}% 하락...\n\n나도 테스트하기 ▸ ${window.location.href}`;
+                  const text = `[나의 진짜 시급 테스트]\n${grade.emoji} ${grade.title}\n내 진짜 시급: ${formatNumber(result.realHourlyWage)}원 (최저임금의 ${result.minWageRatio}%)\n명목 시급에서 ${wageDropPct}% 하락...\n\n나도 테스트하기 ▸ https://www.korearichlab.com/real-hourly-wage`;
                   if (navigator.share) {
                     navigator.share({ title: "나의 진짜 시급 계산기", text }).catch(() => {});
                   } else {
                     navigator.clipboard.writeText(text).then(() => alert("결과가 복사되었습니다!"));
                   }
                 }}
-                className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-[#FB7185] to-[#F43F5E] hover:from-[#F43F5E] hover:to-[#E11D48] text-white font-black text-lg h-16 rounded-2xl shadow-lg shadow-rose/25 transition-all duration-300 active:scale-[0.98] cursor-pointer"
+                className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-[#FB7185] to-[#F43F5E] hover:from-[#F43F5E] hover:to-[#E11D48] text-white font-black text-base h-14 rounded-2xl shadow-lg shadow-rose/25 transition-all duration-300 active:scale-[0.98] cursor-pointer"
               >
                 <Share2 className="w-5 h-5" />
-                결과 공유하기
+                다른 앱으로 공유하기
               </button>
               <a
                 href="https://www.teamblind.com/kr/post"

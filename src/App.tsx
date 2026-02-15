@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import HomePage from "./pages/HomePage";
@@ -11,6 +12,13 @@ import AboutPage from "./pages/legal/AboutPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 export default function App() {
+  useEffect(() => {
+    const K = window.Kakao;
+    if (K && !K.isInitialized()) {
+      K.init("50b0bd620c60846528260bc97eb320d7");
+    }
+  }, []);
+
   return (
     <Routes>
       <Route element={<Layout />}>

@@ -6,7 +6,9 @@ import {
   MapPin,
   MessageCircle,
   BarChart3,
+  Share2,
 } from "lucide-react";
+import { shareKakao } from "../../../utils/kakaoShare";
 import {
   BarChart,
   Bar,
@@ -175,16 +177,36 @@ const CalculatorResult = forwardRef<HTMLDivElement, CalculatorResultProps>(
           </div>
         </section>
 
-        {/* 카카오톡 공유 */}
-        <section className="animate-fade-in-up animation-delay-400 opacity-0">
+        {/* 공유 버튼 */}
+        <div className="space-y-3 animate-fade-in-up animation-delay-400 opacity-0">
           <button
-            onClick={() => alert("카카오톡 공유 기능은 현재 준비 중입니다.")}
+            onClick={() =>
+              shareKakao({
+                title: `🏆 나는 대한민국 자산 상위 ${displayPct}%!`,
+                description: `${result.ageGroup} 기준 상위 ${result.assetPercentileByAge}% · 전국 소득 상위 ${result.incomePercentile}%\n통계청 데이터 기반 자산순위 계산기`,
+                path: "/calculator",
+              })
+            }
             className="w-full flex items-center justify-center gap-3 bg-[#FEE500] hover:bg-[#F5DC00] text-[#3C1E1E] font-black text-lg h-16 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 active:scale-[0.98] cursor-pointer"
           >
             <MessageCircle className="w-5 h-5" />
-            카카오톡으로 결과 공유하기
+            카카오톡으로 공유하기
           </button>
-        </section>
+          <button
+            onClick={() => {
+              const text = `[대한민국 자산 상위 % 테스트]\n🏆 나는 전국 자산 상위 ${displayPct}%!\n${result.ageGroup} 기준 상위 ${result.assetPercentileByAge}%\n\n나도 테스트하기 ▸ https://www.korearichlab.com/calculator`;
+              if (navigator.share) {
+                navigator.share({ title: "자산 상위 % 계산기", text }).catch(() => {});
+              } else {
+                navigator.clipboard.writeText(text).then(() => alert("결과가 복사되었습니다!"));
+              }
+            }}
+            className="w-full flex items-center justify-center gap-3 bg-indigo hover:bg-indigo-dark text-white font-black text-base h-14 rounded-2xl shadow-md transition-all duration-200 active:scale-[0.98] cursor-pointer"
+          >
+            <Share2 className="w-5 h-5" />
+            다른 앱으로 공유하기
+          </button>
+        </div>
 
         {/* 하단 광고 */}
         <AdBanner slot="bottom-banner" className="w-full mt-4" />

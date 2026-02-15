@@ -12,7 +12,9 @@ import {
   RotateCcw,
   Share2,
   Target,
+  MessageCircle,
 } from "lucide-react";
+import { shareKakao } from "../../utils/kakaoShare";
 import AdBanner from "../../components/AdBanner";
 import FireArticle from "./FireArticle";
 
@@ -833,26 +835,41 @@ export default function FireCalculatorPage() {
                 </section>
 
                 {/* ⑤ 공유 버튼 */}
-                <button
-                  onClick={() => {
-                    const text = result.reachable
-                      ? `[FIRE 지수 테스트]\n${grade.emoji} ${grade.title}\nFIRE 예상 나이: ${result.fireAge}세 (${result.fireYear}년 ${result.fireMonth}월)\n목표 금액: ${formatWon(result.fireNumber)}원 | 달성률: ${result.progressPercent}%\n\n나도 테스트하기 ▸ ${window.location.href}`
-                      : `[FIRE 지수 테스트]\n${grade.emoji} ${grade.title}\n현재 조건으로는 FIRE 달성이 어렵습니다.\n\n나도 테스트하기 ▸ ${window.location.href}`;
-                    if (navigator.share) {
-                      navigator
-                        .share({ title: "FIRE 지수 계산기", text })
-                        .catch(() => {});
-                    } else {
-                      navigator.clipboard
-                        .writeText(text)
-                        .then(() => alert("결과가 복사되었습니다!"));
+                <div className="space-y-3">
+                  <button
+                    onClick={() =>
+                      shareKakao({
+                        title: result.reachable
+                          ? `${grade.emoji} FIRE 예상 나이: ${result.fireAge}세!`
+                          : `${grade.emoji} ${grade.title}`,
+                        description: result.reachable
+                          ? `목표 금액: ${formatWon(result.fireNumber)}원 · 달성률: ${result.progressPercent}%\n4% 룰 기반 조기 은퇴 시뮬레이션`
+                          : `현재 조건으로는 FIRE 달성이 어렵습니다.\n나의 FIRE 지수를 확인해보세요!`,
+                        path: "/fire-calculator",
+                      })
                     }
-                  }}
-                  className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-[#34D399] to-[#10B981] hover:from-[#10B981] hover:to-[#059669] text-white font-black text-lg h-16 rounded-2xl shadow-lg shadow-emerald/25 transition-all duration-300 active:scale-[0.98] cursor-pointer"
-                >
-                  <Share2 className="w-5 h-5" />
-                  결과 공유하기
-                </button>
+                    className="w-full flex items-center justify-center gap-3 bg-[#FEE500] hover:bg-[#F5DC00] text-[#3C1E1E] font-black text-lg h-16 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 active:scale-[0.98] cursor-pointer"
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                    카카오톡으로 공유하기
+                  </button>
+                  <button
+                    onClick={() => {
+                      const text = result.reachable
+                        ? `[FIRE 지수 테스트]\n${grade.emoji} ${grade.title}\nFIRE 예상 나이: ${result.fireAge}세 (${result.fireYear}년 ${result.fireMonth}월)\n목표 금액: ${formatWon(result.fireNumber)}원 | 달성률: ${result.progressPercent}%\n\n나도 테스트하기 ▸ https://www.korearichlab.com/fire-calculator`
+                        : `[FIRE 지수 테스트]\n${grade.emoji} ${grade.title}\n현재 조건으로는 FIRE 달성이 어렵습니다.\n\n나도 테스트하기 ▸ https://www.korearichlab.com/fire-calculator`;
+                      if (navigator.share) {
+                        navigator.share({ title: "FIRE 지수 계산기", text }).catch(() => {});
+                      } else {
+                        navigator.clipboard.writeText(text).then(() => alert("결과가 복사되었습니다!"));
+                      }
+                    }}
+                    className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-[#34D399] to-[#10B981] hover:from-[#10B981] hover:to-[#059669] text-white font-black text-base h-14 rounded-2xl shadow-lg shadow-emerald/25 transition-all duration-300 active:scale-[0.98] cursor-pointer"
+                  >
+                    <Share2 className="w-5 h-5" />
+                    다른 앱으로 공유하기
+                  </button>
+                </div>
 
                 {/* ⑥ 광고 영역 */}
                 <section className="bg-white rounded-3xl shadow-xl p-6 sm:p-8">
