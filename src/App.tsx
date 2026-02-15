@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import HomePage from "./pages/HomePage";
 import CalculatorPage from "./pages/calculator/CalculatorPage";
+import BqTestPage from "./pages/bq-test/BqTestPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 export default function App() {
@@ -10,6 +11,7 @@ export default function App() {
       <Route element={<Layout />}>
         <Route index element={<HomePage />} />
         <Route path="calculator" element={<CalculatorPage />} />
+        <Route path="bq-test" element={<BqTestPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

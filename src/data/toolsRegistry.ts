@@ -1,4 +1,4 @@
-import { Calculator, type LucideIcon } from "lucide-react";
+import { Calculator, Brain, type LucideIcon } from "lucide-react";
 
 export interface Tool {
   id: string;
@@ -20,5 +20,14 @@ export const tools: Tool[] = [
     icon: Calculator,
     accentColor: "#FFD700",
     badge: "인기",
+  },
+  {
+    id: "bq-test",
+    name: "부자 지수(BQ) 테스트",
+    description: "나의 부자 잠재력은? 10문항으로 알아보는 BQ 지수",
+    path: "/bq-test",
+    icon: Brain,
+    accentColor: "#8B5CF6",
+    badge: "NEW",
   },
 ];
