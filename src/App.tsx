@@ -10,6 +10,8 @@ import CalculatorResultPage from "./pages/calculator/CalculatorResultPage";
 import BqTestResultPage from "./pages/bq-test/BqTestResultPage";
 import RealHourlyWageResultPage from "./pages/real-hourly-wage/RealHourlyWageResultPage";
 import FireCalculatorResultPage from "./pages/fire-calculator/FireCalculatorResultPage";
+import ColumnsPage from "./pages/ColumnsPage";
+import ContactPage from "./pages/ContactPage";
 import TermsPage from "./pages/legal/TermsPage";
 import PrivacyPage from "./pages/legal/PrivacyPage";
 import AboutPage from "./pages/legal/AboutPage";
@@ -35,6 +37,8 @@ export default function App() {
         <Route path="real-hourly-wage/result" element={<RealHourlyWageResultPage />} />
         <Route path="fire-calculator" element={<FireCalculatorPage />} />
         <Route path="fire-calculator/result" element={<FireCalculatorResultPage />} />
+        <Route path="columns" element={<ColumnsPage />} />
+        <Route path="contact" element={<ContactPage />} />
         <Route path="terms" element={<TermsPage />} />
         <Route path="privacy" element={<PrivacyPage />} />
         <Route path="about" element={<AboutPage />} />
