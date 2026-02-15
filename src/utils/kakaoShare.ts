@@ -22,7 +22,8 @@ export function shareKakao({ title, description, path, buttonText = "나도 해�
     return;
   }
 
-  const url = `${SITE_URL}${path}`;
+  const resultUrl = `${SITE_URL}${path}${path.includes("?") ? "&" : "?"}shared=true`;
+  const mainUrl = `${SITE_URL}${path.split("?")[0]}`;
 
   window.Kakao!.Share.sendDefault({
     objectType: "feed",
@@ -30,12 +31,16 @@ export function shareKakao({ title, description, path, buttonText = "나도 해�
       title,
       description,
       imageUrl: OG_IMAGE,
-      link: { mobileWebUrl: url, webUrl: url },
+      link: { mobileWebUrl: resultUrl, webUrl: resultUrl },
     },
     buttons: [
       {
+        title: "친구 결과 확인하기",
+        link: { mobileWebUrl: resultUrl, webUrl: resultUrl },
+      },
+      {
         title: buttonText,
-        link: { mobileWebUrl: url, webUrl: url },
+        link: { mobileWebUrl: mainUrl, webUrl: mainUrl },
       },
     ],
   });

@@ -18,6 +18,7 @@ import {
 import { shareKakao } from "../../utils/kakaoShare";
 import SliderInput from "../../components/SliderInput";
 import { AGE_STOPS, FIRE_ASSET_STOPS, MONTHLY_WON_STOPS, RETURN_STOPS, type Stop } from "../../utils/sliderStops";
+import SharedResultBanner from "../../components/SharedResultBanner";
 import AdBanner from "../../components/AdBanner";
 import FireArticle from "./FireArticle";
 
@@ -305,8 +306,13 @@ export default function FireCalculatorPage() {
       monthlySavings: Number(searchParams.get("saving") || 0),
       expectedReturn: Number(searchParams.get("return") || 0),
     });
-    setIsLoading(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    if (searchParams.get("shared") === "true") {
+      setShowResult(true);
+    } else {
+      setIsLoading(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleChange = (key: keyof Inputs, value: string) => {
@@ -327,6 +333,7 @@ export default function FireCalculatorPage() {
     return { fireNumber, progress };
   }, [inputs.totalAssets, inputs.monthlyExpenses]);
 
+  const isShared = searchParams.get("shared") === "true";
   const result = showResult ? calculate(inputs) : null;
 
   const handleCalculate = () => {
@@ -512,6 +519,13 @@ export default function FireCalculatorPage() {
 
             return (
               <div id="result-section" className="mt-8 space-y-8">
+                {isShared && (
+                  <SharedResultBanner
+                    calculatorPath="/fire-calculator"
+                    accentColor="#10B981"
+                    ctaText="나도 은퇴 시점 계산하기"
+                  />
+                )}
                 {/* ① 메인 결과 + 등급 카드 */}
                 <section className="relative overflow-hidden rounded-3xl bg-navy shadow-xl">
                   <div className="absolute inset-0 overflow-hidden">
@@ -893,8 +907,8 @@ export default function FireCalculatorPage() {
                   <button
                     onClick={() => {
                       const text = result.reachable
-                        ? `[FIRE 지수 테스트]\n${grade.emoji} ${grade.title}\nFIRE 예상 나이: ${result.fireAge}세 (${result.fireYear}년 ${result.fireMonth}월)\n목표 금액: ${formatWon(result.fireNumber)}원 | 달성률: ${result.progressPercent}%\n\n나도 테스트하기 ▸ https://www.korearichlab.com${sharePath}`
-                        : `[FIRE 지수 테스트]\n${grade.emoji} ${grade.title}\n현재 조건으로는 FIRE 달성이 어렵습니다.\n\n나도 테스트하기 ▸ https://www.korearichlab.com${sharePath}`;
+                        ? `[FIRE 지수 테스트]\n${grade.emoji} ${grade.title}\nFIRE 예상 나이: ${result.fireAge}세 (${result.fireYear}년 ${result.fireMonth}월)\n목표 금액: ${formatWon(result.fireNumber)}원 | 달성률: ${result.progressPercent}%\n\n친구 결과 보기 ▸ https://www.korearichlab.com${sharePath}&shared=true`
+                        : `[FIRE 지수 테스트]\n${grade.emoji} ${grade.title}\n현재 조건으로는 FIRE 달성이 어렵습니다.\n\n친구 결과 보기 ▸ https://www.korearichlab.com${sharePath}&shared=true`;
                       if (navigator.share) {
                         navigator.share({ title: "FIRE 지수 계산기", text }).catch(() => {});
                       } else {

@@ -13,6 +13,7 @@ import {
   Share2,
 } from "lucide-react";
 import { shareKakao } from "../../utils/kakaoShare";
+import SharedResultBanner from "../../components/SharedResultBanner";
 import { questions } from "./questions";
 import { getBqResult } from "./results";
 import BqArticle from "./BqArticle";
@@ -51,6 +52,7 @@ export default function BqTestPage() {
     setStep("result");
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const isShared = searchParams.get("shared") === "true";
   const totalScore = answers.reduce((a, b) => a + b, 0);
   const result = step === "result" ? getBqResult(totalScore) : null;
   const ResultIcon = result?.icon ?? Brain;
@@ -281,6 +283,13 @@ export default function BqTestPage() {
             transition={{ duration: 0.5, ease: "easeOut" }}
             className="mt-6 space-y-6"
           >
+            {isShared && (
+              <SharedResultBanner
+                calculatorPath="/bq-test"
+                accentColor="#D97706"
+                ctaText="나도 부자 지수 테스트하기"
+              />
+            )}
             {/* 메인 결과 카드 */}
             <section className="relative overflow-hidden rounded-3xl bg-navy shadow-xl">
               <div className="absolute inset-0 overflow-hidden">
@@ -412,7 +421,7 @@ export default function BqTestPage() {
               </button>
               <button
                 onClick={() => {
-                  const text = `[부자 지수(BQ) 테스트]\n${result.emoji} ${result.title} (${totalScore}/40점)\n${result.message}\n\n나도 테스트하기 ▸ https://www.korearichlab.com/bq-test?answers=${answers.join(",")}`;
+                  const text = `[부자 지수(BQ) 테스트]\n${result.emoji} ${result.title} (${totalScore}/40점)\n${result.message}\n\n친구 결과 보기 ▸ https://www.korearichlab.com/bq-test?answers=${answers.join(",")}&shared=true`;
                   if (navigator.share) {
                     navigator.share({ title: "부자 지수(BQ) 테스트", text }).catch(() => {});
                   } else {

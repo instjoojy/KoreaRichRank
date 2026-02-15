@@ -19,6 +19,7 @@ import { DISTRIBUTION } from "./utils/distribution";
 import { getAnalysis } from "./utils/analysis";
 import CalculatorForm from "./components/CalculatorForm";
 import CalculatorResult from "./components/CalculatorResult";
+import SharedResultBanner from "../../components/SharedResultBanner";
 import InsightsSection from "./components/InsightsSection";
 
 export default function CalculatorPage() {
@@ -93,16 +94,25 @@ export default function CalculatorPage() {
     setAssetMan(assetNum % 10000);
     setIncomeMan(incomeNum);
 
-    setIsLoading(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    setTimeout(() => {
+    const isSharedVisit = searchParams.get("shared") === "true";
+    if (isSharedVisit) {
       const res = calculatePercentile(
         { age: ageNum, region: regionVal, netAsset: assetNum, income: incomeNum },
         statsData
       );
       setResult(res);
-      setIsLoading(false);
-    }, 3500);
+    } else {
+      setIsLoading(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(() => {
+        const res = calculatePercentile(
+          { age: ageNum, region: regionVal, netAsset: assetNum, income: incomeNum },
+          statsData
+        );
+        setResult(res);
+        setIsLoading(false);
+      }, 3500);
+    }
   }, [statsData, searchParams]);
 
   // ── 카운트업 애니메이션 ────────────────────────────────────
@@ -166,6 +176,7 @@ export default function CalculatorPage() {
 
   // ── 분석 데이터 ────────────────────────────────────────────
   const analysis = result ? getAnalysis(result.assetPercentileByAge) : null;
+  const isShared = searchParams.get("shared") === "true";
 
   // ── 통계 데이터 로딩/에러 ─────────────────────────────────
   if (statsError) {
@@ -277,15 +288,24 @@ export default function CalculatorPage() {
             />
 
             {result && analysis && (
-              <CalculatorResult
-                ref={resultRef}
-                result={result}
-                displayPct={displayPct}
-                analysis={analysis}
-                chartData={chartData}
-                userBin={userBin}
-                sharePath={`/calculator?age=${age === "" ? 20 : age}&region=${region}&asset=${netAsset}&income=${incomeMan}`}
-              />
+              <>
+                {isShared && (
+                  <SharedResultBanner
+                    calculatorPath="/calculator"
+                    accentColor="#6366F1"
+                    ctaText="나도 자산 순위 확인하기"
+                  />
+                )}
+                <CalculatorResult
+                  ref={resultRef}
+                  result={result}
+                  displayPct={displayPct}
+                  analysis={analysis}
+                  chartData={chartData}
+                  userBin={userBin}
+                  sharePath={`/calculator?age=${age === "" ? 20 : age}&region=${region}&asset=${netAsset}&income=${incomeMan}`}
+                />
+              </>
             )}
           </>
         )}

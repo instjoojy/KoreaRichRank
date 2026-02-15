@@ -196,7 +196,7 @@ const CalculatorResult = forwardRef<HTMLDivElement, CalculatorResultProps>(
           </button>
           <button
             onClick={() => {
-              const text = `[대한민국 자산 상위 % 테스트]\n🏆 나는 전국 자산 상위 ${displayPct}%!\n${result.ageGroup} 기준 상위 ${result.assetPercentileByAge}%\n\n나도 테스트하기 ▸ https://www.korearichlab.com${sharePath}`;
+              const text = `[대한민국 자산 상위 % 테스트]\n🏆 나는 전국 자산 상위 ${displayPct}%!\n${result.ageGroup} 기준 상위 ${result.assetPercentileByAge}%\n\n친구 결과 보기 ▸ https://www.korearichlab.com${sharePath}&shared=true`;
               if (navigator.share) {
                 navigator.share({ title: "자산 상위 % 계산기", text }).catch(() => {});
               } else {

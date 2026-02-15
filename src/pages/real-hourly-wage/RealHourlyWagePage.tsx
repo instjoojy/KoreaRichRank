@@ -22,6 +22,7 @@ import {
 import { shareKakao } from "../../utils/kakaoShare";
 import SliderInput from "../../components/SliderInput";
 import { SALARY_STOPS, HOURS_STOPS, MINUTES_STOPS, type Stop } from "../../utils/sliderStops";
+import SharedResultBanner from "../../components/SharedResultBanner";
 import AdBanner from "../../components/AdBanner";
 import WageArticle from "./WageArticle";
 
@@ -230,8 +231,13 @@ export default function RealHourlyWagePage() {
       prepHours: Number(searchParams.get("prep") || 0),
     };
     setInputs(newInputs);
-    setIsLoading(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    if (searchParams.get("shared") === "true") {
+      setShowResult(true);
+    } else {
+      setIsLoading(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleChange = (key: keyof Inputs, value: string) => {
@@ -255,6 +261,7 @@ export default function RealHourlyWagePage() {
     };
   }, [inputs.commuteHours, inputs.overtimeHours, inputs.afterWorkMinutes, inputs.prepHours]);
 
+  const isShared = searchParams.get("shared") === "true";
   const result = showResult ? calculate(inputs) : null;
 
   const handleCalculate = () => {
@@ -449,6 +456,13 @@ export default function RealHourlyWagePage() {
 
           return (
           <div id="result-section" className="mt-8 space-y-8">
+            {isShared && (
+              <SharedResultBanner
+                calculatorPath="/real-hourly-wage"
+                accentColor="#F43F5E"
+                ctaText="나도 진짜 시급 계산하기"
+              />
+            )}
             {/* ① 메인 결과 + 등급 카드 */}
             <section className="relative overflow-hidden rounded-3xl bg-navy shadow-xl">
               <div className="absolute inset-0 overflow-hidden">
@@ -788,7 +802,7 @@ export default function RealHourlyWagePage() {
               </button>
               <button
                 onClick={() => {
-                  const text = `[나의 진짜 시급 테스트]\n${grade.emoji} ${grade.title}\n내 진짜 시급: ${formatNumber(result.realHourlyWage)}원 (최저임금의 ${result.minWageRatio}%)\n명목 시급에서 ${wageDropPct}% 하락...\n\n나도 테스트하기 ▸ https://www.korearichlab.com${sharePath}`;
+                  const text = `[나의 진짜 시급 테스트]\n${grade.emoji} ${grade.title}\n내 진짜 시급: ${formatNumber(result.realHourlyWage)}원 (최저임금의 ${result.minWageRatio}%)\n명목 시급에서 ${wageDropPct}% 하락...\n\n친구 결과 보기 ▸ https://www.korearichlab.com${sharePath}&shared=true`;
                   if (navigator.share) {
                     navigator.share({ title: "나의 진짜 시급 계산기", text }).catch(() => {});
                   } else {
