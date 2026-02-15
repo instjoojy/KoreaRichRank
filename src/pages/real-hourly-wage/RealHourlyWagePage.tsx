@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import {
   Clock,
@@ -13,11 +13,15 @@ import {
   BookOpen,
   Briefcase,
   RotateCcw,
+  Share2,
+  ExternalLink,
 } from "lucide-react";
+import AdBanner from "../../components/AdBanner";
 
 // 2026년 최저임금: 10,030원
 const MIN_WAGE_2026 = 10_030;
 const WORK_DAYS_PER_MONTH = 22;
+const WORK_DAYS_PER_YEAR = 264;
 
 interface Inputs {
   monthlySalary: number | "";
@@ -36,6 +40,31 @@ interface Result {
   hiddenHours: number;
   monthlyHiddenHours: number;
   monthlyLostWon: number;
+  yearlyCommuteHours: number;
+  yearlyCommuteWon: number;
+  yearlyHiddenHours: number;
+  yearlyLostWon: number;
+}
+
+interface Grade {
+  title: string;
+  subtitle: string;
+  emoji: string;
+  color: string;
+}
+
+function getGrade(minWageRatio: number): Grade {
+  if (minWageRatio < 70)
+    return { title: "노동 착취의 굴레", subtitle: "이건 일이 아니라 봉사활동입니다", emoji: "💀", color: "#DC2626" };
+  if (minWageRatio < 100)
+    return { title: "편의점 알바보다 못한 시급", subtitle: "사장님, 저 편의점 갈게요", emoji: "😱", color: "#EA580C" };
+  if (minWageRatio < 150)
+    return { title: "월급루팡이라도 하고 싶은 시급", subtitle: "최저임금은 넘었지만... 마음은 퇴사", emoji: "😮‍💨", color: "#D97706" };
+  if (minWageRatio < 200)
+    return { title: "그럭저럭 버티는 직장인", subtitle: "나쁘진 않지만, 야근할 때 현타 옵니다", emoji: "🙂", color: "#059669" };
+  if (minWageRatio < 300)
+    return { title: "갓생 사는 직장인", subtitle: "이 정도면 워라밸 지키면서 잘 벌고 있어요", emoji: "🔥", color: "#10B981" };
+  return { title: "시급 재벌", subtitle: "혹시 대표님이세요? 존경합니다", emoji: "👑", color: "#FFD700" };
 }
 
 function calculate(inputs: Inputs): Result | null {
@@ -63,6 +92,11 @@ function calculate(inputs: Inputs): Result | null {
   const monthlyHiddenHours = Math.round(hiddenHours * WORK_DAYS_PER_MONTH * 10) / 10;
   const monthlyLostWon = Math.round(hiddenHours * WORK_DAYS_PER_MONTH * realHourlyWage);
 
+  const yearlyCommuteHours = Math.round(commute * WORK_DAYS_PER_YEAR * 10) / 10;
+  const yearlyCommuteWon = Math.round(commute * WORK_DAYS_PER_YEAR * realHourlyWage);
+  const yearlyHiddenHours = Math.round(hiddenHours * WORK_DAYS_PER_YEAR * 10) / 10;
+  const yearlyLostWon = Math.round(hiddenHours * WORK_DAYS_PER_YEAR * realHourlyWage);
+
   return {
     realHourlyWage,
     officialHourlyWage,
@@ -71,6 +105,10 @@ function calculate(inputs: Inputs): Result | null {
     hiddenHours,
     monthlyHiddenHours,
     monthlyLostWon,
+    yearlyCommuteHours,
+    yearlyCommuteWon,
+    yearlyHiddenHours,
+    yearlyLostWon,
   };
 }
 
@@ -145,6 +183,7 @@ export default function RealHourlyWagePage() {
     prepHours: "",
   });
   const [showResult, setShowResult] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const handleChange = (key: keyof Inputs, value: string) => {
     setInputs((prev) => ({
@@ -327,37 +366,49 @@ export default function RealHourlyWagePage() {
         </section>
 
         {/* ── 결과 ─────────────────────────────────────── */}
-        {result && (
+        {result && (() => {
+          const grade = getGrade(result.minWageRatio);
+          const wageDropPct = Math.round(
+            ((result.officialHourlyWage - result.realHourlyWage) / result.officialHourlyWage) * 100
+          );
+
+          return (
           <div id="result-section" className="mt-8 space-y-8">
-            {/* 메인 결과 카드 */}
+            {/* ① 메인 결과 + 등급 카드 */}
             <section className="relative overflow-hidden rounded-3xl bg-navy shadow-xl">
               <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute -top-20 -right-20 w-60 h-60 bg-emerald-500/[0.08] rounded-full blur-3xl" />
-                <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-emerald-500/[0.05] rounded-full blur-3xl" />
+                <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full blur-3xl" style={{ backgroundColor: `${grade.color}12` }} />
+                <div className="absolute -bottom-10 -left-10 w-40 h-40 rounded-full blur-3xl" style={{ backgroundColor: `${grade.color}08` }} />
               </div>
               <div className="relative p-8 sm:p-10 text-center">
-                <span className="inline-flex items-center gap-1.5 text-xs font-black px-4 py-1.5 rounded-full mb-5 bg-emerald-500/20 text-emerald-400">
-                  {result.minWageRatio >= 100 ? "최저임금 이상" : "최저임금 미달"}
+                <span
+                  className="inline-flex items-center gap-1.5 text-xs font-black px-4 py-1.5 rounded-full mb-5"
+                  style={{ backgroundColor: `${grade.color}20`, color: grade.color }}
+                >
+                  {grade.emoji} {grade.title}
                 </span>
                 <p className="text-gray-400 text-sm font-medium mb-2">
                   나의 진짜 시급
                 </p>
                 <div className="my-6">
-                  <span className="text-5xl sm:text-6xl font-black tracking-tight text-emerald-400 drop-shadow-sm">
+                  <span className="text-5xl sm:text-6xl font-black tracking-tight drop-shadow-sm" style={{ color: grade.color }}>
                     {formatNumber(result.realHourlyWage)}
                   </span>
-                  <span className="text-2xl font-black ml-1 text-emerald-400/70">원</span>
+                  <span className="text-2xl font-black ml-1" style={{ color: `${grade.color}AA` }}>원</span>
                 </div>
                 <p className="text-lg sm:text-xl font-bold text-white">
                   2026 최저임금 대비{" "}
-                  <span className="text-emerald-400 underline decoration-2 underline-offset-4">
+                  <span className="underline decoration-2 underline-offset-4" style={{ color: grade.color }}>
                     {result.minWageRatio}%
                   </span>
+                </p>
+                <p className="mt-3 text-sm font-medium text-gray-400">
+                  {grade.subtitle}
                 </p>
               </div>
             </section>
 
-            {/* 비교 카드 */}
+            {/* ② 비교 카드 */}
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-6">
                 <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl mb-3 bg-gray-100 text-gray-400">
@@ -370,20 +421,63 @@ export default function RealHourlyWagePage() {
                 <p className="text-sm font-medium text-gray-400 mt-1">정규시간 기준</p>
               </div>
               <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-6">
-                <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl mb-3 bg-emerald-50 text-emerald-600">
-                  <Timer className="w-4 h-4" />
+                <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl mb-3" style={{ backgroundColor: `${grade.color}15` }}>
+                  <Timer className="w-4 h-4" style={{ color: grade.color }} />
                 </div>
                 <p className="text-sm font-medium text-gray-400 mb-1">진짜 시급</p>
-                <p className="text-xl font-black text-emerald-600">
+                <p className="text-xl font-black" style={{ color: grade.color }}>
                   {formatNumber(result.realHourlyWage)}원
                 </p>
                 <p className="text-sm font-medium text-gray-400 mt-1">
-                  {Math.round(((result.officialHourlyWage - result.realHourlyWage) / result.officialHourlyWage) * 100)}% 감소
+                  {wageDropPct}% 감소
                 </p>
               </div>
             </div>
 
-            {/* 시간 분석 카드 */}
+            {/* ③ 충격 요법: 출퇴근 시간 낭비 */}
+            {Number(inputs.commuteHours) > 0 && (
+              <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#1a1a2e] to-[#16213e] shadow-xl p-7 sm:p-9">
+                <div className="absolute top-4 right-4 text-5xl opacity-10">🚶</div>
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-red-500/20">
+                    <Train className="w-5 h-5 text-red-400" />
+                  </div>
+                  <h3 className="font-black text-white text-lg">길바닥에 버리는 시간</h3>
+                </div>
+                <p className="text-white/80 font-medium text-[15px] leading-[1.8] mb-6">
+                  당신이 매일 출퇴근 길바닥에 버리는 시간은{" "}
+                  <span className="font-black text-red-400">1년에 총 {formatNumber(result.yearlyCommuteHours)}시간</span>이며,{" "}
+                  이를 시급으로 환산하면{" "}
+                  <span className="font-black text-[#FFD700]">{formatNumber(result.yearlyCommuteWon)}원</span>입니다.
+                </p>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-white/[0.06] rounded-2xl p-4 text-center border border-white/[0.08]">
+                    <p className="text-xs font-medium text-gray-400 mb-1">1년 출퇴근</p>
+                    <p className="text-2xl font-black text-red-400">
+                      {formatNumber(result.yearlyCommuteHours)}
+                      <span className="text-sm ml-0.5 text-red-400/70">시간</span>
+                    </p>
+                    <p className="text-xs font-medium text-gray-500 mt-1">
+                      약 {Math.round(result.yearlyCommuteHours / 24)}일 꼬박
+                    </p>
+                  </div>
+                  <div className="bg-white/[0.06] rounded-2xl p-4 text-center border border-white/[0.08]">
+                    <p className="text-xs font-medium text-gray-400 mb-1">환산 금액</p>
+                    <p className="text-2xl font-black text-[#FFD700]">
+                      {result.yearlyCommuteWon >= 10000
+                        ? `${Math.round(result.yearlyCommuteWon / 10000)}만`
+                        : formatNumber(result.yearlyCommuteWon)}
+                      <span className="text-sm ml-0.5 text-[#FFD700]/70">원</span>
+                    </p>
+                    <p className="text-xs font-medium text-gray-500 mt-1">
+                      길에서 사라진 돈
+                    </p>
+                  </div>
+                </div>
+              </section>
+            )}
+
+            {/* ④ 시간 분석 카드 */}
             <section className="bg-white rounded-3xl shadow-xl p-7 sm:p-9">
               <div className="flex items-center gap-3 mb-6">
                 <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-orange-50">
@@ -476,7 +570,7 @@ export default function RealHourlyWagePage() {
               </div>
             </section>
 
-            {/* 최저임금 비교 카드 */}
+            {/* ⑤ 최저임금 비교 카드 */}
             <section className="bg-white rounded-3xl shadow-xl p-7 sm:p-9">
               <div className="flex items-center gap-3 mb-6">
                 <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald-50">
@@ -490,7 +584,6 @@ export default function RealHourlyWagePage() {
               </div>
 
               <div className="space-y-5">
-                {/* 최저임금 바 */}
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-bold text-gray-400">2026 최저임금</span>
@@ -500,7 +593,6 @@ export default function RealHourlyWagePage() {
                     <div className="h-full bg-gray-300 rounded-full" style={{ width: "100%" }} />
                   </div>
                 </div>
-                {/* 내 시급 바 */}
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-bold text-gray-400">나의 진짜 시급</span>
@@ -531,10 +623,7 @@ export default function RealHourlyWagePage() {
                 <div className="mt-5 bg-[#FFF7ED] border border-orange-100 rounded-2xl p-4">
                   <p className="text-sm font-bold text-orange-600 leading-relaxed">
                     최저임금은 넘지만, 명목 시급 대비{" "}
-                    <span className="font-black">
-                      {Math.round(((result.officialHourlyWage - result.realHourlyWage) / result.officialHourlyWage) * 100)}%
-                    </span>
-                    가 숨겨진 시간에 의해 사라지고 있어요.
+                    <span className="font-black">{wageDropPct}%</span>가 숨겨진 시간에 의해 사라지고 있어요.
                   </p>
                 </div>
               )}
@@ -548,7 +637,107 @@ export default function RealHourlyWagePage() {
               )}
             </section>
 
-            {/* 다시하기 버튼 */}
+            {/* ⑥ 바이럴 카드뉴스 요약 */}
+            <section
+              ref={cardRef}
+              className="relative overflow-hidden rounded-3xl shadow-xl"
+              style={{ background: "linear-gradient(135deg, #1E293B 0%, #0F172A 100%)" }}
+            >
+              <div className="absolute inset-0 overflow-hidden">
+                <div className="absolute top-0 right-0 w-40 h-40 bg-gold/[0.06] rounded-full blur-3xl" />
+                <div className="absolute bottom-0 left-0 w-32 h-32 rounded-full blur-3xl" style={{ backgroundColor: `${grade.color}08` }} />
+              </div>
+              <div className="relative p-7 sm:p-9">
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-xs font-bold text-gray-500">코리아리치랭크</span>
+                  <span className="text-xs font-bold text-gray-500">나의 진짜 시급</span>
+                </div>
+
+                <div className="text-center mb-6">
+                  <span className="text-4xl mb-3 block">{grade.emoji}</span>
+                  <p className="text-sm font-bold mb-1" style={{ color: grade.color }}>{grade.title}</p>
+                  <p className="text-4xl sm:text-5xl font-black text-white tracking-tight">
+                    {formatNumber(result.realHourlyWage)}
+                    <span className="text-lg ml-0.5 text-white/60">원</span>
+                  </p>
+                </div>
+
+                <div className="h-px bg-white/10 my-5" />
+
+                <div className="grid grid-cols-3 gap-3 text-center mb-6">
+                  <div>
+                    <p className="text-[10px] font-medium text-gray-500 mb-1">명목 시급</p>
+                    <p className="text-sm font-black text-white">{formatNumber(result.officialHourlyWage)}원</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-medium text-gray-500 mb-1">시급 하락률</p>
+                    <p className="text-sm font-black text-red-400">-{wageDropPct}%</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-medium text-gray-500 mb-1">최저임금 대비</p>
+                    <p className="text-sm font-black" style={{ color: grade.color }}>{result.minWageRatio}%</p>
+                  </div>
+                </div>
+
+                <div className="bg-white/[0.06] rounded-2xl p-4 border border-white/[0.08] mb-6">
+                  <p className="text-xs font-medium text-gray-400 leading-relaxed text-center">
+                    하루 <span className="font-black text-white">{Math.round(result.totalDailyHours * 10) / 10}시간</span> 투입 &middot;
+                    {" "}숨겨진 시간 <span className="font-black text-orange-400">{Math.round(result.hiddenHours * 10) / 10}h</span> &middot;
+                    {" "}1년 손실 <span className="font-black text-[#FFD700]">{result.yearlyLostWon >= 10000 ? `${Math.round(result.yearlyLostWon / 10000)}만원` : `${formatNumber(result.yearlyLostWon)}원`}</span>
+                  </p>
+                </div>
+
+                <div className="flex items-center justify-center gap-2 text-[10px] font-medium text-gray-600">
+                  <div className="w-1 h-1 rounded-full bg-gray-600" />
+                  korearichrank.com
+                  <div className="w-1 h-1 rounded-full bg-gray-600" />
+                </div>
+              </div>
+            </section>
+
+            {/* ⑦ 공유 버튼들 */}
+            <div className="space-y-3">
+              <button
+                onClick={() => {
+                  const text = `[나의 진짜 시급 테스트]\n${grade.emoji} ${grade.title}\n내 진짜 시급: ${formatNumber(result.realHourlyWage)}원 (최저임금의 ${result.minWageRatio}%)\n명목 시급에서 ${wageDropPct}% 하락...\n\n나도 테스트하기 ▸ ${window.location.href}`;
+                  if (navigator.share) {
+                    navigator.share({ title: "나의 진짜 시급 계산기", text }).catch(() => {});
+                  } else {
+                    navigator.clipboard.writeText(text).then(() => alert("결과가 복사되었습니다!"));
+                  }
+                }}
+                className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-[#34D399] to-[#10B981] hover:from-[#10B981] hover:to-[#059669] text-white font-black text-lg h-16 rounded-2xl shadow-lg shadow-emerald-500/25 transition-all duration-300 active:scale-[0.98] cursor-pointer"
+              >
+                <Share2 className="w-5 h-5" />
+                결과 공유하기
+              </button>
+              <a
+                href="https://www.teamblind.com/kr/post"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center justify-center gap-3 bg-[#00B45A] hover:bg-[#00A050] text-white font-black text-lg h-16 rounded-2xl shadow-lg shadow-[#00B45A]/25 transition-all duration-300 active:scale-[0.98] cursor-pointer"
+              >
+                <ExternalLink className="w-5 h-5" />
+                블라인드에 내 시급 인증하기
+              </a>
+            </div>
+
+            {/* ⑧ 광고 영역 */}
+            <section className="bg-white rounded-3xl shadow-xl p-6 sm:p-8">
+              <p className="text-center text-[15px] font-black text-navy mb-2">
+                {result.minWageRatio < 150
+                  ? "이 시급 받고 일하기 아깝다면?"
+                  : "나의 가치를 높여줄 자기계발"}
+              </p>
+              <p className="text-center text-sm font-medium text-gray-400 mb-5">
+                {result.minWageRatio < 150
+                  ? "커리어 전환, 연봉 협상, 부업까지 — 지금 시작하세요"
+                  : "더 높은 시급을 위한 투자, 지금이 적기입니다"}
+              </p>
+              <AdBanner slot="wage-result-ad" format="rectangle" />
+            </section>
+
+            {/* ⑨ 다시하기 버튼 */}
             <button
               onClick={handleReset}
               className="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-400 font-bold text-base h-14 rounded-2xl border border-gray-100 shadow-xl transition-all duration-200 active:scale-[0.98] cursor-pointer"
@@ -557,7 +746,8 @@ export default function RealHourlyWagePage() {
               다시 계산하기
             </button>
           </div>
-        )}
+          );
+        })()}
       </div>
     </>
   );
