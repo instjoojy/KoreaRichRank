@@ -1,22 +1,15 @@
 import { Helmet } from "@dr.pogodin/react-helmet";
 import { Link } from "react-router-dom";
-import {
-  Award,
-  BarChart3,
-  BookOpen,
-  Shield,
-  Target,
-  Users,
-} from "lucide-react";
+import { Shield } from "lucide-react";
 
 export default function AboutPage() {
   return (
     <>
       <Helmet>
-        <title>연구소 소개 — 대한민국 부자연구소를 만든 이유 | 대한민국 부자연구소</title>
+        <title>연구소 소개 — 이런 데 왜 만들었냐고요? | 대한민국 부자연구소</title>
         <meta
           name="description"
-          content="13년 차 금융 데이터 전문가가 만든 대한민국 부자연구소. 통계청 공식 데이터를 누구나 쉽게 활용할 수 있도록, 신뢰할 수 있는 무료 금융 도구를 제공합니다."
+          content="대한민국 부자연구소는 통계청 데이터를 누구나 재미있게 활용할 수 있도록 만든 무료 금융 도구 모음입니다. 만든 사람의 솔직한 이야기."
         />
         <link rel="canonical" href="https://korearichlab.com/about" />
       </Helmet>
@@ -31,173 +24,135 @@ export default function AboutPage() {
 
         {/* ── 타이틀 ──────────────────────────────────── */}
         <div className="text-center mb-12">
-          <div
-            className="inline-flex items-center justify-center w-16 h-16 bg-indigo-50 rounded-3xl mb-6"
-            role="img"
-            aria-label="연구소 소개 아이콘"
-          >
-            <BookOpen className="w-7 h-7 text-indigo" />
-          </div>
+          <div className="text-6xl mb-6">🧪</div>
           <h1 className="text-[28px] sm:text-[32px] font-black text-navy leading-tight">
-            대한민국 부자연구소를
-            <br />
-            만든 이유
+            이런 데 왜 만들었냐고요?
           </h1>
           <p className="mt-4 text-[15px] font-medium text-gray-400 leading-[1.7]">
-            &quot;숫자 앞에서는 누구나 평등하다&quot;
+            솔직히 말하면, 저도 궁금했거든요.
           </p>
         </div>
 
         {/* ── 본문 ────────────────────────────────────── */}
         <div className="space-y-10 text-[15px] font-medium text-gray-500 leading-[1.9]">
-          {/* 설립 배경 */}
+          {/* 시작 */}
           <section>
-            <h2 className="text-xl font-black text-navy mb-4 flex items-center gap-2">
-              <Target className="w-5 h-5 text-indigo" />
-              설립 배경
+            <h2 className="text-xl font-black text-navy mb-4">
+              시작은 단순한 궁금증이었습니다
             </h2>
             <p>
-              저는 13년간 금융 데이터 분석과 경제 통계 분야에서 일해 온
-              전문가입니다. 증권사 리서치센터에서 시작해, 핀테크 스타트업의
-              데이터 팀을 거치며, 수천 건의 가계 자산 데이터를 다뤄왔습니다.
+              어느 날 월급날, 통장을 보면서 문득 이런 생각이 들었습니다.
+            </p>
+            <p className="mt-3 text-lg font-black text-navy">
+              &quot;나... 전국에서 몇 등이지?&quot;
             </p>
             <p className="mt-3">
-              그 과정에서 한 가지 아쉬운 점을 발견했습니다. 통계청, 한국은행,
-              금융감독원이 매년 방대한 양의 경제 데이터를 공개하지만, 대부분의
-              사람들은 이 데이터를 자신의 상황에 적용하는 방법을 모른다는
-              것입니다. &apos;내 자산이 전국에서 어느 수준인지&apos;,
-              &apos;내가 실제로 시간당 얼마를 벌고 있는지&apos;, &apos;언제쯤
-              경제적 자유를 달성할 수 있는지&apos; — 이런 근본적인 질문에
-              답하려면 전문 지식과 데이터 분석 능력이 필요했습니다.
+              검색해봤더니 통계청에서 매년 데이터를 공개하고 있더라고요.
+              그런데 PDF가 300페이지... 표가 200개... 읽다가 잠들 뻔했습니다.
+              그래서 생각했죠. &apos;이걸 그냥 숫자 넣으면 바로 나오게
+              만들면 안 되나?&apos;
+            </p>
+            <p className="mt-3">
+              그게 부자연구소의 시작입니다. 거창한 미션 같은 건 없었어요.
+              그냥 <span className="font-black text-navy">제가 쓰고 싶어서 만들었습니다.</span>
             </p>
           </section>
 
-          {/* 미션 */}
+          {/* 정체 */}
           <section>
-            <h2 className="text-xl font-black text-navy mb-4 flex items-center gap-2">
-              <Award className="w-5 h-5 text-amber-dark" />
-              우리의 미션
+            <h2 className="text-xl font-black text-navy mb-4">
+              만든 사람은 누구냐면요
             </h2>
             <p>
-              대한민국 부자연구소는 이 간극을 메우기 위해 만들어졌습니다.
-              복잡한 통계 데이터를 누구나 1분 안에 활용할 수 있는 직관적인
-              도구로 바꾸는 것이 목표입니다. 단순한 흥미 위주의 테스트가
-              아니라, 실제 통계청 가계금융복지조사 원시 데이터를 기반으로
-              계산하는 정확한 분석 도구를 지향합니다.
+              금융 전문가 아닙니다. 재테크 유튜버도 아닙니다.
+              주식으로 대박 친 적도 없고, 코인으로 람보르기니 산 적도 없습니다.
             </p>
             <p className="mt-3">
-              동시에 결과를 딱딱하게 전달하지 않습니다. 유머와 위트를 더해
-              결과를 보는 순간 웃음이 나오되, 그 안에 담긴 인사이트는 진지하게
-              남도록 설계했습니다. &apos;돈에 대해 진지하게, 결과는
-              유쾌하게&apos; — 이것이 부자연구소의 철학입니다.
+              그냥 <span className="font-black text-navy">돈에 대해 궁금한 게 많은 평범한 사람</span>입니다.
+              &apos;내 자산이 전국에서 어디쯤이지?&apos;,
+              &apos;내 진짜 시급은 얼마지?&apos;,
+              &apos;나 진짜 은퇴할 수 있긴 한 거야?&apos; —
+              이런 질문을 통계청 데이터로 답해보고 싶었을 뿐입니다.
+            </p>
+            <p className="mt-3">
+              다만 코딩은 좀 할 줄 압니다. 그래서 궁금한 걸 직접 만들었습니다.
+              전문가는 아니지만, <span className="font-black text-navy">데이터는 진짜입니다.</span> 통계청이 거짓말할 리는 없으니까요.
+              (아마도요.)
             </p>
           </section>
 
-          {/* 핵심 가치 */}
+          {/* 철학 */}
           <section>
-            <h2 className="text-xl font-black text-navy mb-6 flex items-center gap-2">
-              <Shield className="w-5 h-5 text-emerald" />
-              핵심 가치
+            <h2 className="text-xl font-black text-navy mb-4">
+              부자연구소의 철학 (거창하게 말하면)
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {[
-                {
-                  icon: BarChart3,
-                  title: "데이터 기반 신뢰성",
-                  desc: "모든 계산은 통계청·한국은행 공식 데이터를 기반으로 합니다. 추측이 아닌 팩트로 말합니다.",
-                  color: "#6366F1",
-                },
-                {
-                  icon: Users,
-                  title: "누구나 무료로",
-                  desc: "금융 리터러시는 특권이 아닙니다. 회원가입 없이, 비용 없이 모든 도구를 제공합니다.",
-                  color: "#F59E0B",
-                },
-                {
-                  icon: Shield,
-                  title: "개인정보 보호",
-                  desc: "입력하신 정보는 서버에 저장되지 않습니다. 브라우저에서만 계산되고 즉시 사라집니다.",
-                  color: "#10B981",
-                },
-                {
-                  icon: BookOpen,
-                  title: "교육적 콘텐츠",
-                  desc: "계산 결과와 함께 깊이 있는 금융 인사이트를 제공하여 경제적 의사결정을 돕습니다.",
-                  color: "#F43F5E",
-                },
-              ].map((item) => {
-                const Icon = item.icon;
-                return (
-                  <div
-                    key={item.title}
-                    className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm"
-                  >
-                    <div
-                      className="inline-flex items-center justify-center w-9 h-9 rounded-xl mb-3"
-                      style={{ backgroundColor: `${item.color}12` }}
-                    >
-                      <Icon className="w-4 h-4" style={{ color: item.color }} />
-                    </div>
-                    <h3 className="text-sm font-black text-navy mb-1.5">
-                      {item.title}
-                    </h3>
-                    <p className="text-[13px] text-gray-400 leading-[1.7]">
-                      {item.desc}
-                    </p>
-                  </div>
-                );
-              })}
+            <div className="space-y-4">
+              <div className="bg-indigo-50 rounded-2xl p-5">
+                <p className="font-black text-navy text-sm mb-1">돈 얘기는 진지하게</p>
+                <p className="text-[13px] text-gray-400 leading-[1.7]">
+                  계산 결과는 통계청 공식 데이터 기반입니다. 대충 만든 심리 테스트가 아니에요.
+                </p>
+              </div>
+              <div className="bg-amber-50 rounded-2xl p-5">
+                <p className="font-black text-navy text-sm mb-1">결과는 유쾌하게</p>
+                <p className="text-[13px] text-gray-400 leading-[1.7]">
+                  &quot;기부 천사&quot;, &quot;시급 재벌&quot;, &quot;배달앱 삭제가 첫 걸음&quot; — 현실이 씁쓸해도 웃으면서 봐야죠.
+                </p>
+              </div>
+              <div className="bg-emerald-50 rounded-2xl p-5">
+                <p className="font-black text-navy text-sm mb-1">공짜로, 가입 없이</p>
+                <p className="text-[13px] text-gray-400 leading-[1.7]">
+                  회원가입? 없습니다. 이메일 수집? 안 합니다. 입력한 정보는 브라우저에서만 계산되고 바로 사라져요.
+                </p>
+              </div>
+              <div className="bg-rose-50 rounded-2xl p-5">
+                <p className="font-black text-navy text-sm mb-1">광고는 좀 있어요</p>
+                <p className="text-[13px] text-gray-400 leading-[1.7]">
+                  서버비는 공짜가 아니거든요... 넓은 마음으로 이해해주시면 연구소장이 감동의 눈물을 흘립니다.
+                </p>
+              </div>
             </div>
           </section>
 
-          {/* 제공 도구 */}
+          {/* 도구 소개 */}
           <section>
-            <h2 className="text-xl font-black text-navy mb-4 flex items-center gap-2">
-              <BarChart3 className="w-5 h-5 text-rose" />
-              제공 도구
+            <h2 className="text-xl font-black text-navy mb-4">
+              지금 쓸 수 있는 도구들
             </h2>
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
                 <span className="text-lg shrink-0">🏆</span>
                 <div>
-                  <p className="font-black text-navy text-sm">
-                    자산 상위 % 계산기
-                  </p>
+                  <p className="font-black text-navy text-sm">자산 상위 % 계산기</p>
                   <p className="text-[13px] text-gray-400 mt-0.5">
-                    2026 가계금융복지조사 기반, 나이·지역·소득별 자산 백분위 분석
+                    내 자산이 전국 상위 몇 %인지 알려드립니다. 현실을 받아들일 준비 되셨나요?
                   </p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-lg shrink-0">🌱</span>
                 <div>
-                  <p className="font-black text-navy text-sm">
-                    부자 지수(BQ) 테스트
-                  </p>
+                  <p className="font-black text-navy text-sm">부자 지수(BQ) 테스트</p>
                   <p className="text-[13px] text-gray-400 mt-0.5">
-                    소비·투자·경제 지식 10문항 기반 부자 잠재력 진단
+                    10문항으로 나의 부자 잠재력을 진단합니다. 결과가 낮아도 원망 메일은 받지 않습니다.
                   </p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-lg shrink-0">⏰</span>
                 <div>
-                  <p className="font-black text-navy text-sm">
-                    진짜 시급 계산기
-                  </p>
+                  <p className="font-black text-navy text-sm">진짜 시급 계산기</p>
                   <p className="text-[13px] text-gray-400 mt-0.5">
-                    출퇴근·야근·업무 연락까지 포함한 실제 시급 산출
+                    출퇴근·야근까지 포함한 진짜 시급. 알고 나면 좀 화날 수 있습니다.
                   </p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-lg shrink-0">🔥</span>
                 <div>
-                  <p className="font-black text-navy text-sm">
-                    FIRE 조기 은퇴 계산기
-                  </p>
+                  <p className="font-black text-navy text-sm">FIRE 조기 은퇴 계산기</p>
                   <p className="text-[13px] text-gray-400 mt-0.5">
-                    4% 룰 기반 경제적 자립 시점 시뮬레이션
+                    나는 몇 살에 은퇴할 수 있을까? 결과 보고 멘탈 관리는 각자 알아서...
                   </p>
                 </div>
               </li>
@@ -208,37 +163,47 @@ export default function AboutPage() {
           <section>
             <h2 className="text-xl font-black text-navy mb-4 flex items-center gap-2">
               <Shield className="w-5 h-5 text-navy-light" />
-              데이터 출처 및 면책
+              진지한 부분 (데이터 출처)
             </h2>
             <p>
-              본 서비스의 자산·소득 통계는 통계청·금융감독원·한국은행이 공동으로
-              발표하는 &apos;가계금융복지조사(2026년 기준)&apos; 보도자료를
-              재구성하여 사용합니다. 진짜 시급 계산기의 최저임금 정보는
-              고용노동부 고시를 참조합니다.
+              유머는 제가 넣었지만, 데이터는 아래 기관의 공식 자료를 사용합니다.
             </p>
-            <p className="mt-3">
-              본 서비스에서 제공하는 모든 계산 결과는 통계적 추정치이며, 개인의
-              실제 재무 상황을 정확히 반영하지 않을 수 있습니다. 투자 또는 재무
-              의사결정의 최종 근거로 사용하지 마시고, 전문 금융 상담사와
-              상의하시기를 권장합니다.
+            <ul className="mt-3 space-y-1.5 text-[14px]">
+              <li className="flex items-start gap-2">
+                <span className="text-gray-300 shrink-0">&#8226;</span>
+                통계청·금융감독원·한국은행 공동 발표 &apos;가계금융복지조사(2026)&apos;
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-gray-300 shrink-0">&#8226;</span>
+                고용노동부 2026년 최저임금 고시
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-gray-300 shrink-0">&#8226;</span>
+                Trinity Study(1998) 4% 인출률 연구
+              </li>
+            </ul>
+            <p className="mt-4 text-[13px] text-gray-400 leading-[1.7]">
+              계산 결과는 통계적 추정치이며, 개인의 실제 재무 상황과 다를 수 있습니다.
+              이걸 근거로 사표 쓰시거나 주식 올인하시면 안 됩니다. 제발요.
             </p>
           </section>
 
           {/* 마무리 */}
-          <section className="bg-indigo-50 rounded-3xl p-7 text-center">
+          <section className="bg-gradient-to-br from-indigo-50 to-amber-50 rounded-3xl p-7 text-center">
+            <p className="text-4xl mb-4">🧪</p>
             <p className="text-lg font-black text-navy mb-2">
-              숫자는 거짓말하지 않습니다.
+              모든 부자는 처음에 궁금한 사람이었다.
             </p>
             <p className="text-[15px] text-gray-500 leading-[1.8]">
-              하지만 숫자를 해석하는 방식이 당신의 미래를 바꿉니다.
+              궁금해하는 당신, 이미 반은 성공입니다.
               <br />
-              대한민국 부자연구소가 그 해석을 돕겠습니다.
+              (나머지 반은... 저축하세요.)
             </p>
             <Link
               to="/"
               className="inline-flex items-center gap-2 bg-indigo hover:bg-indigo-dark text-white font-bold px-6 py-3 rounded-2xl mt-6 transition-colors text-sm"
             >
-              도구 사용하러 가기 &rarr;
+              도구 써보러 가기 &rarr;
             </Link>
           </section>
         </div>
