@@ -16,7 +16,7 @@ export default function HomePage() {
 
       {/* ── 히어로 ──────────────────────────────────────── */}
       <header className="bg-gradient-to-b from-indigo to-indigo-dark">
-        <div className="max-w-[600px] mx-auto px-6 py-20 sm:py-24 text-center">
+        <div className="max-w-[600px] mx-auto px-6 py-16 sm:py-20 text-center">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-white/10 rounded-[28px] mb-6 animate-float text-5xl">
             🧪
           </div>
