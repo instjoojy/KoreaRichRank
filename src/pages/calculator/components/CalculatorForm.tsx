@@ -3,8 +3,10 @@ import {
   MapPin,
   Briefcase,
   ChevronRight,
+  User,
 } from "lucide-react";
 import { formatWon } from "../utils/formatWon";
+import NumberStepper from "../../../components/NumberStepper";
 
 interface CalculatorFormProps {
   age: number | "";
@@ -56,28 +58,17 @@ export default function CalculatorForm({
 
       {/* 나이 + 지역 */}
       <div className="grid grid-cols-2 gap-5 mb-10">
-        <div>
-          <label className="block text-[15px] font-bold text-navy mb-3">
-            나이
-          </label>
-          <input
-            type="number"
-            min={20}
-            max={99}
-            value={age}
-            placeholder="나이 입력"
-            onChange={(e) => {
-              const v = e.target.value;
-              if (v === "") { onAgeChange(""); return; }
-              onAgeChange(+v);
-            }}
-            onBlur={() => {
-              if (age === "") return;
-              onAgeChange(Math.max(20, Math.min(99, age)));
-            }}
-            className="w-full border border-gray-200 rounded-2xl px-4 py-4 text-lg font-bold text-navy bg-[#F9FAFB] placeholder:text-gray-300 placeholder:font-medium transition-all duration-200"
-          />
-        </div>
+        <NumberStepper
+          label="나이"
+          icon={User}
+          value={age}
+          min={20}
+          max={99}
+          step={1}
+          unit="세"
+          accentColor="#6366F1"
+          onChange={onAgeChange}
+        />
         <div>
           <label className="block text-[15px] font-bold text-navy mb-3 flex items-center gap-1.5">
             <MapPin className="w-3.5 h-3.5 text-gray-400" />

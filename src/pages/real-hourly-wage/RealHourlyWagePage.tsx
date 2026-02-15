@@ -101,9 +101,9 @@ export default function RealHourlyWagePage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [inputs, setInputs] = useState<Inputs>({
-    monthlySalary: "",
-    regularHours: "",
-    commuteHours: "",
+    monthlySalary: 300,
+    regularHours: 8,
+    commuteHours: 1,
     overtimeHours: "",
     afterWorkMinutes: "",
     prepHours: "",

@@ -12,21 +12,13 @@ import {
   Target,
 } from "lucide-react";
 import SliderInput from "../../components/SliderInput";
-import { AGE_STOPS, FIRE_ASSET_STOPS, MONTHLY_WON_STOPS, RETURN_STOPS, type Stop } from "../../utils/sliderStops";
+import NumberStepper from "../../components/NumberStepper";
+import { FIRE_ASSET_STOPS, MONTHLY_WON_STOPS, RETURN_STOPS, type Stop } from "../../utils/sliderStops";
 import FireArticle from "./FireArticle";
 import { type Inputs, formatWon } from "./fireUtils";
 
-/* ── 입력 필드 정의 ───────────────────────────── */
-const inputFields = [
-  {
-    key: "currentAge" as const,
-    label: "현재 나이",
-    unit: "세",
-    icon: User,
-    placeholder: "30",
-    min: 15,
-    step: 1,
-  },
+/* ── 슬라이더 입력 필드 정의 (나이 제외) ───────────────── */
+const sliderFields = [
   {
     key: "totalAssets" as const,
     label: "총 순자산",
@@ -65,16 +57,16 @@ const inputFields = [
   },
 ];
 
-const FIELD_STOPS: Record<keyof Inputs, Stop[]> = {
-  currentAge: AGE_STOPS,
+type SliderKey = "totalAssets" | "monthlyExpenses" | "monthlySavings" | "expectedReturn";
+
+const FIELD_STOPS: Record<SliderKey, Stop[]> = {
   totalAssets: FIRE_ASSET_STOPS,
   monthlyExpenses: MONTHLY_WON_STOPS,
   monthlySavings: MONTHLY_WON_STOPS,
   expectedReturn: RETURN_STOPS,
 };
 
-const FIELD_MAX_LABELS: Record<keyof Inputs, string> = {
-  currentAge: "80세",
+const FIELD_MAX_LABELS: Record<SliderKey, string> = {
   totalAssets: "20억",
   monthlyExpenses: "1,000만원",
   monthlySavings: "1,000만원",
@@ -86,11 +78,11 @@ export default function FireCalculatorPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [inputs, setInputs] = useState<Inputs>({
-    currentAge: "",
+    currentAge: 35,
     totalAssets: "",
-    monthlyExpenses: "",
-    monthlySavings: "",
-    expectedReturn: "",
+    monthlyExpenses: 300,
+    monthlySavings: 100,
+    expectedReturn: 7,
   });
 
   // ── 기존 공유 URL 리다이렉트 ─────────────────────────────────
@@ -183,8 +175,24 @@ export default function FireCalculatorPage() {
             FIRE 정보 입력
           </h2>
 
+          {/* 나이 입력 (NumberStepper) */}
+          <div className="mb-7">
+            <NumberStepper
+              label="현재 나이"
+              icon={User}
+              value={inputs.currentAge}
+              min={15}
+              max={80}
+              step={1}
+              unit="세"
+              accentColor="#10B981"
+              onChange={(v) => setInputs((prev) => ({ ...prev, currentAge: v }))}
+            />
+          </div>
+
+          {/* 슬라이더 입력 필드들 */}
           <div className="space-y-7">
-            {inputFields.map((field) => (
+            {sliderFields.map((field) => (
               <SliderInput
                 key={field.key}
                 label={field.label}
@@ -199,7 +207,7 @@ export default function FireCalculatorPage() {
                 accentColorRgb="16, 185, 129"
                 onChange={(v) => handleChange(field.key, String(v))}
                 formatBadge={field.key === "totalAssets" ? (v) => formatWon(v) : field.key === "expectedReturn" ? (v) => `${v}%` : undefined}
-                minLabel={field.key === "currentAge" ? "15세" : `0${field.unit}`}
+                minLabel={`0${field.unit}`}
                 maxLabel={FIELD_MAX_LABELS[field.key]}
               />
             ))}
