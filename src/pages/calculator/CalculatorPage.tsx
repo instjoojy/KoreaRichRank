@@ -181,9 +181,6 @@ export default function CalculatorPage() {
         <meta name="twitter:image" content="https://korearichlab.com/og-image.jpg" />
       </Helmet>
 
-      {/* ── 상단 광고 ─────────────────────────────────────── */}
-      <AdBanner slot="top-banner" className="w-full py-3" />
-
       {/* ── 히어로 헤더 ───────────────────────────────────── */}
       <header className="bg-gradient-to-b from-indigo to-indigo-dark">
         <div className="max-w-[600px] mx-auto px-6 py-16 sm:py-20 text-center">
