@@ -19,6 +19,7 @@ import { getAnalysis } from "./utils/analysis";
 import CalculatorForm from "./components/CalculatorForm";
 import CalculatorResult from "./components/CalculatorResult";
 import InsightsSection from "./components/InsightsSection";
+import AssetArticle from "./components/AssetArticle";
 
 export default function CalculatorPage() {
   // ── 통계 데이터 로딩 ────────────────────────────────────────
@@ -270,6 +271,9 @@ export default function CalculatorPage() {
 
       {/* ── 전문 칼럼 ─────────────────────────────────────── */}
       <InsightsSection />
+
+      {/* ── 애드센스 칼럼 ─────────────────────────────────── */}
+      <AssetArticle />
     </>
   );
 }

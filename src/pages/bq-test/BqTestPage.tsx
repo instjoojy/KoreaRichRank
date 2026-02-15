@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { questions } from "./questions";
 import { getBqResult } from "./results";
+import BqArticle from "./BqArticle";
 
 // ── 애니메이션 variants ────────────────────────────────
 const slideVariants = {
@@ -367,6 +368,9 @@ export default function BqTestPage() {
           </motion.div>
         )}
       </div>
+
+      {/* ── 애드센스 칼럼 ─────────────────────────────────── */}
+      <BqArticle />
     </>
   );
 }

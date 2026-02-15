@@ -17,6 +17,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import AdBanner from "../../components/AdBanner";
+import WageArticle from "./WageArticle";
 
 // 2026년 최저임금: 10,030원
 const MIN_WAGE_2026 = 10_030;
@@ -749,6 +750,9 @@ export default function RealHourlyWagePage() {
           );
         })()}
       </div>
+
+      {/* ── 애드센스 칼럼 ─────────────────────────────────── */}
+      <WageArticle />
     </>
   );
 }
