@@ -13,7 +13,7 @@ import {
   INCOME_STOPS,
   stopsToValue,
   valueToStops,
-} from "./utils/sliderStops";
+} from "../../utils/sliderStops";
 import { getUserBin } from "./utils/distribution";
 import { DISTRIBUTION } from "./utils/distribution";
 import { getAnalysis } from "./utils/analysis";

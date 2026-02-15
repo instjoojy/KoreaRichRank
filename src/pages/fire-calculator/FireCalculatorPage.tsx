@@ -16,6 +16,8 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { shareKakao } from "../../utils/kakaoShare";
+import SliderInput from "../../components/SliderInput";
+import { AGE_STOPS, FIRE_ASSET_STOPS, MONTHLY_WON_STOPS, RETURN_STOPS, type Stop } from "../../utils/sliderStops";
 import AdBanner from "../../components/AdBanner";
 import FireArticle from "./FireArticle";
 
@@ -242,6 +244,22 @@ const inputFields = [
   },
 ];
 
+const FIELD_STOPS: Record<keyof Inputs, Stop[]> = {
+  currentAge: AGE_STOPS,
+  totalAssets: FIRE_ASSET_STOPS,
+  monthlyExpenses: MONTHLY_WON_STOPS,
+  monthlySavings: MONTHLY_WON_STOPS,
+  expectedReturn: RETURN_STOPS,
+};
+
+const FIELD_MAX_LABELS: Record<keyof Inputs, string> = {
+  currentAge: "80세",
+  totalAssets: "20억",
+  monthlyExpenses: "1,000만원",
+  monthlySavings: "1,000만원",
+  expectedReturn: "20%",
+};
+
 /* ── 포맷 헬퍼 ────────────────────────────────── */
 function formatNumber(n: number): string {
   return n.toLocaleString("ko-KR");
@@ -396,31 +414,25 @@ export default function FireCalculatorPage() {
           </h2>
 
           <div className="space-y-7">
-            {inputFields.map((field) => {
-              const Icon = field.icon;
-              return (
-                <div key={field.key}>
-                  <label className="block text-[15px] font-bold text-navy mb-3 flex items-center gap-1.5">
-                    <Icon className="w-3.5 h-3.5 text-gray-400" />
-                    {field.label}
-                  </label>
-                  <div className="flex items-center gap-2.5">
-                    <input
-                      type="number"
-                      min={field.min}
-                      step={field.step}
-                      value={inputs[field.key]}
-                      placeholder={field.placeholder}
-                      onChange={(e) => handleChange(field.key, e.target.value)}
-                      className="w-full border border-gray-200 rounded-2xl px-4 py-4 text-lg font-bold text-navy bg-[#F9FAFB] placeholder:text-gray-300 placeholder:font-medium transition-all duration-200"
-                    />
-                    <span className="text-gray-400 font-bold text-[15px] shrink-0 w-10">
-                      {field.unit}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
+            {inputFields.map((field) => (
+              <SliderInput
+                key={field.key}
+                label={field.label}
+                icon={field.icon}
+                unit={field.unit}
+                value={inputs[field.key]}
+                placeholder={field.placeholder}
+                min={field.min}
+                step={field.step}
+                stops={FIELD_STOPS[field.key]}
+                accentColor="#10B981"
+                accentColorRgb="16, 185, 129"
+                onChange={(v) => handleChange(field.key, String(v))}
+                formatBadge={field.key === "totalAssets" ? (v) => formatWon(v) : field.key === "expectedReturn" ? (v) => `${v}%` : undefined}
+                minLabel={field.key === "currentAge" ? "15세" : `0${field.unit}`}
+                maxLabel={FIELD_MAX_LABELS[field.key]}
+              />
+            ))}
           </div>
 
           {/* 실시간 FIRE 달성률 프리뷰 */}

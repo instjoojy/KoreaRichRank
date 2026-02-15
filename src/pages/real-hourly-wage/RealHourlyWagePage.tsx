@@ -20,6 +20,8 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { shareKakao } from "../../utils/kakaoShare";
+import SliderInput from "../../components/SliderInput";
+import { SALARY_STOPS, HOURS_STOPS, MINUTES_STOPS, type Stop } from "../../utils/sliderStops";
 import AdBanner from "../../components/AdBanner";
 import WageArticle from "./WageArticle";
 
@@ -174,6 +176,24 @@ const inputFields = [
   },
 ];
 
+const FIELD_STOPS: Record<keyof Inputs, Stop[]> = {
+  monthlySalary: SALARY_STOPS,
+  regularHours: HOURS_STOPS,
+  commuteHours: HOURS_STOPS,
+  overtimeHours: HOURS_STOPS,
+  afterWorkMinutes: MINUTES_STOPS,
+  prepHours: HOURS_STOPS,
+};
+
+const FIELD_MAX_LABELS: Record<keyof Inputs, string> = {
+  monthlySalary: "2,000만원",
+  regularHours: "16시간",
+  commuteHours: "16시간",
+  overtimeHours: "16시간",
+  afterWorkMinutes: "180분",
+  prepHours: "16시간",
+};
+
 function formatNumber(n: number): string {
   return n.toLocaleString("ko-KR");
 }
@@ -315,31 +335,24 @@ export default function RealHourlyWagePage() {
           </h2>
 
           <div className="space-y-7">
-            {inputFields.map((field) => {
-              const Icon = field.icon;
-              return (
-                <div key={field.key}>
-                  <label className="block text-[15px] font-bold text-navy mb-3 flex items-center gap-1.5">
-                    <Icon className="w-3.5 h-3.5 text-gray-400" />
-                    {field.label}
-                  </label>
-                  <div className="flex items-center gap-2.5">
-                    <input
-                      type="number"
-                      min={field.min}
-                      step={field.step}
-                      value={inputs[field.key]}
-                      placeholder={field.placeholder}
-                      onChange={(e) => handleChange(field.key, e.target.value)}
-                      className="w-full border border-gray-200 rounded-2xl px-4 py-4 text-lg font-bold text-navy bg-[#F9FAFB] placeholder:text-gray-300 placeholder:font-medium transition-all duration-200"
-                    />
-                    <span className="text-gray-400 font-bold text-[15px] shrink-0 w-10">
-                      {field.unit}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
+            {inputFields.map((field) => (
+              <SliderInput
+                key={field.key}
+                label={field.label}
+                icon={field.icon}
+                unit={field.unit}
+                value={inputs[field.key]}
+                placeholder={field.placeholder}
+                min={field.min}
+                step={field.step}
+                stops={FIELD_STOPS[field.key]}
+                accentColor="#F43F5E"
+                accentColorRgb="244, 63, 94"
+                onChange={(v) => handleChange(field.key, String(v))}
+                minLabel={`0${field.unit}`}
+                maxLabel={FIELD_MAX_LABELS[field.key]}
+              />
+            ))}
           </div>
 
           {/* 실시간 손실 시간 프리뷰 */}
