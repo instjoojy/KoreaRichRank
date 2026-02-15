@@ -1,4 +1,4 @@
-const KAKAO_KEY = "50b0bd620c60846528260bc97eb320d7";
+const KAKAO_KEY = "4c4ae34490086192fffd1bb71754e2cc";
 const SITE_URL = "https://www.korearichlab.com";
 const OG_IMAGE = `${SITE_URL}/icon-192.png`;
 

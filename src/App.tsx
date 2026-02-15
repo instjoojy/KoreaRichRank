@@ -15,7 +15,7 @@ export default function App() {
   useEffect(() => {
     const K = window.Kakao;
     if (K && !K.isInitialized()) {
-      K.init("50b0bd620c60846528260bc97eb320d7");
+      K.init("4c4ae34490086192fffd1bb71754e2cc");
     }
   }, []);
 
