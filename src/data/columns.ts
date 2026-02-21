@@ -9,6 +9,24 @@ export interface Column {
 
 export const columns: Column[] = [
   {
+    id: 11,
+    title: "연봉 5000만원이면 부자일까? 부자지수로 본 진실",
+    summary:
+      "고소득이 곧 부자는 아닙니다. 소득 대비 순자산으로 진짜 부를 측정하는 법.",
+    category: "BQ 인사이트",
+    date: "2026.02.18",
+    path: "/bq-test",
+  },
+  {
+    id: 12,
+    title: "20대 자산 형성의 골든타임, 놓치면 10년이 밀린다",
+    summary:
+      "복리의 힘은 일찍 시작할수록 강력합니다. 20대에 시작하면 30대 시작보다 2배 유리한 이유.",
+    category: "자산 분석",
+    date: "2026.02.15",
+    path: "/calculator",
+  },
+  {
     id: 1,
     title: "진짜 시급을 알면 퇴사하고 싶어지는 이유",
     summary: "출퇴근, 야근, 업무 준비 시간까지 합치면 당신의 시급은 최저임금보다 낮을 수 있습니다.",
