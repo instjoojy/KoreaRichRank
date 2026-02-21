@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import { BookOpen, ArrowRight, ChevronRight } from "lucide-react";
 import { tools } from "../data/toolsRegistry";
-import { columns } from "../data/columns";
+import { columns, categoryMeta } from "../data/columns";
 import ToolCard from "../components/ToolCard";
 import AdBanner from "../components/AdBanner";
 
@@ -77,14 +77,16 @@ export default function HomePage() {
 
         {/* 칼럼 카드 그리드 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {previewColumns.map((col, idx) => (
+          {previewColumns.map((col, idx) => {
+            const meta = categoryMeta[col.category];
+            return (
             <>
               <Link
                 key={col.id}
-                to={col.path}
+                to={`/column/${col.slug}`}
                 className="group bg-white rounded-3xl shadow-lg border border-gray-100 p-6 flex flex-col transition-all duration-300 hover:scale-105 hover:shadow-xl"
               >
-                <span className="inline-flex self-start items-center text-[11px] font-black px-2.5 py-1 rounded-full bg-indigo/10 text-indigo mb-3">
+                <span className={`inline-flex self-start items-center text-[11px] font-black px-2.5 py-1 rounded-full ${meta?.bg ?? "bg-indigo-50"} ${meta?.text ?? "text-indigo"} mb-3`}>
                   {col.category}
                 </span>
                 <h3 className="text-[15px] font-black text-navy leading-snug mb-2 group-hover:text-indigo transition-colors">
@@ -106,7 +108,8 @@ export default function HomePage() {
                 </div>
               )}
             </>
-          ))}
+            );
+          })}
         </div>
 
         {/* 모바일용 전체 칼럼 보기 버튼 */}
